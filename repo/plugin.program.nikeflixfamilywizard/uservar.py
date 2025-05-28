@@ -17,7 +17,7 @@ ADDONTITLE = 'nikeflixwizard'
 BUILDERNAME = 'nikeflixwizard'
 EXCLUDES = [ADDON_ID, '']
 # Text File with build info in it.
-BUILDFILE = 'https://raw.githubusercontent.com/TanDMoss/repository.NikeFlixFamily/refs/heads/main/repo/plugin.program.nikeflixwizard/resources/text/builds.txt'
+BUILDFILE = 'https://raw.githubusercontent.com/TanDMoss/repository.NikeFlixFamily/refs/heads/main/repo/plugin.program.nikeflixfamilywizard/resources/text/builds.txt'
 # How often you would like it to check for build updates in days
 # 0 being every startup of kodi
 UPDATECHECK = 0
