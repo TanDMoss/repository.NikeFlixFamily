@@ -1,9 +1,9 @@
 id="plugin.program.koditanwizard"
-version="3.0.3"
+version="3.0.4"
 zip=""
 
 name="Nike Flix Wizard"
-version="3.0.3"
+version="3.0.4"
 url="https://dl.dropboxusercontent.com/scl/fi/bf1dbxfw4tm8zamxwjyg2/nikeflixfamilywizard.zip?rlkey=p82en0ztawitxo9pbigjpbyok&st=kjj50mge&dl=0"
 minor="http://"
 gui="url.to.guisettings"

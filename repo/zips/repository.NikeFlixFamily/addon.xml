@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.3" provider-name="TanDMoss">
+<addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.4" provider-name="TanDMoss">
     <extension point="xbmc.addon.repository" name="NikeFlix Family repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml</info>
