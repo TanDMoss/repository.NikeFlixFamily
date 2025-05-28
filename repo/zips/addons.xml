@@ -50,7 +50,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.0.2" provider-name="TanDMoss">
+</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.0.3" provider-name="TanDMoss">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" />
