@@ -24,7 +24,7 @@ def get_current_version(addon_xml_path):
 def update_version():
     # Paths to files
     index_html_path = "./index.html"
-    addon_xml_path = "./repo/repository.NikeFlix/addon.xml"
+    addon_xml_path = "./repo/repository.NikeFlixFamily/addon.xml"
 
     # Get current version
     current_version = get_current_version(addon_xml_path)
@@ -47,8 +47,8 @@ def update_version():
         with open(index_html_path, "r") as file:
             content = file.read()
         # Replace the version number in the href link
-        new_content, count = re.subn(r'NikeFlix-\d+\.\d+\.\d+\.zip',
-                                     f'NikeFlix-{version}.zip', content)
+        new_content, count = re.subn(r'NikeFlixFamily-\d+\.\d+\.\d+\.zip',
+                                     f'NikeFlixFamily-{version}.zip', content)
         if count > 0:
             with open(index_html_path, "w") as file:
                 file.write(new_content)
@@ -102,7 +102,7 @@ def generate_repo_files():
 
 def manage_zip_files(version):
     # Path to the zips folder
-    zips_path = f"./repo/zips/repository.NikeFlix"
+    zips_path = f"./repo/zips/repository.NikeFlixFamily"
     main_dir = os.getcwd()
 
     if not os.path.exists(zips_path):
@@ -110,7 +110,7 @@ def manage_zip_files(version):
         return
 
     # Find the new zip file
-    new_zip = f"repository.NikeFlix-{version}.zip"
+    new_zip = f"repository.NikeFlixFamily-{version}.zip"
     new_zip_path = os.path.join(zips_path, new_zip)
 
     if not os.path.exists(new_zip_path):
@@ -125,10 +125,10 @@ def manage_zip_files(version):
         print(f"Error copying {new_zip}: {e}")
         return
 
-    # Delete other `repository.NikeFlix` zip files in the main directory
+    # Delete other `repository.NikeFlixFamily` zip files in the main directory
     deleted_files = False
     for file in os.listdir(main_dir):
-        if file.startswith("repository.NikeFlix") and file.endswith(".zip") and file != new_zip:
+        if file.startswith("repository.NikeFlixFamily") and file.endswith(".zip") and file != new_zip:
             try:
                 os.remove(os.path.join(main_dir, file))
                 print(f"Deleted old zip file {file}.")

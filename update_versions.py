@@ -77,8 +77,8 @@ def update_version_in_builds(file_path, version_pattern, new_version):
 
 def main():
     # Paths to the files
-    wizard_addon_file = "./repo/plugin.program.nikeflixwizard/addon.xml"
-    wizard_builds_file = "./repo/plugin.program.nikeflixwizard/resources/text/builds.txt"
+    wizard_addon_file = "./repo/plugin.program.nikeflixfamilywizard/addon.xml"
+    wizard_builds_file = "./repo/plugin.program.nikeflixfamilywizard/resources/text/builds.txt"
 
     # Patterns for matching versions
     addon_version_pattern = r'version="(\d+\.\d+\.\d+)"'  # Group 1 captures the version
@@ -88,8 +88,8 @@ def main():
     wizard_addon_version = get_current_version(wizard_addon_file, addon_version_pattern, group=1)
     wizard_builds_version = get_current_version(wizard_builds_file, builds_version_pattern, group=2)
 
-    print(f"Current version in plugin.program.nikeflixwizard addon.xml: {wizard_addon_version}")
-    print(f"Current version in plugin.program.nikeflixwizard builds.txt: {wizard_builds_version}")
+    print(f"Current version in plugin.program.nikeflixfamilywizard addon.xml: {wizard_addon_version}")
+    print(f"Current version in plugin.program.nikeflixfamilywizard builds.txt: {wizard_builds_version}")
 
     # Get new version from user with validation
     while True:

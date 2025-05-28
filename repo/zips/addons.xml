@@ -50,7 +50,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.program.NikeFlix" name="NikeFlix" version="3.0.2" provider-name="TanDMoss">
+</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.0.2" provider-name="TanDMoss">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" />
@@ -666,17 +666,17 @@
 			    <icon>icon.png</icon>
 			</assets>
         </extension>
-    </addon><addon id="repository.NikeFlix" name="NikeFlix repository" version="3.0.3" provider-name="TanDMoss">
-    <extension point="xbmc.addon.repository" name="NikeFlix repository">
+    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.3" provider-name="TanDMoss">
+    <extension point="xbmc.addon.repository" name="NikeFlix Family repository">
         <dir>
-            <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlix/master/repo/zips/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/tandmoss/repository.NikeFlix/master/repo/zips/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/tandmoss/repository.NikeFlix/master/repo/zips/</datadir>
+            <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/</datadir>
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary>NikeFlix repository</summary>
-        <description>NikeFlix repository</description>
+        <summary>NikeFlix Family repository</summary>
+        <description>NikeFlix Family repository</description>
         <disclaimer />
         <platform>all</platform>
         <assets>
