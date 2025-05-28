@@ -1,0 +1,17 @@
+******************Program start*****************
+Current Time: 2024.12.29-15:06:47
+Running Version: 2.9.2
+RegRead: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\VC\VCRedist\x86: 1
+C:\Windows\SysWOW64\msvcp140.dll: 1
+C:\Windows\system32\msvcp140.dll: 1
+C:\Windows\SysWOW64\VCRUNTIME140.dll: 1
+C:\Windows\system32\VCRUNTIME140.dll: 1
+15:06:50: Displayed vcredist hint once
+15:06:50: TexturePacker Version: 1.1.1.0
+15:07:02: Decompile Mode started.
+15:07:16: Path to .xbt File: A:\Development Environment\Source Control\Github\repository.NikeFlix\repo\skin.titan.bingie.mod\media\Textures.xbt
+15:07:17: Path to output directory:C:\Textures
+15:07:27: Running command:base.exe "A:\Development Environment\Source Control\Github\repository.NikeFlix\repo\skin.titan.bingie.mod\media\Textures.xbt" "C:\Textures
+15:07:36: base.exe running.
+15:07:36: base.exe closed.
+15:07:36: Opening outputdirectory.
