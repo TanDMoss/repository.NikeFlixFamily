@@ -12,13 +12,24 @@ REGEX_WINPROP_FINDALL = r'\$WINPROP\[(.*?)\]'  # $WINPROP[key] = Window(10000).g
 REGEX_WINPROP_SUB = r'\$WINPROP\[{}\]'
 
 
-def test_func(test_func, **kwargs):
+def test_func(test_func, dialog_output=False, **kwargs):
+
+    from timeit import default_timer as timer
+    start_time = timer()
 
     def finalise(head='', data='', affix=''):
+        total_time = timer() - start_time
         import xbmcgui
         from tmdbhelper.lib.files.futils import dumps_to_file
-        xbmcgui.Dialog().textviewer(f'{head}', f'{data}')
-        dumps_to_file(data, 'log_data', f'test_func_{test_func}{affix}.json', join_addon_data=True)
+        xbmcgui.Dialog().textviewer(f'{head}', f'{data if dialog_output else bool(data)}')
+        dump_data = {
+            'func': test_func,
+            'kwgs': kwargs,
+            'time': f'{total_time:.3f} sec',
+            'data': data,
+        },
+        dump_name = f'test_func_{test_func}{affix}.json'
+        dumps_to_file(dump_data, 'log_data', dump_name, join_addon_data=True)
 
     def test_func_response(path, **kwargs):
         from tmdbhelper.lib.api.tmdb.api import TMDb
@@ -62,10 +73,10 @@ def test_func(test_func, **kwargs):
         head = f'{(import_attr, tmdb_type, int(tmdb_id))}'
         return finalise(head, data)
 
-    def test_func_tmdb_database(import_attr, **kwargs):
-        from tmdbhelper.lib.api.tmdb.api import TMDb
-        tmdb_database = TMDb().tmdb_database
-        data = getattr(tmdb_database, import_attr)(**kwargs)
+    def test_func_query_database(import_attr, **kwargs):
+        from tmdbhelper.lib.query.database.database import FindQueriesDatabase
+        query_database = FindQueriesDatabase()
+        data = getattr(query_database, import_attr)(**kwargs)
         head = import_attr
         return finalise(head, data)
 
@@ -99,7 +110,7 @@ def test_func(test_func, **kwargs):
         'trakt_response': test_func_trakt_response,
         'baseitem_factory': test_func_baseitem_factory,
         'baseview_factory': test_func_baseview_factory,
-        'tmdb_database': test_func_tmdb_database,
+        'query_database': test_func_query_database,
         'fanarttv': test_func_fanarttv,
         'get_next_episodes': test_func_get_next_episodes,
         'sync_next_episodes': test_func_sync_next_episodes,
@@ -208,6 +219,10 @@ class Script(object):
 
         # Window Management
         'add_path':
+            lambda **kwargs: importmodule('tmdbhelper.lib.window.manager', 'WindowManager')(**kwargs).router(),
+        'add_tmdb':
+            lambda **kwargs: importmodule('tmdbhelper.lib.window.manager', 'WindowManager')(**kwargs).router(),
+        'add_dbid':
             lambda **kwargs: importmodule('tmdbhelper.lib.window.manager', 'WindowManager')(**kwargs).router(),
         'add_query':
             lambda **kwargs: importmodule('tmdbhelper.lib.window.manager', 'WindowManager')(**kwargs).router(),

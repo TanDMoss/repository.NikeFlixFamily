@@ -3,6 +3,7 @@
 from tmdbhelper.lib.files.ftools import cached_property
 from collections import namedtuple
 from tmdbhelper.lib.addon.thread import ParallelThread
+from tmdbhelper.lib.query.database.database import FindQueriesDatabase
 
 
 class ItemListSyncDataProperties:
@@ -42,7 +43,7 @@ class ItemListSyncDataProperties:
 
     @property
     def trakt_syncdata(self):
-        return self._class_instance_trakt_api.trakt_syncdata
+        return self.trakt_api.trakt_syncdata
 
     @cached_property
     def namedtuple_basic(self):
@@ -82,14 +83,23 @@ class ItemListSyncDataMethods:
     def make_detailed_item(self, i, item_type='show'):
         if not i['id']:
             return i
-        trakt_id = self._class_instance_trakt_api.get_id(unique_id=i['id'], id_type='tmdb', trakt_type=item_type, output_type='trakt')
-        if not trakt_id:
+
+        trakt_slug = FindQueriesDatabase().get_trakt_id(id_value=i['id'], id_type='tmdb', item_type=item_type, output_type='slug')
+        if not trakt_slug:
             return i
-        item = self._class_instance_trakt_api.get_details(item_type, trakt_id, season=i.get('season'), episode=i.get('episode'))
+
+        snum = i.get('season')
+        enum = i.get('episode')
+        args = ['seasons', snum, 'episodes', enum] if snum is not None and enum is not None else []
+        args = [f'{item_type}s', trakt_slug] + args
+        item = self.trakt_api.get_response_json(*args)
+
         if not item:
             return i
+
         item.pop('ids', None)
         item.update(i)
+
         return item
 
     def make_list(self, sd_func):
@@ -112,7 +122,10 @@ class ItemListSyncDataMethods:
         if i.mediatype == 'episode':
             item['episode'] = i.episode_number if 'episode_number' in i._fields else i.item['episode_number']
         for k in (self.item_keys or ()):
-            item.setdefault('infoproperties', {})[k] = i.item[k]
+            try:
+                item.setdefault('infoproperties', {})[k] = i.item[k]
+            except IndexError:
+                pass
         if detailed_item:
             item = self.make_detailed_item(item)
         return item
@@ -136,8 +149,8 @@ class ItemListSyncData(ItemListSyncDataProperties, ItemListSyncDataMethods):
         'lastweek': ('last_watched_at', True, '', ),
     }
 
-    def __init__(self, class_instance_trakt_api, item_type=None, sort_by=None, sort_how=None, item_keys=None, tmdb_id=None):
-        self._class_instance_trakt_api = class_instance_trakt_api
+    def __init__(self, trakt_api, item_type=None, sort_by=None, sort_how=None, item_keys=None, tmdb_id=None):
+        self.trakt_api = trakt_api
         self.sort_by, self.sort_how = sort_by, sort_how
         self.item_keys = item_keys or ()
         self.item_type = item_type
@@ -189,6 +202,20 @@ class ItemListSyncDataWatchlist(ItemListSyncData):
 
     def get_items(self):
         return self.make_list(self.trakt_syncdata.get_all_watchlist_getter)
+
+
+class ItemListSyncDataReleasedWatchlist(ItemListSyncData):
+    """ Items on watchlist that have been released """
+
+    def get_items(self):
+        return self.make_list(self.trakt_syncdata.get_all_released_watchlist_getter)
+
+
+class ItemListSyncDataAnticipatedWatchlist(ItemListSyncData):
+    """ Items on watchlist that have been released """
+
+    def get_items(self):
+        return self.make_list(self.trakt_syncdata.get_all_anticipated_watchlist_getter)
 
 
 class ItemListSyncDataWatched(ItemListSyncData):
@@ -329,6 +356,8 @@ def ItemListSyncDataFactory(sync_type, *args, **kwargs):
     routes = {
         'collection': ItemListSyncDataCollection,
         'watchlist': ItemListSyncDataWatchlist,
+        'watchlistreleased': ItemListSyncDataReleasedWatchlist,
+        'watchlistanticipated': ItemListSyncDataAnticipatedWatchlist,
         'watched': ItemListSyncDataWatched,
         'playback': ItemListSyncDataPlayback,
         'favorites': ItemListSyncDataFavorites,

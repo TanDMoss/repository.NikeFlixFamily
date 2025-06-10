@@ -1,11 +1,30 @@
-from tmdbhelper.lib.items.directories.tmdb.lists_standard import ListStandard
-from tmdbhelper.lib.items.directories.tmdb.lists_view import ItemViews
+from tmdbhelper.lib.items.directories.tmdb.lists_standard import ListStandard, ListStandardProperties
+from tmdbhelper.lib.items.directories.tmdb.lists_view import ItemKeywords, ItemReviews
 from tmdbhelper.lib.files.ftools import cached_property
 
 
+class ListRelatedProperties(ListStandardProperties):
+    @cached_property
+    def url(self):
+        return self.request_url.format(tmdb_type=self.tmdb_type, tmdb_id=self.tmdb_id)
+
+    @cached_property
+    def cache_name(self):
+        return '_'.join(map(str, (
+            self.class_name,
+            self.tmdb_type,
+            self.tmdb_id,
+            self.page,
+            self.length
+        )))
+
+
 class ListRelated(ListStandard):
-    def get_request_url(self, tmdb_type, tmdb_id, **kwargs):
-        return self.list_properties.request_url.format(tmdb_type=tmdb_type, tmdb_id=tmdb_id)
+    list_properties_class = ListRelatedProperties
+
+    def get_items(self, *args, tmdb_id=None, **kwargs):
+        self.list_properties.tmdb_id = tmdb_id
+        return super().get_items(*args, **kwargs)
 
 
 class ListRecommendations(ListRelated):
@@ -42,24 +61,8 @@ class ListReviews(ListRelated):
         list_properties.localize = 32188
         return list_properties
 
-
-class ItemKeywords(ItemViews):
-    item_mediatype = 'keyword'
-    tmdb_type = 'movie'
-
-    def __init__(self, meta):
-        self.meta = meta
-        self.label = self.meta['name']
-        self.tmdb_id = self.meta['id']
-
-    @cached_property
-    def params(self):
-        return {
-            'info': 'discover',
-            'tmdb_type': self.tmdb_type,
-            'with_keywords': self.tmdb_id,
-            'with_id': 'True'
-        }
+    def get_mapped_item(self, item, *args, **kwargs):
+        return ItemReviews(**item).item
 
 
 class ListKeywords(ListRelated):
@@ -74,4 +77,4 @@ class ListKeywords(ListRelated):
         return list_properties
 
     def get_mapped_item(self, item, *args, **kwargs):
-        return ItemKeywords(item).item
+        return ItemKeywords(**item).item

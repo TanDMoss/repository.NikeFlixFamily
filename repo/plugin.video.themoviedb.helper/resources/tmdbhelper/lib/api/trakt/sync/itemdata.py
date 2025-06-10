@@ -57,16 +57,16 @@ class SyncItemData:
             return 'movie'
 
     """
-    trakt_id
+    trakt_slug
     """
     @cached_property
-    def trakt_id(self):
-        return self.get_trakt_id()
+    def trakt_slug(self):
+        return self.get_trakt_slug()
 
-    def get_trakt_id(self):
+    def get_trakt_slug(self):
         if self.parent_item_type not in self.item:
             return
-        return self.item[self.parent_item_type]['ids']['trakt']
+        return self.item[self.parent_item_type]['ids']['slug']
 
     """
     item_id
@@ -285,10 +285,13 @@ class SyncItemData:
         return self.get_premiered()
 
     def get_premiered(self):
-        if 'show' in self.item.keys():
-            return self.item['show'].get('first_aired')
-        if 'movie' in self.item.keys():
-            return self.item['movie'].get('released')
+        try:
+            if 'show' in self.item.keys():
+                return self.item['show']['first_aired'][:10]
+            if 'movie' in self.item.keys():
+                return self.item['movie']['released'][:10]
+        except (AttributeError, KeyError, TypeError):
+            return
 
     """
     year
@@ -412,35 +415,19 @@ class SyncItem:
 
     _additional_keys = (
         'item_type', 'tmdb_type', 'tmdb_id', 'season_number', 'episode_number',
-        'trakt_id', 'premiered', 'year', 'title', 'status', 'country', 'certification', 'runtime',
+        'trakt_slug', 'premiered', 'year', 'title', 'status', 'country', 'certification', 'runtime',
         'trakt_rating', 'trakt_votes',
     )
 
     def __init__(self, item_type, meta, keys, key_prefix=None):
-        self._meta = meta
-        self._base_keys = keys
-        self._item_type = item_type
-        self._key_prefix = key_prefix
+        self.meta = meta
+        self.base_keys = keys
+        self.item_type = item_type
+        self.key_prefix = key_prefix
 
     @cached_property
     def data(self):
         return self.get_data()
-
-    @property
-    def meta(self):
-        return self._meta
-
-    @property
-    def item_type(self):
-        return self._item_type
-
-    @property
-    def key_prefix(self):
-        return self._key_prefix
-
-    @property
-    def base_keys(self):
-        return self._base_keys
 
     @property
     def additional_keys(self):

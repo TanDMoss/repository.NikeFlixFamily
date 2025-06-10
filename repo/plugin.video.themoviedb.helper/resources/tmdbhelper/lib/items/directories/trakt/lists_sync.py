@@ -8,6 +8,26 @@ from jurialmunkey.parser import try_int
 
 class ListSyncProperties(ListProperties):
 
+    next_page = True
+    sync_type = ''  # ItemListSyncDataFactory type
+    item_type = None  # Conversion to type
+    item_keys = None  # Extra keys for filters
+    filters = None
+    sort_by = None
+    sort_how = None
+    params_def = None
+
+    @cached_property
+    def sync_data(self):
+        return ItemListSyncDataFactory(
+            self.sync_type,
+            self.trakt_api,
+            sort_by=self.sort_by,
+            sort_how=self.sort_how,
+            item_type=self.item_type,
+            item_keys=self.item_keys,
+            tmdb_id=self.tmdb_id).items
+
     @cached_property
     def response(self):
         if not self.sync_data:
@@ -39,21 +59,10 @@ class ListStandardSync(ListDefault):
     list_properties_class = ListSyncProperties
 
     def configure_list_properties(self, list_properties):
-        list_properties.next_page = True
         list_properties.limit = 20 * max(get_setting('pagemulti_sync', 'int'), 1)
-        list_properties.sync_type = ''  # ItemListSyncDataFactory type
-        list_properties.sort_by = None
-        list_properties.sort_how = None
-        list_properties.item_type = None
-        list_properties.filters = None  # Filters for pre-pagination
-        list_properties.item_keys = None  # Extra keys for filters
         list_properties.plugin_name = '{plural} {localized}'
-        list_properties.localize = None
-        list_properties.params_def = None
+        list_properties.trakt_api = self.trakt_api
         return list_properties
-
-    def get_items_sync_list_fallback(self, **kwargs):
-        return
 
     def get_items(self, tmdb_type, page=1, sort_by=None, sort_how=None, tmdb_id=None, **kwargs):
         self.list_properties.tmdb_id = tmdb_id
@@ -62,23 +71,6 @@ class ListStandardSync(ListDefault):
         self.list_properties.page = try_int(page) or 1
         self.list_properties.sort_by = sort_by or self.list_properties.sort_by
         self.list_properties.sort_how = sort_how or self.list_properties.sort_how
-        self.list_properties.sync_data = (
-            ItemListSyncDataFactory(
-                self.list_properties.sync_type,
-                self.trakt_api,
-                sort_by=self.list_properties.sort_by,
-                sort_how=self.list_properties.sort_how,
-                item_type=self.list_properties.item_type,
-                item_keys=self.list_properties.item_keys,
-                tmdb_id=self.list_properties.tmdb_id).items
-            or self.get_items_sync_list_fallback(
-                sort_by=self.list_properties.sort_by,
-                sort_how=self.list_properties.sort_how,
-                item_type=self.list_properties.item_type,
-                item_keys=self.list_properties.item_keys,
-                tmdb_id=self.list_properties.tmdb_id)
-        )
-
         return self.get_items_finalised()
 
 
@@ -104,42 +96,22 @@ class ListWatchlist(ListStandardSync):
 class ListWatchlistReleased(ListStandardSync):
     def configure_list_properties(self, list_properties):
         list_properties = super().configure_list_properties(list_properties)
-        list_properties.sync_type = 'watchlist'
+        list_properties.sync_type = 'watchlistreleased'
         list_properties.sort_by = 'released'
         list_properties.sort_how = 'desc'
         list_properties.localize = 32456
         list_properties.item_keys = ('premiered', )
-        list_properties.filters = {
-            'filter_key': 'premiered',
-            'filter_value': {
-                'module': 'tmdbhelper.lib.addon.tmdate',
-                'method': 'get_todays_date',
-                'kwargs': {}
-            },
-            'filter_operator': 'lt',
-            'exclude_key': 'premiered',
-            'exclude_value': 'is_empty'
-        }
         return list_properties
 
 
 class ListWatchlistAnticipated(ListStandardSync):
     def configure_list_properties(self, list_properties):
         list_properties = super().configure_list_properties(list_properties)
-        list_properties.sync_type = 'watchlist'
+        list_properties.sync_type = 'watchlistanticipated'
         list_properties.sort_by = 'released'
         list_properties.sort_how = 'asc'
         list_properties.localize = 32457
         list_properties.item_keys = ('premiered', )
-        list_properties.filters = {
-            'exclude_key': 'premiered',
-            'exclude_value': {
-                'module': 'tmdbhelper.lib.addon.tmdate',
-                'method': 'get_todays_date',
-                'kwargs': {}
-            },
-            'exclude_operator': 'lt'
-        }
         return list_properties
 
 
@@ -228,16 +200,6 @@ class ListUpNext(ListStandardSync):
         list_properties.item_type = 'episode'
         list_properties.container_content = 'episodes'
         return list_properties
-
-    def get_items_sync_list_fallback(self, item_type, sort_by=None, sort_how=None, tmdb_id=None, **kwargs):
-        from tmdbhelper.lib.items.database.baseview_factories.factory import BaseViewFactory
-        try:
-            items = BaseViewFactory('episodes', 'tv', tmdb_id, season=1).data
-        except TypeError:
-            return
-        self.kodi_db = self.get_kodi_database('tv')
-        self.list_properties.container_content = 'episodes'
-        return items
 
 
 class ListOnDeck(ListStandardSync):

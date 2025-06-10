@@ -444,7 +444,7 @@
             <clearlogo>resources/media/clearlogo.png</clearlogo>
         </assets>
     </extension>
-</addon><addon id="plugin.video.themoviedb.helper" version="6.8.11" name="TMDb Helper" provider-name="jurialmunkey">
+</addon><addon id="plugin.video.themoviedb.helper" version="6.9.0" name="TMDb Helper" provider-name="jurialmunkey">
 <requires>
   <import addon="xbmc.python" version="3.0.1" />
   <import addon="script.module.requests" version="2.9.1" />
@@ -462,11 +462,16 @@
 <extension point="xbmc.python.module" library="resources/modules" />
 <extension point="xbmc.addon.metadata">
   <reuselanguageinvoker>false</reuselanguageinvoker>
+  <summary lang="de_DE">TMDb Helfer</summary>
   <summary lang="en_GB">TMDb Helper</summary>
   <summary lang="zh_CN">TMDb 助手</summary>
+  <description lang="de_DE">TMDb Helper liefert Details über Filme, Fernsehsendungen und Schauspieler aus TMDb. Benutzer können auf eine Vielzahl von Listen aus TMDb TVDb MDbList und Trakt zugreifen.</description>
   <description lang="en_GB">TMDb Helper provides details about movies, tvshows and actors from TMDb. Users can access a variety of lists from TMDb TVDb MDbList and Trakt.</description>
+  <description lang="sv_SE">TMDb Helper tillhandahåller information om filmer, tv-serier och skådespelare från TMDb. Användare kan få tillgång till en mängd olika listor från TMDb, TVDb, MDbList och Trakt.</description>
   <description lang="zh_CN">TMDb 助手从 TMDb（影视数据库） 获取电影、电视剧及演员的详细信息。用户可访问来自 TMDb、TVDb、MDbList 和 Trakt 的各类影视列表。</description>
+  <disclaimer lang="de_DE">Daten bereitgestellt von TMDb TVDb MDbList OMDb FanartTV und Trakt. Einige der Informationen werden von TheTVDB.com bereitgestellt. Bitte erwäge sie zu unterstützen. https://thetvdb.com/subscribe</disclaimer>
   <disclaimer lang="en_GB">Data provided by TMDb TVDb MDbList OMDb FanartTV and Trakt. Some of the information is provided by TheTVDB.com. Please consider supporting them. https://thetvdb.com/subscribe</disclaimer>
+  <disclaimer lang="sv_SE">Data tillhandahållen av TMDb TVDb MDbList OMDb FanartTV och Trakt. En del av informationen tillhandahålls av TheTVDB.com. Stöd dem gärna. https://thetvdb.com/subscribe</disclaimer>
   <disclaimer lang="zh_CN">数据由 TMDb、TVDb、MDbList、OMDb、FanartTV 和 Trakt 提供。部分信息由 TheTVDB.com 提供，建议您支持他们。订阅链接：https://thetvdb.com/subscribe</disclaimer>
   <license>GPL-3.0-or-later</license>
   <website>https://github.com/jurialmunkey/plugin.video.themoviedb.helper</website>
@@ -666,7 +671,7 @@
 			    <icon>icon.png</icon>
 			</assets>
         </extension>
-    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.4" provider-name="TanDMoss">
+    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.5" provider-name="TanDMoss">
     <extension point="xbmc.addon.repository" name="NikeFlix Family repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml</info>
@@ -1363,13 +1368,13 @@ v1.30.0
 			<fanart>resources/fanart.jpg</fanart>
 		</assets>
 	</extension>
-</addon><addon id="script.skin.helper.service" name="Skin Helper Service" version="1.20.1" provider-name="marcelveldt and others">
+</addon><addon id="script.skin.helper.service" name="Skin Helper Service" version="1.2.0" provider-name="marcelveldt and others">
     <requires>
 		<import addon="xbmc.python" version="3.0.0" />
         <import addon="xbmc.addon" version="12.0.0" />
         <import addon="script.module.simplejson" version="3.3.0" />
-        <import addon="script.module.simplecache" version="2.0.2" />
-        <import addon="script.module.metadatautils" version="1.20.1" />
+        <import addon="script.module.simplecache" version="1.0.0" />
+        <import addon="script.module.metadatautils" version="1.1.0" />
     </requires>
 
     <extension point="kodi.context.item">
@@ -1383,7 +1388,7 @@ v1.30.0
                 <description>PVR artwork Configuration</description>
                 <visible>
                     !String.IsEmpty(Window(Home).Property(SkinHelper.EnablePvrThumbs)) + 
-                    [Window.IsActive(MyPVRChannels.xml) | String.Contains(ListItem.FileNameAndPath,action=playchannel) | 
+                    [Window.IsActive(MyPVRChannels.xml) | 
                     Window.IsActive(MyPVRGuide.xml) | Window.IsActive(MyPVRRecordings.xml) | 
                     Window.IsActive(MyPVRTimers.xml) | Window.IsActive(MyPVRSearch.xml)]
                 </visible>
@@ -1407,8 +1412,8 @@ v1.30.0
         <summary lang="en">Helper service for Kodi skins</summary>
         <description>Helper service for Kodi skins</description>
         <news>
-v1.20.0
-- Nexus version
+Version 1.2.0
+* Initial release
         </news>
 		<assets>
             <icon>icon.png</icon>

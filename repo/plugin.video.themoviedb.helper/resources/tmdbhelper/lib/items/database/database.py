@@ -7,6 +7,7 @@ from tmdbhelper.lib.items.database.tabledef import (
     TVSHOW_COLUMNS,
     SEASON_COLUMNS,
     EPISODE_COLUMNS,
+    BELONGS_COLUMNS,
     COLLECTION_COLUMNS,
     RATINGS_COLUMNS,
     PERSON_COLUMNS,
@@ -38,27 +39,54 @@ class ItemDetailsDatabase(Database):
         super().__init__(filename=self.cache_filename)
 
     # DB version must be max of table_version
-    database_version = 25
+    database_version = 29
 
     database_changes = {
         21: (
             'ALTER TABLE tvshow ADD totalseasons INTEGER',
             'ALTER TABLE tvshow ADD totalepisodes INTEGER',
         ),
-        22: (
-            'DROP TABLE IF EXISTS studio',
-            'DROP TABLE IF EXISTS network',
-            'DROP TABLE IF EXISTS company',
-        ),
+        22: (),
         23: (
             'ALTER TABLE baseitem ADD datalevel INTEGER DEFAULT 0 NOT NULL',
         ),
         24: (
             'ALTER TABLE tvshow ADD last_episode_to_air_id TEXT',
         ),
-        25: (
-            'DROP TABLE custom',
+        25: (),
+        26: (),
+        27: (),
+        28: (
+            'DROP TABLE IF EXISTS unique_id',
+            'DROP TABLE IF EXISTS fanart_tv',
+            'DROP TABLE IF EXISTS art',
+            'DROP TABLE IF EXISTS service',
+            'DROP TABLE IF EXISTS provider',
+            'DROP TABLE IF EXISTS custom',
+            'DROP TABLE IF EXISTS castmember',
+            'DROP TABLE IF EXISTS crewmember',
+            'DROP TABLE IF EXISTS broadcaster',
+            'DROP TABLE IF EXISTS company',
+            'DROP TABLE IF EXISTS network',
+            'DROP TABLE IF EXISTS studio',
+            'DROP TABLE IF EXISTS country',
+            'DROP TABLE IF EXISTS genre',
+            'DROP TABLE IF EXISTS video',
+            'DROP TABLE IF EXISTS certification',
+            'DROP TABLE IF EXISTS person',
+            'DROP TABLE IF EXISTS ratings',
+            'DROP TABLE IF EXISTS collection',
+            'DROP TABLE IF EXISTS belongs',
+            'DROP TABLE IF EXISTS episode',
+            'DROP TABLE IF EXISTS season',
+            'DROP TABLE IF EXISTS tvshow',
+            'DROP TABLE IF EXISTS movie',
+            'DROP TABLE IF EXISTS baseitem',
         ),
+        29: (
+            'DROP TABLE IF EXISTS simplecache',
+            'DROP TABLE IF EXISTS lactivities',
+        )
     }
 
     baseitem_columns = BASEITEM_COLUMNS
@@ -66,6 +94,7 @@ class ItemDetailsDatabase(Database):
     tvshow_columns = TVSHOW_COLUMNS
     season_columns = SEASON_COLUMNS
     episode_columns = EPISODE_COLUMNS
+    belongs_columns = BELONGS_COLUMNS
     collection_columns = COLLECTION_COLUMNS
     ratings_columns = RATINGS_COLUMNS
     person_columns = PERSON_COLUMNS
@@ -92,6 +121,7 @@ class ItemDetailsDatabase(Database):
     def database_tables(self):
         return {
             'baseitem': self.baseitem_columns,
+            'belongs': self.belongs_columns,
             'collection': self.collection_columns,
             'movie': self.movie_columns,
             'tvshow': self.tvshow_columns,

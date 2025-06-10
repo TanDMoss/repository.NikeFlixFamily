@@ -67,10 +67,6 @@ MOVIE_COLUMNS = {
         'data': 'INTEGER',
         'indexed': True
     },
-    'collection_id': {
-        'data': 'TEXT',
-        'indexed': True
-    },
 }
 
 TVSHOW_COLUMNS = {
@@ -236,6 +232,23 @@ EPISODE_COLUMNS = {
     },
 }
 
+
+BELONGS_COLUMNS = {
+    'id': {
+        'data': 'TEXT',
+        'foreign_key': 'baseitem(id)',
+        'indexed': True,
+        'unique': True,
+    },
+    'parent_id': {
+        'data': 'TEXT',
+        'foreign_key': 'baseitem(id)',
+        'indexed': True,
+        'unique': True,
+    },
+}
+
+
 COLLECTION_COLUMNS = {
     'id': {
         'data': 'TEXT PRIMARY KEY',
@@ -250,12 +263,6 @@ COLLECTION_COLUMNS = {
         'data': 'TEXT',
     },
     'title': {
-        'data': 'TEXT',
-    },
-    'poster': {
-        'data': 'TEXT',
-    },
-    'fanart': {
         'data': 'TEXT',
     },
 }
@@ -370,9 +377,6 @@ PERSON_COLUMNS = {
     'name': {
         'data': 'TEXT',
     },
-    'thumb': {
-        'data': 'TEXT',
-    },
     'known_for_department': {
         'data': 'TEXT',
     },
@@ -452,6 +456,7 @@ VIDEO_COLUMNS = {
     },
     'path': {
         'data': 'TEXT',
+        'unique': True,
     },
     'content': {
         'data': 'TEXT',
@@ -461,6 +466,7 @@ VIDEO_COLUMNS = {
         'data': 'TEXT',
         'foreign_key': 'baseitem(id)',
         'indexed': True,
+        'unique': True,
     },
 }
 
@@ -672,13 +678,15 @@ ART_COLUMNS = {
     },
     'iso_language': {
         'data': 'TEXT',
-        'indexed': True
+        'indexed': True,
     },
     'icon': {
         'data': 'TEXT',
+        'unique': True,
     },
     'type': {
         'data': 'TEXT',
+        'unique': True,
     },
     'extension': {
         'data': 'TEXT',
@@ -693,17 +701,19 @@ ART_COLUMNS = {
     'parent_id': {
         'data': 'TEXT',
         'foreign_key': 'baseitem(id)',
-        'indexed': True
+        'indexed': True,
+        'unique': True,
     },
 }
 
 FANART_TV_COLUMNS = {
     'icon': {
         'data': 'TEXT',
+        'unique': True,
     },
     'iso_language': {
         'data': 'TEXT',
-        'indexed': True
+        'indexed': True,
     },
     'likes': {
         'data': 'INTEGER',
@@ -714,6 +724,7 @@ FANART_TV_COLUMNS = {
     },
     'type': {
         'data': 'TEXT',
+        'unique': True,
     },
     'extension': {
         'data': 'TEXT',
@@ -721,13 +732,15 @@ FANART_TV_COLUMNS = {
     'parent_id': {
         'data': 'TEXT',
         'foreign_key': 'baseitem(id)',
-        'indexed': True
+        'indexed': True,
+        'unique': True,
     },
 }
 
 UNIQUE_ID_COLUMNS = {
     'key': {
         'data': 'TEXT',
+        'unique': True,
     },
     'value': {
         'data': 'TEXT',
@@ -735,7 +748,8 @@ UNIQUE_ID_COLUMNS = {
     'parent_id': {
         'data': 'TEXT',
         'foreign_key': 'baseitem(id)',
-        'indexed': True
+        'indexed': True,
+        'unique': True,
     },
 }
 
@@ -767,8 +781,8 @@ SIMPLECACHE_COLUMNS = {
         'data': 'INTEGER',
         'sync': None
     },
-    'trakt_id': {
-        'data': 'INTEGER',
+    'trakt_slug': {
+        'data': 'TEXT',
         'sync': None
     },
     'premiered': {

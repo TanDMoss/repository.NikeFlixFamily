@@ -1,81 +1,83 @@
-from tmdbhelper.lib.items.directories.lists_default import ListDefault
+from tmdbhelper.lib.items.directories.lists_default import ListDefault, ListProperties
 from tmdbhelper.lib.addon.plugin import get_setting
+from tmdbhelper.lib.files.ftools import cached_property
 from jurialmunkey.parser import try_int
 
 
 PAGES_LENGTH = get_setting('pagemulti_tmdb', 'int') or 1
 
 
+class UncachedItemsPage:
+    def __init__(self, outer_class, page):
+        self.outer_class = outer_class
+        self.page = page
+
+    @cached_property
+    def response(self):
+        return self.outer_class.get_api_response(self.page)
+
+    @cached_property
+    def results(self):
+        try:
+            results = self.response[self.outer_class.results_key]
+        except (TypeError, KeyError):
+            return []
+        try:
+            self.outer_class.total_pages = self.response['total_pages']
+            self.outer_class.total_items = self.response['total_results']
+        except (TypeError, KeyError):
+            self.outer_class.total_pages = 0
+            self.outer_class.total_items = 0
+        return results
+
+    @cached_property
+    def items(self):
+        return [
+            self.outer_class.get_mapped_item(i, add_infoproperties=(
+                ('total_pages', self.outer_class.total_pages),
+                ('total_results', self.outer_class.total_items),
+                ('rank', x),
+            ))
+            for x, i in enumerate(self.results, 1) if i
+        ]
+
+
+class ListStandardProperties(ListProperties):
+
+    total_pages = 0
+    total_items = 0
+    class_pages = UncachedItemsPage
+
+    @property
+    def next_page(self):
+        return self.page + self.length
+
+    def get_api_response(self, page=1):
+        return self.tmdb_api.get_response_json(self.url, page=page)
+
+    def get_uncached_items(self):
+        return {
+            'items': [
+                i for xpage in range(self.page, self.next_page)
+                for i in self.class_pages(self, xpage).items
+            ],
+            'pages': self.total_pages,
+            'count': self.total_items,
+        }
+
+    def get_mapped_item(self, item, add_infoproperties=None):
+        return self.tmdb_api.mapper.get_info(
+            item,
+            item.get('media_type') or self.tmdb_type,
+            add_infoproperties=add_infoproperties)
+
+
 class ListStandard(ListDefault):
+
+    list_properties_class = ListStandardProperties
 
     def get_items(self, *args, length=None, **kwargs):
         return super().get_items(*args, length=try_int(length) or PAGES_LENGTH, **kwargs)
-
-    def _get_cached_items(self, request_url, tmdb_type, page=1, length=None, paginated=True):
-        items = []
-        pages = 0
-
-        for x in range(page, page + length):
-            ipage = self.get_cached_items_page(request_url, tmdb_type, x)
-            pages = ipage['pages']
-            items.extend(ipage['items'])
-
-        if not paginated:
-            return items
-
-        return self.paginated_items(items, page, length, pages)
-
-    def _get_cached_items_page(self, request_url, tmdb_type, page=1):
-        response = self.tmdb_api.get_response_json(request_url, page=page)
-        return self.get_cached_items_page_configured(response, tmdb_type)
-
-    @staticmethod
-    def paginated_items(items, page=1, length=None, total_pages=None):
-        if total_pages and (page + length - 1) < total_pages:
-            items.append({'next_page': page + length})
-            return items
-        return items
-
-    def get_mapped_item(self, item, tmdb_type, add_infoproperties=None):
-        return self.tmdb_api.mapper.get_info(
-            item,
-            item.get('media_type') or tmdb_type,
-            add_infoproperties=add_infoproperties)
-
-    def get_cached_items_page_configured(self, response, tmdb_type):
-        def items_page(items=None, pages=None, total=None):
-            return {
-                'items': items or [],
-                'pages': pages,
-                'total': total
-            }
-
-        try:
-            results = response[self.list_properties.results_key]
-        except (TypeError, KeyError):
-            return items_page()
-        try:
-            pages = response['total_pages']
-            total = response['total_results']
-        except (TypeError, KeyError):
-            pages, total = None, None
-
-        add_infoproperties = [
-            ('total_pages', pages),
-            ('total_results', total),
-        ]
-
-        if not results:
-            return items_page()
-
-        return items_page(
-            items=[
-                self.get_mapped_item(i, tmdb_type, add_infoproperties=add_infoproperties)
-                for i in results if i
-            ],
-            pages=pages,
-            total=total,
-        )
 
 
 class ListPopular(ListStandard):

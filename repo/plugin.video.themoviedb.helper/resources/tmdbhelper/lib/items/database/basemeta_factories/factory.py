@@ -97,6 +97,11 @@ def import_collection():
     return Series
 
 
+def import_belongs():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.info import Belongs
+    return Belongs
+
+
 def import_movie():
     from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.info import Movie
     return Movie
@@ -377,6 +382,21 @@ def import_lastplayed():
     return LastPlayed
 
 
+def import_series_genre():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.series import SeriesGenre
+    return SeriesGenre
+
+
+def import_series_movie():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.series import SeriesMovie
+    return SeriesMovie
+
+
+def import_series_stats():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.series import SeriesStats
+    return SeriesStats
+
+
 FACTORY_ROUTES = {
     'crewmember': import_crewmember,
     'castmember': import_castmember,
@@ -399,6 +419,7 @@ FACTORY_ROUTES = {
     'tvshow': import_tvshow,
     'season': import_season,
     'episode': import_episode,
+    'belongs': import_belongs,
     'collection': import_collection,
     'unique_id': import_unique_id,
     'custom': import_custom,
@@ -452,6 +473,9 @@ FACTORY_ROUTES = {
     'watchlist_rank': import_watchlist_rank,
     'collected_date': import_collected_date,
     'lastplayed': import_lastplayed,
+    'series_genre': import_series_genre,
+    'series_movie': import_series_movie,
+    'series_stats': import_series_stats,
 }
 
 

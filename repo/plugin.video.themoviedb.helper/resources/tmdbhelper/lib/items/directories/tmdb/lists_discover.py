@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from xbmcgui import Dialog, ListItem, INPUT_NUMERIC
 from jurialmunkey.parser import try_int, merge_two_dicts, split_items
-from tmdbhelper.lib.items.directories.tmdb.lists_standard import ListStandard
+from tmdbhelper.lib.items.directories.tmdb.lists_standard import ListStandard, ListStandardProperties
 from tmdbhelper.lib.items.container import ContainerDirectory
 from tmdbhelper.lib.addon.plugin import ADDONPATH, PLUGINPATH, convert_type, get_localized, encode_url
 from tmdbhelper.lib.addon.tmdate import get_datetime_now, get_timedelta
 from jurialmunkey.window import get_property
-
+from tmdbhelper.lib.query.database.database import FindQueriesDatabase
 from tmdbhelper.lib.files.hcache import set_search_history, get_search_history
 from tmdbhelper.lib.api.tmdb.api import TMDb
+from tmdbhelper.lib.files.ftools import cached_property
 from urllib.parse import urlencode
 
 
@@ -652,7 +653,7 @@ def _confirm_add(method):
 
 
 def _get_query(tmdb_type, method, query=None, header=None, use_details=False):
-    item = TMDb().tmdb_database.get_tmdb_id_from_query(
+    item = FindQueriesDatabase().get_tmdb_id_from_query(
         tmdb_type=tmdb_type,
         query=query or Dialog().input(header),
         header=header or f'{get_localized(32276)} {tmdb_type}',
@@ -730,7 +731,7 @@ def _select_properties(data_list, method, header=None, multiselect=True, separat
 
 
 def _get_genre(tmdb_type, method):
-    data_list = TMDb().tmdb_database.get_genres(tmdb_type)
+    data_list = FindQueriesDatabase().get_genres(tmdb_type)
     if not data_list:
         return
     data_list = [{'name': k, 'id': v} for k, v in data_list.items()]
@@ -773,10 +774,11 @@ def _get_certification(method='certification'):
     iso_country = _win_prop('certification_country')
 
     tmdb = TMDb()
+    query_database = FindQueriesDatabase()
 
     # Ask for iso country
     if not iso_country:
-        all_certifications = tmdb.tmdb_database.get_certification('movie')
+        all_certifications = query_database.get_certification('movie')
         all_certifications = [i['iso_country'] for i in all_certifications]
 
         try:
@@ -790,7 +792,7 @@ def _get_certification(method='certification'):
         iso_country = all_certifications[x]
 
     # Get certifications for region
-    region_certifications = tmdb.tmdb_database.get_certification('movie', iso_country)
+    region_certifications = query_database.get_certification('movie', iso_country)
     gui_items = [i.get('certification') for i in region_certifications]
 
     x = Dialog().select(get_localized(32486), gui_items)
@@ -818,10 +820,11 @@ def _get_watch_provider(tmdb_type):
     iso_c_label = _win_prop('watch_region', 'Label')
 
     tmdb = TMDb()
+    query_database = FindQueriesDatabase()
 
     # Get valid provider regions from TMDb
     if not iso_country:
-        regions = tmdb.tmdb_database.provider_regions
+        regions = query_database.provider_regions
         iso_regions = [k for k in regions.keys()]
         region_list = [f'{k} - {regions[k]}' for k in iso_regions]
         x = Dialog().select(
@@ -838,7 +841,7 @@ def _get_watch_provider(tmdb_type):
 
     # Get providers for region
 
-    providers = tmdb.tmdb_database.get_watch_providers(tmdb_type, iso_country)
+    providers = query_database.get_watch_providers(tmdb_type, iso_country)
     gui_items = []
     for i in providers:
         li = ListItem(i.get('provider_name'), f"{iso_c_label} ({iso_country}) - ID #{i.get('provider_id')}")
@@ -935,90 +938,118 @@ def _add_rule(tmdb_type, method=None):
     _set_rule(method, rules.get('label'), rules.get('value'), overwrite=overwrite)
 
 
-def _get_tmdb_id_list(items, tmdb_type=None, separator=None):
-    """
-    If tmdb_type specified will look-up IDs using search function otherwise assumes item ID is passed
-    """
-    tmdb_api = TMDb()
-    separator = tmdb_api.get_url_separator(separator)
-    temp_list = ''
-    for item in items:
-        item_id = (
-            tmdb_api.tmdb_database.genres.get(item)
+class ListDiscoverProperties(ListStandardProperties):
+    @cached_property
+    def url(self):
+        url = self.request_url.format(tmdb_type=self.tmdb_type)
+        url = f'{url}{self.url_paramstring}'
+        return url
+
+    @cached_property
+    def cache_name(self):
+        return '_'.join(map(str, self.cache_name_tuple))
+
+    @cached_property
+    def cache_name_tuple(self):
+        cache_name_tuple = [f'{k}={v}' for k, v in self.translated_discover_params.items()]
+        cache_name_tuple = sorted(cache_name_tuple)
+        cache_name_tuple = [self.class_name, self.tmdb_type] + cache_name_tuple
+        cache_name_tuple = cache_name_tuple + [self.page, self.length]
+        return tuple(cache_name_tuple)
+
+    discover_params_to_del = (
+        'with_id', 'with_separator',
+        'cacheonly', 'nextpage', 'widget', 'plugin_category', 'fanarttv',
+        'tmdb_type', 'tmdb_id', 'page', 'limit', 'length', 'info')
+
+    @cached_property
+    def with_separator(self):
+        return self.discover_params.get('with_separator')
+
+    @cached_property
+    def with_id(self):
+        return bool(not self.discover_params.get('with_id'))
+
+    @cached_property
+    def tmdb_database(self):
+        return self.tmdb_api.tmdb_database
+
+    def get_url_separator(self, separator):
+        return self.tmdb_api.get_url_separator(separator)
+
+    def get_tmdb_id_list(self, items, tmdb_type=None, separator=None):
+        """
+        If tmdb_type specified will look-up IDs using search function otherwise assumes item ID is passed
+        """
+        separator = self.get_url_separator(separator)
+
+        tmdb_id_list = (
+            item
+            if not tmdb_type else
+            self.tmdb_database.genres.get(item)
             if tmdb_type == 'genre' else
-            tmdb_api.tmdb_database.get_tmdb_id(tmdb_type=tmdb_type, query=item)
-        ) if tmdb_type else item
+            self.tmdb_database.get_tmdb_id(tmdb_type=tmdb_type, query=item)
+            for item in items
+        )
+        tmdb_id_list = (i for i in tmdb_id_list if i)
+        tmdb_id_list = separator.join(map(str, tuple(tmdb_id_list))) if separator else str(next(tmdb_id_list, ''))
+        tmdb_id_list = tmdb_id_list or 'null'
+        return tmdb_id_list
 
-        if not item_id:
-            continue
-        if separator:  # If we've got a url separator then concatinate the list with it
-            temp_list = f'{temp_list}{separator}{item_id}' if temp_list else item_id
-        else:  # If no separator, assume that we just want to use the first found ID
-            temp_list = str(item_id)
-            break  # Stop once we have a item
-    temp_list = temp_list if temp_list else 'null'
-    return temp_list
+    def translate_key_value(self, key, value):
+        if key not in TRANSLATE_PARAMS:
+            return value
+        items = split_items(value)
+        ttype = TRANSLATE_PARAMS[key][0] if self.with_id else None
+        stype = TRANSLATE_PARAMS[key][1] if TRANSLATE_PARAMS[key][1] != 'USER' else self.with_separator
+        return self.get_tmdb_id_list(items, ttype, separator=stype)
 
-
-def _translate_discover_params(tmdb_type, params):
-    separator = params.get('with_separator')
-    lookup_id = bool(not params.get('with_id'))
-    for k, v in TRANSLATE_PARAMS.items():
-        if not params.get(k):
-            continue
-        items = split_items(params[k])
-        ttype = v[0] if lookup_id else None
-        stype = separator if v[1] == 'USER' else v[1]
-        params[k] = _get_tmdb_id_list(items, ttype, separator=stype)
-
-    # Translate relative dates based upon today's date
-    for i in RELATIVE_DATES:
-        datecode = params.get(i, '')
+    def relative_dates_key_value(self, key, value):
+        datecode = value or ''
         datecode = datecode.lower()
-        if not datecode or all(x not in datecode for x in ['t-', 't+']):
-            continue  # No value or not a relative date so skip
-        elif 't-' in datecode:
-            days = try_int(datecode.replace('t-', ''))
-            date = get_datetime_now() - get_timedelta(days=days)
-        elif 't+' in datecode:
-            days = try_int(datecode.replace('t+', ''))
+        if datecode.startswith('t'):
+            days = try_int(datecode[2:])
+            days = -abs(days) if datecode[1:2] == '-' else days
             date = get_datetime_now() + get_timedelta(days=days)
-        params[i] = date.strftime("%Y-%m-%d")
+            return date.strftime("%Y-%m-%d")
+        return value
 
-    return params
+    def configure_key_value(self, key, value):
+        if key in TRANSLATE_PARAMS:
+            return self.translate_key_value(key, value)
+        if key in RELATIVE_DATES:
+            return self.relative_dates_key_value(key, value)
+        return value
+
+    @cached_property
+    def translated_discover_params(self):
+        # Convert to kwargs for use in URL encoded string
+        translated_discover_params = {
+            k: self.configure_key_value(k, v)
+            for k, v in self.discover_params.items()
+            if k not in self.discover_params_to_del
+        }
+        return translated_discover_params
+
+    @cached_property
+    def url_paramstring(self):
+        if not self.translated_discover_params:
+            return ''
+        return f'?{"&".join([f"{k}={v}" for k, v in self.translated_discover_params.items()])}'
 
 
 class ListDiscover(ListStandard):
+
+    list_properties_class = ListDiscoverProperties
+
+    def get_items(self, *args, **kwargs):
+        self.list_properties.discover_params = kwargs
+        return super().get_items(*args, **kwargs)
+
     def configure_list_properties(self, list_properties):
         list_properties = super().configure_list_properties(list_properties)
         list_properties.request_url = 'discover/{tmdb_type}'
         return list_properties
-
-    def get_request_url(self, tmdb_type, **kwargs):
-        # TODO: [OLD MSG] Check what regions etc we need to have
-
-        # Convert to kwargs for use in URL encoded string
-        kwargs = _translate_discover_params(tmdb_type, kwargs)
-
-        # Check that we actually have params to build a discover list with (not just config kwargs)
-        to_del = ('with_id', 'with_separator', 'cacheonly', 'nextpage', 'widget')
-        for k, v in kwargs.items():
-            if k in to_del:
-                continue
-            if k in ['page', 'limit']:
-                continue
-            if k and v:
-                break
-        else:  # Only build discover list if we have params to pass
-            return
-        for k in to_del:  # Remove the config params
-            kwargs.pop(k, None)
-
-        # Encode paramstring
-        request_url = self.list_properties.request_url.format(tmdb_type=tmdb_type)
-        paramstring = f'?{"&".join([f"{k}={v}" for k, v in kwargs.items()])}' if kwargs else ''
-        # paramstring = f'?{urlencode(kwargs)}' if kwargs else ''
-        return f'{request_url}{paramstring}'
 
 
 class ListDiscoverDir(ContainerDirectory):
