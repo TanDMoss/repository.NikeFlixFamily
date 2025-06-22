@@ -285,6 +285,12 @@ class PlayerItem():
         return self.meta.get('Year')
 
     @property
+    def episode_year(self):
+        if self.dbtype != 'episode':
+            return
+        return self.meta.get('Year')
+
+    @property
     def season(self):
         if self.dbtype != 'episode':
             return
@@ -304,37 +310,60 @@ class PlayerItem():
             return 'tv'
         return ''
 
+    @property
+    def infolabel_uniqueid_tmdb(self):
+        return self.meta.get('UniqueID.tmdb')
+
+    @property
+    def infolabel_uniqueid_tvshow_tmdb(self):
+        return self.meta.get('UniqueID.tvshow.tmdb')
+
+    @cached_property
+    def identifier_id(self):
+        from tmdbhelper.lib.query.database.identifier import make_identifier_id
+        return make_identifier_id(
+            dbtype=f'{self.dbtype}s' if self.dbtype else None,
+            query=self.query,
+            season=self.season,
+            episode=self.episode,
+            imdb_id=self.imdb_id,
+            year=self.year,
+            episode_year=self.episode_year,
+            infolabel_uniqueid_tmdb=self.infolabel_uniqueid_tmdb,
+            infolabel_uniqueid_tvshow_tmdb=self.infolabel_uniqueid_tvshow_tmdb,
+        )
+
     @cached_property
     def tmdb_id(self):
-        return self.get_tmdb_id()
+        identifier_details = self._parent.get_identifier_details(self.identifier_id)
+        identifier_details = identifier_details or self._parent.set_identifier_details(
+            self.identifier_id,
+            self.get_tmdb_id(),
+            self.tmdb_type
+        )
+        if identifier_details:
+            # self.tmdb_type = identifier_details.tmdb_type  # TODO: Check if we need this in player like service
+            return identifier_details.tmdb_id
 
     def get_tmdb_id_parent(self):
-        if self.dbtype != 'episode':
-            return self.meta.get('UniqueID.tmdb')
-
-        tmdb_id = self.meta.get('UniqueID.tvshow.tmdb')
-
-        return tmdb_id or self._parent.get_tmdb_id_parent(
-            tmdb_id=self.meta.get('UniqueID.tmdb'),
-            trakt_type='episode',
-            season_episode_check=(
-                self.season,
-                self.episode,
+        if self.dbtype == 'episode':
+            return self.infolabel_uniqueid_tvshow_tmdb or self._parent.get_tmdb_id_parent(
+                tmdb_id=self.infolabel_uniqueid_tmdb,
+                item_type='episode',
+                season=self.season,
+                episode=self.episode,
             )
-        )
+        return self.infolabel_uniqueid_tmdb
 
     def get_tmdb_id(self):
-        if self.dbtype not in ('episode', 'movie'):
-            return
-
-        tmdb_id = self.get_tmdb_id_parent()
-
-        return tmdb_id or self._parent.get_tmdb_id(
-            self.tmdb_type,
-            self.imdb_id,
-            self.query,
-            self.year,
-        )
+        if self.dbtype in ('episode', 'movie'):
+            return self.get_tmdb_id_parent() or self._parent.get_tmdb_id(
+                tmdb_type=self.tmdb_type,
+                query=self.query,
+                imdb_id=self.imdb_id,
+                year=self.year,
+                episode_year=self.episode_year,
+            )
 
     def get_ratings(self):
         if not self.details:

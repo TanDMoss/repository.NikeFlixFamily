@@ -444,7 +444,7 @@
             <clearlogo>resources/media/clearlogo.png</clearlogo>
         </assets>
     </extension>
-</addon><addon id="plugin.video.themoviedb.helper" version="6.9.0" name="TMDb Helper" provider-name="jurialmunkey">
+</addon><addon id="plugin.video.themoviedb.helper" version="6.9.6" name="TMDb Helper" provider-name="jurialmunkey">
 <requires>
   <import addon="xbmc.python" version="3.0.1" />
   <import addon="script.module.requests" version="2.9.1" />
@@ -671,7 +671,7 @@
 			    <icon>icon.png</icon>
 			</assets>
         </extension>
-    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.5" provider-name="TanDMoss">
+    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.0.6" provider-name="TanDMoss">
     <extension point="xbmc.addon.repository" name="NikeFlix Family repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml</info>
@@ -1368,13 +1368,13 @@ v1.30.0
 			<fanart>resources/fanart.jpg</fanart>
 		</assets>
 	</extension>
-</addon><addon id="script.skin.helper.service" name="Skin Helper Service" version="1.2.0" provider-name="marcelveldt and others">
+</addon><addon id="script.skin.helper.service" name="Skin Helper Service" version="1.20.1" provider-name="marcelveldt and others">
     <requires>
 		<import addon="xbmc.python" version="3.0.0" />
         <import addon="xbmc.addon" version="12.0.0" />
         <import addon="script.module.simplejson" version="3.3.0" />
-        <import addon="script.module.simplecache" version="1.0.0" />
-        <import addon="script.module.metadatautils" version="1.1.0" />
+        <import addon="script.module.simplecache" version="2.0.2" />
+        <import addon="script.module.metadatautils" version="1.20.1" />
     </requires>
 
     <extension point="kodi.context.item">
@@ -1388,7 +1388,7 @@ v1.30.0
                 <description>PVR artwork Configuration</description>
                 <visible>
                     !String.IsEmpty(Window(Home).Property(SkinHelper.EnablePvrThumbs)) + 
-                    [Window.IsActive(MyPVRChannels.xml) | 
+                    [Window.IsActive(MyPVRChannels.xml) | String.Contains(ListItem.FileNameAndPath,action=playchannel) | 
                     Window.IsActive(MyPVRGuide.xml) | Window.IsActive(MyPVRRecordings.xml) | 
                     Window.IsActive(MyPVRTimers.xml) | Window.IsActive(MyPVRSearch.xml)]
                 </visible>
@@ -1412,8 +1412,8 @@ v1.30.0
         <summary lang="en">Helper service for Kodi skins</summary>
         <description>Helper service for Kodi skins</description>
         <news>
-Version 1.2.0
-* Initial release
+v1.20.0
+- Nexus version
         </news>
 		<assets>
             <icon>icon.png</icon>
