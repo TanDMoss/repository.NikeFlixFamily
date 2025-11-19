@@ -18,6 +18,17 @@ BASEITEM_COLUMNS = {
         'data': 'INTEGER DEFAULT 0 NOT NULL',
         'indexed': True
     },
+    'fanart_tv': {
+        'data': 'INTEGER DEFAULT 0 NOT NULL',
+        'indexed': True
+    },
+    'translation': {
+        'data': 'INTEGER DEFAULT 0 NOT NULL',
+        'indexed': True
+    },
+    'language': {
+        'data': 'TEXT',
+    },
 }
 
 MOVIE_COLUMNS = {
@@ -678,6 +689,10 @@ ART_COLUMNS = {
         'data': 'TEXT',
         'indexed': True,
     },
+    'iso_country': {
+        'data': 'TEXT',
+        'indexed': True,
+    },
     'icon': {
         'data': 'TEXT',
         'unique': True,
@@ -764,6 +779,32 @@ UNIQUE_ID_COLUMNS = {
         'foreign_key': 'baseitem(id)',
         'indexed': True,
         'unique': True,
+    },
+}
+
+TRANSLATION_COLUMNS = {
+    'iso_country': {
+        'data': 'TEXT',
+        'unique': True,
+    },
+    'iso_language': {
+        'data': 'TEXT',
+        'unique': True,
+    },
+    'plot': {
+        'data': 'TEXT',
+    },
+    'title': {
+        'data': 'TEXT',
+    },
+    'tagline': {
+        'data': 'TEXT',
+    },
+    'parent_id': {
+        'data': 'TEXT',
+        'foreign_key': 'baseitem(id)',
+        'indexed': True,
+        'unique': True
     },
 }
 

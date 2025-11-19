@@ -9,7 +9,7 @@
         <value>$INFO[System.StartupWindow]</value>
     </variable>
 
-    <!-- splash image -->
+    <!-- Splash Image -->
     <variable name="SplashImage">
         <value condition="!Skin.HasSetting(UseAltDefaultSplashImage) | Skin.HasSetting(UseAltDefaultSplashImage) + [String.IsEqual(Skin.String(splash_screen),netflix_alternative) | String.IsEqual(Skin.String(splash_screen),netflix_extended)]">special://skin/extras/media/bingie_splash.png</value>
         <value condition="Skin.HasSetting(UseAltDefaultSplashImage)">special://skin/extras/media/bingie_splash2.png</value>
@@ -260,11 +260,14 @@
 	
 	<variable name="HDIndicator">
 		<value condition="ListItem.IsStereoscopic">3D</value>
-        <value condition="Integer.IsGreater(ListItem.VideoResolution,1080) | String.IsEqual(ListItem.VideoResolution,4K)
-         | String.IsEqual(ListItem.VideoResolution,8K)">UHD</value>
-        <value condition="Integer.IsGreater(ListItem.VideoResolution,720)">FHD</value>
-		<value condition="Integer.IsGreater(ListItem.VideoResolution,700)">HD</value>
 		<value condition="!String.IsEmpty(ListItem.VideoResolution)">SD</value>
+		<value condition="Integer.IsGreater(ListItem.VideoResolution,700)">HD</value>
+		<value condition="Integer.IsGreater(ListItem.VideoResolution,720)">FHD</value>
+		<value condition="Integer.IsGreater(ListItem.VideoResolution,1080) | String.IsEqual(ListItem.VideoResolution,4K)
+         | String.IsEqual(ListItem.VideoResolution,8K)">UHD</value>
+        
+		
+		
 	</variable>
 
 	<variable name="BannerImage">
@@ -911,8 +914,6 @@
         <value condition="Control.IsVisible(55)">$INFO[Skin.String(View55.Tags.label)]</value>
         <value condition="Control.IsVisible(57) + !Skin.String(View57.Tags)">$LOCALIZE[1223]</value>
         <value condition="Control.IsVisible(57)">$INFO[Skin.String(View57.Tags.label)]</value>
-        <value condition="Control.IsVisible(58) + !Skin.String(View58.Tags)">$LOCALIZE[1223]</value>
-        <value condition="Control.IsVisible(58)">$INFO[Skin.String(View58.Tags.label)]</value>
         <value condition="Control.IsVisible(59) + !Skin.String(View59.Tags)">$LOCALIZE[1223]</value>
         <value condition="Control.IsVisible(59)">$INFO[Skin.String(View59.Tags.label)]</value>
         <value condition="Control.IsVisible(500) + !Skin.String(View500.Tags)">$LOCALIZE[1223]</value>
@@ -941,9 +942,7 @@
         <value condition="Control.IsVisible(519)">$INFO[Skin.String(View519.Tags.label)]</value>
         <value condition="Control.IsVisible(520) + !Skin.String(View520.Tags)">$LOCALIZE[1223]</value>
         <value condition="Control.IsVisible(520)">$INFO[Skin.String(View520.Tags.label)]</value>
-		<value condition="Control.IsVisible(521) + !Skin.String(View521.Tags)">$LOCALIZE[1223]</value>
-        <value condition="Control.IsVisible(521)">$INFO[Skin.String(View521.Tags.label)]</value>
-        <value condition="Control.IsVisible(523) + !Skin.String(View523.Tags)">$LOCALIZE[1223]</value>
+		<value condition="Control.IsVisible(523) + !Skin.String(View523.Tags)">$LOCALIZE[1223]</value>
         <value condition="Control.IsVisible(523)">$INFO[Skin.String(View523.Tags.label)]</value>
         <value condition="Control.IsVisible(526) + !Skin.String(View526.Tags)">$LOCALIZE[1223]</value>
         <value condition="Control.IsVisible(526)">$INFO[Skin.String(View526.Tags.label)]</value>
@@ -1003,7 +1002,7 @@
         <value>$INFO[Window(Home).Property(SkinHelper.AllMusicSongsBackground.Wall)]</value>
     </variable>
 
-    <!-- home vars -->
+    <!-- Home Vars -->
     <variable name="HomeMenuWidgetInfoLabel">
         <value condition="String.Contains(Container(900).ListItem.Property(widgetPath), plugin.video.youtube) + !String.IsEmpty(ListItem.Label2)">[B]$INFO[ListItem.label][CR]$INFO[ListItem.label2][/B]</value>
         <value condition="String.IsEqual(ListItem.Property(DBTYPE), systeminfo)">[B]$INFO[ListItem.label][/B] $INFO[ListItem.label2]</value>
@@ -1023,7 +1022,7 @@
         <value condition="!String.IsEmpty(ListItem.PictureKeywords)">$INFO[ListItem.PictureKeywords]</value>
     </variable>
     <variable name="HomeMenuWidgetInfoPlotAlt">
-        <!-- details widget -->
+        <!-- Details Widget -->
         <value condition="!String.IsEmpty(ListItem.VideoResolution)">[B]$VAR[VideoResolutionVar,, • ]$VAR[VideoCodecVar,[UPPERCASE], • [/UPPERCASE]]$VAR[VideoAspectVar,, • ]$VAR[AudioCodecVar,[UPPERCASE], • [/UPPERCASE]]$VAR[AudioChannelsVar][/B][CR]$VAR[HomeMenuWidgetInfoPlot]</value>
         <value>$VAR[HomeMenuWidgetInfoPlot]</value>
     </variable>
@@ -1048,9 +1047,56 @@
         <value>$INFO[Skin.String(ViewDetailsTextShadowColor)]</value>
     </variable>
 	
+	<variable name="VideoResolutionTypeVar">
+		<value condition="String.IsEqual(ListItem.VideoResolution,480)">SD</value>
+		<value condition="String.IsEqual(ListItem.VideoResolution,540)">SD</value>
+		<value condition="String.IsEqual(ListItem.VideoResolution,576)">SD</value>
+		<value condition="String.IsEqual(ListItem.VideoResolution,720)">HD</value>
+		<value condition="String.IsEqual(ListItem.VideoResolution,1080)">HD</value>			
+		<value condition="String.IsEqual(ListItem.VideoResolution,4K)">UHD</value>
+		<value condition="String.IsEqual(ListItem.VideoResolution,8K)">UHD2</value>	
+	</variable>
+	
+	<variable name="VideoHDRVar">
+		<value condition="String.IsEqual(ListItem.HdrType,hlg)">HLG</value>
+		<value condition="String.IsEqual(ListItem.HdrType,hdr10)">HDR10</value>
+		<value condition="String.IsEqual(ListItem.HdrType,dolbyvision)">Dolby Vision</value>
+        <value>$INFO[ListItem.HdrType]</value>
+	</variable>
+	
+	<variable name="AudioCodecVar">
+        <value condition="String.Contains(ListItem.AudioCodec,atmos)">ATMOS</value>
+		<value condition="String.Contains(ListItem.AudioCodec,truehd)">TRUEHD</value>
+		<value condition="String.IsEqual(ListItem.AudioCodec,eac3)">DOLBY D+</value>
+		<value condition="String.Contains(ListItem.AudioCodec,ac3)">DOLBY</value>
+		<value condition="String.IsEqual(ListItem.AudioCodec,dtsx)">DTS X</value>
+		<value condition="String.Contains(ListItem.AudioCodec,dts_es)">DTS-ES</value>
+		<value condition="String.IsEqual(ListItem.AudioCodec,dts_x)">DTS X</value>
+		<value condition="String.IsEqual(ListItem.AudioCodec,dca)">DTS</value>
+		<value condition="String.IsEqual(ListItem.AudioCodec,dts)">DTS</value>
+		<value condition="String.Contains(ListItem.AudioCodec,dts-hd)">DTS-HD</value>
+		<value condition="String.Contains(ListItem.AudioCodec,dtshd)">DTS HD</value>
+		<value condition="String.Contains(ListItem.AudioCodec,pcm)">PCM</value>
+		<value condition="String.Contains(ListItem.AudioCodec,aac)">AAC</value>
+		<value condition="String.Contains(ListItem.AudioCodec,mp3)">MP3</value>
+		<value condition="String.Contains(ListItem.AudioCodec,flac)">FLAC</value>
+		<value condition="String.Contains(ListItem.AudioCodec,opus)">OPUS</value>
+        <value>$INFO[ListItem.AudioCodec]</value>
+	</variable>
+	
 	<variable name="DetailsTextColor">
         <value condition="!Window.IsActive(1118)">$INFO[Skin.String(BingieDeatailsTextColor)]</value>
         <value condition="Window.IsActive(1118)">$INFO[Skin.String(BingieSubLabelTextColor)]</value>
     </variable>
+	
+	<variable name="CustomPlotHeader">	
+		<value condition="Skin.HasSetting(EnableOSDInfo)">$INFO[Window.Property(osdheader)]</value>
+		<value>$INFO[Window.Property(header)]</value>
+	</variable>
+	
+	<variable name="CustomPlotTextbox">
+		<value condition="Skin.HasSetting(EnableOSDInfo)">$INFO[Window.Property(osdtextbox)]</value>
+		<value>$INFO[Window.Property(textbox)]</value>
+	</variable>
 	
 </includes>

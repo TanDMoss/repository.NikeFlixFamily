@@ -1,4 +1,4 @@
-from tmdbhelper.lib.addon.plugin import ADDON, convert_type
+from tmdbhelper.lib.addon.plugin import ADDON
 from tmdbhelper.lib.items.container import ContainerDirectory
 from tmdbhelper.lib.items.directories.base.basedir_nodes import BaseDirNode
 
@@ -125,10 +125,10 @@ class ListBaseDir(ContainerDirectory):
             'dir_mdblist': lambda: BaseDirList(mdblist=True).build_basedir(),
             'dir_tvdb': lambda: BaseDirList(tvdb=True).build_basedir(),
             'dir_random': lambda: BaseDirList(random=True).build_basedir(),
-            'dir_calendar_dvd': lambda: BaseDirList(calendar=ListBaseDir.get_trakt_calendar_item(info='trakt_dvdcalendar', **kwargs)).build_basedir(),
-            'dir_calendar_movie': lambda: BaseDirList(calendar=ListBaseDir.get_trakt_calendar_item(info='trakt_moviecalendar', **kwargs)).build_basedir(),
-            'dir_calendar_trakt': lambda: BaseDirList(calendar=ListBaseDir.get_trakt_calendar_item(**kwargs)).build_basedir(),
-            'dir_calendar_library': lambda: BaseDirList(calendar=ListBaseDir.get_library_calendar_item()).build_basedir(),
+            'dir_calendar_dvd': lambda: BaseDirList(calendar=ListBaseDir.get_trakt_calendar_item(info='trakt_dvdcalendar', **kwargs)).build_basedir('movie'),
+            'dir_calendar_movie': lambda: BaseDirList(calendar=ListBaseDir.get_trakt_calendar_item(info='trakt_moviecalendar', **kwargs)).build_basedir('movie'),
+            'dir_calendar_trakt': lambda: BaseDirList(calendar=ListBaseDir.get_trakt_calendar_item(**kwargs)).build_basedir('tv'),
+            'dir_calendar_library': lambda: BaseDirList(calendar=ListBaseDir.get_library_calendar_item()).build_basedir('tv'),
             'dir_custom_node': lambda: BaseDirNode(**kwargs).build_basedir(),
             'dir_trakt_genre': lambda: BaseDirList(trakt_genre=kwargs.get('genre')).build_basedir(kwargs.get('tmdb_type')),
             'dir_tmdb_v4': lambda: BaseDirList(tmdb_v4=True).build_basedir(),
@@ -146,13 +146,3 @@ class ListRelatedBaseDir(ContainerDirectory):
                 'detailed_item': {}, 'include_play': include_play,
             }
         ).build_basedir(tmdb_type)
-
-
-class ListDetails(ContainerDirectory):
-    is_detailed = True
-    is_cacheonly = False
-
-    def get_items(self, tmdb_type, tmdb_id, season=None, episode=None, **kwargs):
-        self.kodi_db = self.get_kodi_database(tmdb_type)
-        self.container_content = convert_type(tmdb_type, output='container', season=season, episode=episode)
-        return [self.lidc.get_item(tmdb_type, tmdb_id, season, episode)]

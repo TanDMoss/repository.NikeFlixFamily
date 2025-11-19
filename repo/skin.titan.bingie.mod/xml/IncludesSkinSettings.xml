@@ -183,6 +183,7 @@
             <include>General_Resources_Settings</include>
             <include>General_Splash_Screen_Settings</include>
             <include>General_Advanced_Settings</include>
+            <include>General_ScreenSaver</include>
         </include>
     </include>
 
@@ -443,7 +444,7 @@
             <label>      $LOCALIZE[320154]</label>
             <onclick>Skin.ToggleSetting(EnableSpotlightWhiteLabel)</onclick>
             <selected>Skin.HasSetting(EnableSpotlightWhiteLabel)</selected>
-            <visible>!Skin.HasSetting(DisableSpotlightContent) + !Skin.HasSetting(DisableSpotlightLabel)</visible>
+            <visible>!Skin.HasSetting(DisableSpotlightTop250) + !Skin.HasSetting(DisableSpotlightContent) + !Skin.HasSetting(DisableSpotlightLabel)</visible>
         </control>
 		<!-- Prefer Color Director Sub Label on Home Spotlight -->	
 		<control type="radiobutton" id="2037">
@@ -730,23 +731,17 @@
             <selected>!Skin.HasSetting(EnableAudioCodec)</selected>
 			<visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>
-		<!--Enable Audio Codecs ATMOS only-->
-		<control type="radiobutton" id="2033">
-            <include>SkinSettings_Button</include>
-            <label>      $LOCALIZE[320165]</label>
-            <onclick>Skin.ToggleSetting(enableAtmosOnly)</onclick>
-            <selected>Skin.HasSetting(enableAtmosOnly)</selected>
-			<visible>!Skin.HasSetting(EnableAudioCodec)</visible>
-            <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
-        </control>
-		<!--Fake Codec info on Details Row (if no codec info is present)-->
-		<control type="radiobutton" id="2031">
-            <include>SkinSettings_Button</include>
-            <label>320166</label>
-            <onclick>Skin.ToggleSetting(EnableFakeResolution)</onclick>
-            <selected>Skin.HasSetting(EnableFakeResolution)</selected>
-            <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
-        </control>	
+		<!--Enable Audio Codecs ATMOS only POINTLESS -->
+		
+		<!-- <control type="radiobutton" id="2033"> -->
+            <!-- <include>SkinSettings_Button</include> -->
+            <!-- <label>      $LOCALIZE[320165]</label> -->
+            <!-- <onclick>Skin.ToggleSetting(enableAtmosOnly)</onclick> -->
+            <!-- <selected>Skin.HasSetting(enableAtmosOnly)</selected> -->
+			<!-- <visible>!Skin.HasSetting(EnableAudioCodec)</visible> -->
+            <!-- <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible> -->
+        <!-- </control> -->
+		
 		<!--TV Show Status on Details Row Home & Bingie Views-->
 		<control type="radiobutton" id="2032">
             <include>SkinSettings_Button</include>
@@ -755,14 +750,14 @@
             <selected>Skin.HasSetting(EnableTVShowStatus)</selected>
             <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>       
-		<!-- Disable Top250 Sublabel on home and bingie views -->
+		<!-- Disable Top250 on Home Widgets and Bingie Views -->
 		<control type="radiobutton" id="2028">
             <include>SkinSettings_Button</include>
             <label>320168</label>
             <onclick>Skin.ToggleSetting(DisableTop250)</onclick>
             <selected>Skin.HasSetting(DisableTop250)</selected>
             <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
-        </control>	
+        </control>
         <!-- Prefer White Top250 Sublabel on Spotlight Details Row -->	
 		<control type="radiobutton" id="2038">
             <include>SkinSettings_Button</include>
@@ -1129,7 +1124,15 @@
             <selected>Skin.HasSetting(DisableMediaCount)</selected>
             <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>
-        <!--Show Fanart Background-->
+        <!-- Show File Path -->
+		<control type="radiobutton" id="511441">
+            <include>SkinSettings_Button</include>
+            <label>320245</label>
+            <onclick>Skin.ToggleSetting(ShowFilePath)</onclick>
+            <selected>Skin.HasSetting(ShowFilePath)</selected>
+            <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
+        </control>
+		<!--Show Fanart Background-->
         <control type="radiobutton" id="31141">
             <include>SkinSettings_Button</include>
             <label>31141</label>
@@ -1289,6 +1292,14 @@
             <label>31378</label>
             <onclick>Skin.ToggleSetting(UseBingieInfoDialog)</onclick>
             <selected>Skin.HasSetting(UseBingieInfoDialog)</selected>
+        </control>
+		<!-- Show File Path -->
+		<control type="radiobutton" id="511442">
+            <include>SkinSettings_Button</include>
+            <label>320246</label>
+            <onclick>Skin.ToggleSetting(ShowFilePathVideoInfo)</onclick>
+            <selected>Skin.HasSetting(ShowFilePathVideoInfo)</selected>
+            <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>
 		<!-- Lists filter -->
         <control type="button" id="2070">
@@ -3316,8 +3327,8 @@
         <control type="radiobutton" id="2014">
             <include>SkinSettings_Button</include>
             <label>320178</label>
-            <onclick>Skin.ToggleSetting(EnableNetflixLogo)</onclick>
-            <selected>!Skin.HasSetting(EnableNetflixLogo)</selected>
+            <onclick>Skin.ToggleSetting(EnableBingieModLogo)</onclick>
+            <selected>!Skin.HasSetting(EnableBingieModLogo)</selected>
             <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>
 		<!-- Disable Welcome Pop-Up Message Notification -->        
@@ -3352,7 +3363,17 @@
             <label2>$INFO[Skin.String(season_greetings.label)]</label2>
             <onclick>RunScript(script.skin.helper.service,action=setskinsetting,setting=season_greetings,header=$LOCALIZE[31104])</onclick>
         </control>		                                                                 
-        <!--Bingie Screensaver Image Change Time-->
+	</include>
+    
+	<!-- General ScreenSaver -->
+	<include name="General_ScreenSaver">
+        <!-- Advanced ScreenSaver Settings -->
+        <control type="label" id="8110">
+            <include>SkinSettings_Header</include>
+            <label>320243</label>
+            <textcolor>$INFO[Skin.String(GeneralTextColor)]</textcolor>
+        </control>
+		<!--Bingie Screensaver Image Change Time-->
         <control type="radiobutton" id="2072">
             <include>SkinSettings_Button</include>
             <label>320238</label>
@@ -3368,7 +3389,7 @@
             <selected>!Skin.HasSetting(ImageFadeTime)</selected>
             <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>
-	    <!--Disable Netflix Logo on Bingie Screensaver-->
+        <!--Disable Bingie Mod Logo on Bingie Screensaver-->
         <control type="radiobutton" id="2074">
             <include>SkinSettings_Button</include>
             <label>320240</label>
@@ -3376,7 +3397,7 @@
             <selected>!Skin.HasSetting(NetflixLogoScreensaver)</selected>
             <visible>String.IsEqual(Skin.String(HomeLayout),bingie)</visible>
         </control>
-	    <!-- Disable Clearlogo in Bingie Home -->
+	   <!-- Disable Clearlogo Screensaver Bingie Home -->
         <control type="radiobutton" id="2075">
             <include>SkinSettings_Button</include>
             <label>320241</label>

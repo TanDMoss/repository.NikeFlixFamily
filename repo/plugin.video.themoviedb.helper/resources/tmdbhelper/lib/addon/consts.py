@@ -7,9 +7,10 @@ SHORTER_EXPIRY = DAY_IN_SECONDS * 7
 TEMPDAY_EXPIRY = DAY_IN_SECONDS
 HALFDAY_EXPIRY = DAY_IN_SECONDS * 0.5
 
-DATALEVEL_OFF = 0
 DATALEVEL_MIN = 1
 DATALEVEL_MAX = 5
+SQLITE_FALSE = 0
+SQLITE_TRUE = 1
 
 TVDB_DISCLAIMER = 'Information provided by TheTVDB.com. Please consider supporting them. https://thetvdb.com/subscribe'
 
@@ -62,7 +63,6 @@ PLAYERS_BASEDIR_SAVE = 'special://profile/addon_data/plugin.video.themoviedb.hel
 PLAYERS_BASEDIR_BUNDLED = 'special://home/addons/plugin.video.themoviedb.helper/resources/players/'
 PLAYERS_BASEDIR_TEMPLATES = 'special://home/addons/plugin.video.themoviedb.helper/resources/templates/'
 PLAYERS_PRIORITY = 1000
-PLAYERS_REQUIRED_IDS = ('{imdb}', '{tvdb}', '{trakt}', '{slug}', '{eptvdb}' '{epimdb}', '{eptrakt}', '{epslug}', '{epid}')
 PLAYERS_CHOSEN_DEFAULTS_FILENAME = 'player_defaults'
 
 NO_UNAIRED_LABEL = ('details', 'trakt_calendar', 'library_nextaired', 'videos', 'trakt_watchlist_anticipated', 'trakt_anticipated')
@@ -388,7 +388,7 @@ ROUTE_NOID = {
 
 ROUTE_TMDBID = {
     'details': {'route': {
-        'module_name': 'tmdbhelper.lib.items.directories.base.lists_base',
+        'module_name': 'tmdbhelper.lib.items.directories.base.lists_details',
         'import_attr': 'ListDetails'}},
     'fanart': {'route': {
         'module_name': 'tmdbhelper.lib.items.directories.tmdb.lists_view_db',
@@ -444,6 +444,9 @@ ROUTE_TMDBID = {
     'anticipated_episodes': {'route': {
         'module_name': 'tmdbhelper.lib.items.directories.tmdb.lists_seasons',
         'import_attr': 'ListAnticipatedEpisodes'}},
+    'specified_episodes': {'route': {
+        'module_name': 'tmdbhelper.lib.items.directories.tmdb.lists_seasons',
+        'import_attr': 'ListSpecifiedEpisodes'}},
     'episodes': {'route': {
         'module_name': 'tmdbhelper.lib.items.directories.tmdb.lists_seasons',
         'import_attr': 'ListEpisodes'}},

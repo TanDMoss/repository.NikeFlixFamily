@@ -1,5 +1,5 @@
 from tmdbhelper.lib.addon.plugin import get_condvisibility, get_setting
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 from tmdbhelper.lib.monitor.images import ImageManipulations
 from tmdbhelper.lib.items.listitem import ListItem
 from tmdbhelper.lib.api.mapping import get_empty_item
@@ -40,6 +40,13 @@ class MonitorItemDetails(ImageManipulations):
         return get_condvisibility((
             '!Skin.HasSetting(TMDbHelper.DisableExtendedProperties) | '
             '!String.IsEmpty(Window.Property(TMDbHelper.EnableExtendedProperties))'
+        ))
+
+    @property
+    def is_translation(self):
+        return get_condvisibility((
+            'Skin.HasSetting(TMDbHelper.EnableTranslationProperties) | '
+            '!String.IsEmpty(Window.Property(TMDbHelper.EnableTranslationProperties))'
         ))
 
     @cached_property
@@ -117,7 +124,7 @@ class MonitorItemDetails(ImageManipulations):
 
     @cached_property
     def is_container_content_lookups(self):
-        if self.parent._container != 'Container.':
+        if self.parent.container != 'Container.':
             return False
         if not get_setting('service_container_content_fallback'):
             return False
@@ -323,7 +330,7 @@ class MonitorItemDetails(ImageManipulations):
 
     def get_lidc_item(self):
         self.parent.lidc.extendedinfo = self.is_extended
-        self.parent.lidc.cache_refresh = None
+        self.parent.lidc.cache_refresh = 'langs' if self.is_translation else None
         return self.parent.lidc.get_item(self.tmdb_type, self.tmdb_id, self.season, self.episode)
 
     def update_lidc_item(self):

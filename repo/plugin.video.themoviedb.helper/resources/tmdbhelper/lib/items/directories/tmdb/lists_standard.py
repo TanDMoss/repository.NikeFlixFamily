@@ -1,6 +1,6 @@
 from tmdbhelper.lib.items.directories.lists_default import ListDefault, ListProperties
 from tmdbhelper.lib.addon.plugin import get_setting
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 
 
 class UncachedItemsPage:
@@ -14,6 +14,9 @@ class UncachedItemsPage:
 
     @cached_property
     def results(self):
+        return self.get_results()
+
+    def get_results(self):
         try:
             results = self.response[self.outer_class.results_key]
         except (TypeError, KeyError):
@@ -28,14 +31,17 @@ class UncachedItemsPage:
 
     @cached_property
     def items(self):
-        return [
+        return self.get_items()
+
+    def get_items(self):
+        return [j for j in [
             self.outer_class.get_mapped_item(i, add_infoproperties=(
                 ('total_pages', self.outer_class.total_pages),
                 ('total_results', self.outer_class.total_items),
                 ('rank', x),
             ))
             for x, i in enumerate(self.results, 1) if i
-        ]
+        ] if j]
 
 
 class ListStandardProperties(ListProperties):

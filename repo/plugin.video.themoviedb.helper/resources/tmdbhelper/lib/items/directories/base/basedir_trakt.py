@@ -1,5 +1,5 @@
 from tmdbhelper.lib.items.directories.base.basedir_item import BaseDirItem
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 from tmdbhelper.lib.addon.plugin import get_localized
 
 
@@ -96,6 +96,7 @@ class BaseDirItemTraktOnDeckUnWatchedMovie(BaseDirItem):
 class BaseDirItemTraktOnDeckUnWatchedTV(BaseDirItem):
     priority = 200
     label_type = 'suffixed'
+    label_localized = 32406
     types = ('tv', )
     params = {'info': 'trakt_ondeck_unwatched'}
     art_icon = 'resources/icons/trakt/inprogress.png'

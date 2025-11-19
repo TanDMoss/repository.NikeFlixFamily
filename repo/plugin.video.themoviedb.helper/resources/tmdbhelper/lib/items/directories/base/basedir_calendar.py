@@ -1,5 +1,5 @@
 from tmdbhelper.lib.items.directories.base.basedir_item import BaseDirItem
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 
 
 class BaseDirItemCalendarLastFornight(BaseDirItem):
@@ -7,7 +7,7 @@ class BaseDirItemCalendarLastFornight(BaseDirItem):
     label_type = 'localize'
     label_localized = 32280
     params = {'startdate': -14, 'days': 14}
-    types = (None, )
+    types = ('movie', 'tv', )
     art_icon = 'resources/icons/trakt/calendar.png'
 
 

@@ -1,5 +1,5 @@
 from tmdbhelper.lib.items.directories.trakt.mapper_basic import ItemMapper
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 from tmdbhelper.lib.addon.plugin import get_localized, get_setting, ADDONPATH
 from tmdbhelper.lib.addon.consts import RUNSCRIPT
 from contextlib import suppress
@@ -9,6 +9,30 @@ class StaticItemMapper(ItemMapper):
     @cached_property
     def label(self):
         return self.list_name
+
+    @cached_property
+    def user_profile_slug(self):
+        with suppress(KeyError):
+            return self.meta['user_profile_slug']
+
+    @cached_property
+    def list_owned(self):
+        if not self.user_profile_slug:
+            return False
+        return bool(self.user_profile_slug == self.user_slug)
+
+    @cached_property
+    def list_privacy(self):
+        with suppress(KeyError):
+            return self.meta['list']['privacy']
+
+    @cached_property
+    def list_privated(self):
+        if self.list_privacy == 'public':
+            return False
+        if self.list_privacy == 'private' and self.list_owned:
+            return False
+        return True
 
     @cached_property
     def list_type(self):
@@ -86,6 +110,16 @@ class StaticItemMapper(ItemMapper):
                 RUNSCRIPT.format('user_list={list_slug},user_slug={user_slug}'.format(**self.params))
             ),
         ]
+
+    @cached_property
+    def item(self):
+        if self.list_privated:  # Workaround to hide private entries for private lists in results
+            return {}
+        if not self.user_slug:  # Workaround to hide invalid entries for banned users still showing in results
+            return {}
+        if not self.list_slug:  # Workaround to hide invalid entries for banned lists still showing in results
+            return {}
+        return super().item
 
 
 class StaticLikedItemMapper(StaticItemMapper):

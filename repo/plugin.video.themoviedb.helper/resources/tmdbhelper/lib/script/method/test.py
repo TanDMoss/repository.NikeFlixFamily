@@ -41,6 +41,13 @@ def test_func(test_func, dialog_output=False, **kwargs):
         data = {'headers': dict(data.headers), 'request': data.json()}
         return finalise(head, data)
 
+    def test_func_trakt_auth(**kwargs):
+        from tmdbhelper.lib.api.trakt.api import TraktAPI
+        tapi = TraktAPI()
+        head = ''
+        data = {'authorization': tapi.authenticator.authorization}
+        return finalise(head, data)
+
     def test_func_mdblist_response(path, **kwargs):
         from tmdbhelper.lib.api.mdblist.api import MDbList
         head = path
@@ -86,7 +93,7 @@ def test_func(test_func, dialog_output=False, **kwargs):
 
     def test_func_get_next_episodes(tmdb_id, season, episode, player=None, **kwargs):
         import xbmcgui
-        from tmdbhelper.lib.player.details import get_next_episodes
+        from tmdbhelper.lib.player.details.details import get_next_episodes
         data = get_next_episodes(tmdb_id, season, episode, player)
         head = f'{(tmdb_id, season, episode)}'
         xbmcgui.Dialog().select(head, data, useDetails=True)
@@ -119,6 +126,23 @@ def test_func(test_func, dialog_output=False, **kwargs):
             overwrite=True
         )
 
+    def test_func_jrpc(dbid, **kwargs):
+        from tmdbhelper.lib.api.kodi.rpc import get_jsonrpc
+        method = "VideoLibrary.GetMovieDetails"
+        properties = ["streamdetails"]
+        params = {
+            "movieid": int(dbid),
+            "properties": properties}
+        data = get_jsonrpc(method, params)
+        head = dbid
+        return finalise(head, data)
+
+    def test_func_jrpc_directory(path, **kwargs):
+        from tmdbhelper.lib.api.kodi.rpc import get_directory
+        data = get_directory(path)
+        head = path
+        return finalise(head, data)
+
     routes = {
         'response': test_func_response,
         'trakt_response': test_func_trakt_response,
@@ -132,6 +156,9 @@ def test_func(test_func, dialog_output=False, **kwargs):
         'sync_next_episodes': test_func_sync_next_episodes,
         'get_response_sync': test_func_get_response_sync,
         'write_user_art': test_func_write_user_art,
+        'jrpc': test_func_jrpc,
+        'jrpc_directory': test_func_jrpc_directory,
+        'trakt_auth': test_func_trakt_auth,
     }
 
     return routes[test_func](**kwargs)

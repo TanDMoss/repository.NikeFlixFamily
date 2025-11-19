@@ -1,7 +1,7 @@
 from tmdbhelper.lib.items.directories.tmdb.lists_standard import ListStandard, ListStandardProperties, UncachedItemsPage
 from tmdbhelper.lib.items.directories.mdblist.mapper_standard import FactoryMDbListItemMapper
 from tmdbhelper.lib.addon.plugin import get_setting
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 from jurialmunkey.parser import try_int
 
 
@@ -49,13 +49,15 @@ class UncachedMDbListItemsPage(UncachedItemsPage):
 
     @cached_property
     def response_json(self):
+        return self.get_response_json()
+
+    def get_response_json(self):
         try:
             return self.response['json']
         except (TypeError, KeyError):
             return []
 
-    @cached_property
-    def results(self):
+    def get_results(self):
         try:
             self.outer_class.total_pages = try_int(self.response['headers'].get('x-pagination-page-count', 0))
             self.outer_class.total_items = try_int(self.response['headers'].get('x-pagination-item-count', 0))

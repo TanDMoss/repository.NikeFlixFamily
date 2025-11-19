@@ -127,6 +127,11 @@ def import_unique_id():
     return UniqueId
 
 
+def import_imdbnumber():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.info import IMDbNumber
+    return IMDbNumber
+
+
 def import_custom():
     from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.info import Custom
     return Custom
@@ -150,6 +155,11 @@ def import_video():
 def import_certification():
     from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.info import Certification
     return Certification
+
+
+def import_translation():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.info import Translation
+    return Translation
 
 
 def import_company():
@@ -362,6 +372,11 @@ def import_user_art_clearlogo():
     return UserArtClearlogo
 
 
+def import_user_art_thumb():
+    from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.user_art import UserArtThumb
+    return UserArtThumb
+
+
 def import_playcount():
     from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.trakt import PlayCount
     return PlayCount
@@ -442,11 +457,13 @@ FACTORY_ROUTES = {
     'belongs': import_belongs,
     'collection': import_collection,
     'unique_id': import_unique_id,
+    'imdbnumber': import_imdbnumber,
     'custom': import_custom,
     'genre': import_genre,
     'country': import_country,
     'video': import_video,
     'certification': import_certification,
+    'translation': import_translation,
     'company': import_company,
     'broadcaster': import_broadcaster,
     'service': import_service,
@@ -489,6 +506,7 @@ FACTORY_ROUTES = {
     'user_art_fanart': import_user_art_fanart,
     'user_art_landscape': import_user_art_landscape,
     'user_art_clearlogo': import_user_art_clearlogo,
+    'user_art_thumb': import_user_art_thumb,
     'playcount': import_playcount,
     'watchedcount': import_watchedcount,
     'airedcount': import_airedcount,

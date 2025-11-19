@@ -9,4 +9,3 @@ A helper script for Kodi skinners to construct multiple variables
 
 - [Leia](https://github.com/jurialmunkey/script.skinvariables/tree/leia)
 - [Matrix](https://github.com/jurialmunkey/script.skinvariables/tree/matrix)
-- [Nexus](https://github.com/jurialmunkey/script.skinvariables/tree/nexus)

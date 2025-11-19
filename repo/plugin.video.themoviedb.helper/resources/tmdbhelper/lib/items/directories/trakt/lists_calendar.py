@@ -1,7 +1,7 @@
 from jurialmunkey.parser import boolean, try_int
 from tmdbhelper.lib.addon.plugin import get_localized
-from tmdbhelper.lib.files.ftools import cached_property
-from tmdbhelper.lib.addon.tmdate import get_datetime_today, get_timedelta, get_calendar_name
+from jurialmunkey.ftools import cached_property
+from tmdbhelper.lib.addon.tmdate import get_datetime_today, get_timedelta, get_calendar_name, datetime_in_range
 from tmdbhelper.lib.items.directories.trakt.lists_standard import ListTraktStandardProperties
 from tmdbhelper.lib.items.directories.trakt.lists_filtered import ListTraktFiltered
 from tmdbhelper.lib.items.directories.trakt.mapper_calendar import (
@@ -13,6 +13,132 @@ from tmdbhelper.lib.items.directories.mdblist.lists_local import (
     UncachedMDbListLocalData,
 )
 from tmdbhelper.lib.items.directories.lists_default import ItemCache
+
+
+class CalendarItemCollect:
+
+    def __init__(self):
+        self.items = []
+
+    def append(self, item):
+        self.items.append(item)
+
+    @staticmethod
+    def get_formatted_label(item):
+        return f"{item['infolabels']['season']}x{item['infolabels']['episode']:02}"
+
+    @cached_property
+    def tmdb_id(self):
+        return self.items[0]['unique_ids']['tvshow.tmdb']
+
+    @cached_property
+    def stacked_count(self):
+        return f'{len(self.items)}'
+
+    @cached_property
+    def stacked_episodes(self):
+        return ', '.join(self.stacked_episodes_list)
+
+    @cached_property
+    def stacked_episodes_list(self):
+        return [
+            self.get_formatted_label(i)
+            for i in self.items
+        ]
+
+    @cached_property
+    def stacked_episodes_with_titles_list(self):
+        return [
+            f'{self.get_formatted_label(i)} - {i["label"]}'
+            for i in self.items
+        ]
+
+    @cached_property
+    def infoproperties(self):
+        return {
+            'stacked_count': self.stacked_count,
+            'stacked_episodes': self.stacked_episodes,
+            'stacked_labels': ', '.join(self.stacked_episodes_with_titles_list),
+            'stacked_titles': ', '.join([i['label'] for i in self.items]),
+            'stacked_first': self.stacked_episodes_list[0],
+            'stacked_last': self.stacked_episodes_list[-1],
+            'stacked_first_episode': self.items[0]['infolabels']['episode'],
+            'stacked_last_episode': self.items[-1]['infolabels']['episode'],
+            'stacked_first_season': self.items[0]['infolabels']['season'],
+            'stacked_last_season': self.items[-1]['infolabels']['season'],
+            'stacked_first_title': self.items[0]['label'],
+            'stacked_last_title': self.items[-1]['label'],
+            'label_affix': f"{self.stacked_episodes_list[0]} - {self.stacked_episodes_list[-1]}",
+            'label_override': self.label
+        }
+
+    @cached_property
+    def params(self):
+        return {
+            'info': 'specified_episodes',
+            'tmdb_id': self.tmdb_id,
+            'tmdb_type': 'tv',
+            'episodes': '/'.join(self.stacked_episodes_list),
+        }
+
+    @cached_property
+    def infolabels(self):
+        return {
+            'title': self.label,
+            'mediatype': 'tvshow',
+        }
+
+    @cached_property
+    def label(self):
+        return self.items[0]['infolabels']['tvshowtitle']
+
+    @cached_property
+    def item(self):
+        if not self.items:
+            return {}
+
+        if len(self.items) == 1:
+            return self.items[0]
+
+        return {
+            'params': self.params,
+            'label': self.label,
+            'infolabels': self.infolabels,
+            'infoproperties': self.infoproperties,
+            'unique_ids': self.items[0]['unique_ids'],
+        }
+
+
+class CalendarItemStacker:
+
+    prev_item_id = None
+    next_item_id = None
+
+    def __init__(self, source_items):
+        self.source_items = source_items
+
+    def get_item_id(self, item):
+        try:
+            item_id = (
+                item['unique_ids']['tvshow.slug'],
+                item['infolabels']['premiered'],
+            )
+            return f'{item_id}'
+        except (KeyError, TypeError):
+            return
+
+    @cached_property
+    def items(self):
+        items = []
+
+        for i in self.source_items:
+
+            if not items or self.get_item_id(items[-1].items[0]) != self.get_item_id(i):
+                items.append(CalendarItemCollect())
+
+            items[-1].append(i)
+
+        return [i.item for i in items]
 
 
 class ListTraktMyAiring(ListTraktFiltered):
@@ -107,7 +233,15 @@ class ListTraktCalendarProperties(ListTraktStandardProperties):
         """
         Reverse items if starting in the past so that most recent are first
         """
+        from tmdbhelper.lib.addon.plugin import get_setting
+        return self.get_stacked_items() if get_setting('calendar_flatten') else self.get_unstacked_items()
+
+    def get_unstacked_items(self):
         return self.filtered_items[::-1] if self.trakt_date < -1 else self.filtered_items
+
+    def get_stacked_items(self):
+        sorted_items = CalendarItemStacker(self.filtered_items).items
+        return sorted_items[::-1] if self.trakt_date < -1 else sorted_items
 
     @cached_property
     def api_response_json(self):
@@ -123,13 +257,22 @@ class ListTraktCalendarProperties(ListTraktStandardProperties):
             return
         return UncachedMDbListLocalData(self.api_response_json, self.page, self.limit).data
 
+    def get_mapped_item_air_date_check(self, item_mapper):
+        if not item_mapper.air_date:
+            return
+        if not datetime_in_range(item_mapper.air_date, days=self.trakt_days, start_date=self.trakt_date):
+            return
+        return item_mapper.item
+
     def get_mapped_item(self, item, add_infoproperties=None):
-        return FactoryCalendarEpisodeItemMapper(item, add_infoproperties).item
+        item_mapper = FactoryCalendarEpisodeItemMapper(item, add_infoproperties)
+        return self.get_mapped_item_air_date_check(item_mapper)
 
 
 class ListTraktCalendarMovieProperties(ListTraktCalendarProperties):
     def get_mapped_item(self, item, add_infoproperties=None):
-        return FactoryCalendarMovieItemMapper(item, add_infoproperties).item
+        item_mapper = FactoryCalendarMovieItemMapper(item, add_infoproperties)
+        return self.get_mapped_item_air_date_check(item_mapper)
 
 
 class ListLocalCalendarProperties(ListTraktCalendarProperties):

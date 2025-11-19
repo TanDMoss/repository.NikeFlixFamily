@@ -1,4 +1,4 @@
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 from tmdbhelper.lib.items.database.baseview_factories.concrete_classes.baseclass import BaseList
 from tmdbhelper.lib.query.database.database import FindQueriesDatabase
 from tmdbhelper.lib.addon.thread import ParallelThread
@@ -73,7 +73,7 @@ class RatingsDict(BaseList):
 
     @cached_property
     def trakt_ratings(self):
-        if not self.common_apis.trakt_api or not self.common_apis.trakt_api.authorization or not self.imdb_id:
+        if not self.common_apis.trakt_api or not self.common_apis.trakt_api.authenticator.is_authorized or not self.imdb_id:
             return {}
         data = self.common_apis.trakt_api.get_response_json(f'{self.trakt_type}s/{self.imdb_id}/ratings')
         if not data:

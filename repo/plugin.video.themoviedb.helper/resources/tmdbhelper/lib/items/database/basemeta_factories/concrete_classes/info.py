@@ -1,5 +1,5 @@
 from tmdbhelper.lib.items.database.basemeta_factories.concrete_classes.baseclass import ItemDetailsList
-from tmdbhelper.lib.files.ftools import cached_property
+from jurialmunkey.ftools import cached_property
 from tmdbhelper.lib.items.database.tabledef import (
     MOVIE_COLUMNS,
     TVSHOW_COLUMNS,
@@ -19,6 +19,7 @@ from tmdbhelper.lib.items.database.tabledef import (
     PROVIDER_COLUMNS,
     SERVICE_COLUMNS,
     UNIQUE_ID_COLUMNS,
+    TRANSLATION_COLUMNS,
 )
 
 
@@ -73,6 +74,16 @@ class Video(ItemDetailsList):
         return (self.parent_id, 'Trailer', self.common_apis.tmdb_api.iso_language)
 
 
+class Translation(ItemDetailsList):
+    table = 'translation'
+    keys = tuple(TRANSLATION_COLUMNS.keys())
+    conflict_constraint = 'iso_country, iso_language, parent_id'
+
+    @property
+    def values(self):  # WHERE conditions values for ?
+        return (self.item_id, )
+
+
 class Country(ItemDetailsList):
     table = 'country'
     keys = tuple(COUNTRY_COLUMNS.keys())
@@ -93,6 +104,10 @@ class UniqueId(ItemDetailsList):
     @property
     def values(self):  # WHERE conditions values for ?
         return (self.item_id, )
+
+
+class IMDbNumber(UniqueId):
+    conditions = 'parent_id=? AND key="imdb"'  # WHERE conditions
 
 
 class Custom(UniqueId):
@@ -159,7 +174,7 @@ class Broadcaster(Company):
 
 class Base(ItemDetailsList):
     table = 'baseitem'
-    keys = ('id', 'mediatype', 'expiry')
+    keys = ('id', 'mediatype', 'expiry', 'language')
 
 
 class Belongs(ItemDetailsList):
