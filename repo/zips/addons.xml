@@ -1347,7 +1347,7 @@
 			    <icon>icon.png</icon>
 			</assets>
         </extension>
-    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.1.4" provider-name="TanDMoss">
+    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.1.5" provider-name="TanDMoss">
     <extension point="xbmc.addon.repository" name="NikeFlix Family repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml</info>
