@@ -221,7 +221,7 @@ class Backup:
             zipname = os.path.join(CONFIG.MYBUILDS, '{0}.zip'.format(name))
             for_progress = 0
             ITEM = []
-            exclude_dirs = CONFIG.EXCLUDE_DIRS
+            exclude_dirs = list(CONFIG.EXCLUDE_DIRS)
 
             if not self.dialog.yesno(CONFIG.ADDONTITLE, "[COLOR {0}]Do you want to include your addon_data folder?".format(CONFIG.COLOR2) + '\n' + "This contains [COLOR {0}]ALL[/COLOR] add-on settings including passwords but may also contain important information such as skin shortcuts. We recommend [COLOR {0}]MANUALLY[/COLOR] removing the addon_data folders that aren\'t required.".format(CONFIG.COLOR1, CONFIG.COLOR1) + '\n' + "[COLOR {0}]{1}[/COLOR] addon_data is ignored[/COLOR]".format(CONFIG.COLOR1, CONFIG.ADDON_ID), yeslabel='[B][COLOR springgreen]Include data[/COLOR][/B]',nolabel='[B][COLOR red]Don\'t Include[/COLOR][/B]'):
                 exclude_dirs.append('addon_data')

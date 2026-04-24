@@ -29,6 +29,28 @@ import shutil
 
 from resources.libs.common.config import CONFIG
 
+
+def _relative_parts(path, base):
+    try:
+        rel = os.path.relpath(os.path.abspath(path), os.path.abspath(base))
+    except ValueError:
+        return []
+
+    if rel in ('', '.'):
+        return []
+
+    rel = rel.replace('\\', '/')
+    if rel == '..' or rel.startswith('../'):
+        return []
+
+    return [part for part in rel.split('/') if part not in ('', '.')]
+
+
+def _is_profile_path(path):
+    parts = _relative_parts(path, CONFIG.USERDATA)
+    return len(parts) > 0 and parts[0] == 'profiles'
+
+
 ###########################
 #      Fresh Install      #
 ###########################
@@ -57,8 +79,10 @@ def wipe():
         loginit.auto_update('all')
         CONFIG.set_setting('loginnextsave', str(tools.get_date(days=3, formatted=True)))
 
-    exclude_dirs = CONFIG.EXCLUDES
+    exclude_dirs = list(CONFIG.EXCLUDES)
     exclude_dirs.append('My_Builds')
+    if CONFIG.KEEPPROFILES == 'true' and 'profiles' not in exclude_dirs:
+        exclude_dirs.append('profiles')
     
     progress_dialog = xbmcgui.DialogProgress()
     
@@ -121,6 +145,8 @@ def wipe():
                 logging.log("Keep playercorefactory.xml: {0}".format(os.path.join(root, name)))
             elif name == 'guisettings.xml' and fold[-1] == 'userdata' and CONFIG.KEEPGUISETTINGS == 'true':
                 logging.log("Keep guisettings.xml: {0}".format(os.path.join(root, name)))
+            elif name == 'guisettings.xml' and CONFIG.KEEPGUISETTINGS == 'true' and _is_profile_path(root):
+                logging.log("Keep profile guisettings.xml: {0}".format(os.path.join(root, name)))
             elif name == 'advancedsettings.xml' and fold[-1] == 'userdata' and CONFIG.KEEPADVANCED == 'true':
                 logging.log("Keep advancedsettings.xml: {0}".format(os.path.join(root, name)))
             elif name in CONFIG.LOGFILES:

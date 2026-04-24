@@ -2684,10 +2684,6 @@
             <param name="addon" value="script.module.metadatautils" />
         </include>
         <include content="SkinSettings_AddonButton">
-            <param name="id" value="31033" />
-            <param name="addon" value="script.skin.helper.skinbackup" />
-        </include>
-        <include content="SkinSettings_AddonButton">
             <param name="id" value="31002" />
             <param name="addon" value="script.skinshortcuts" />
         </include>
@@ -2736,76 +2732,10 @@
     <!-- Color Themes Tab -->
     <!-- ColorThemes Theme Settings -->
     <include name="ColorThemes_Theme_Settings">
-        <control type="label" id="15001">
-            <include>SkinSettings_Header</include>
-            <label>31463</label>
-            <textcolor>$INFO[Skin.String(GeneralTextColor)]</textcolor>
-        </control>
-        <control type="textbox" id="15002">
-            <description/>
-            <width>1200</width>
-            <align>left</align>
-            <label>31464</label>
-            <height>auto</height>
-            <font>Reg26</font>
-        </control>
-        <control type="label" id="15003">
-            <height>10</height>
-        </control>
-        <control type="button" id="15004">
-            <description>Select Theme</description>
-            <label>31800</label>
-            <include>SkinSettings_Button</include>
-            <onclick>RunScript(script.skin.helper.skinbackup,action=colorthemes)</onclick>
-            <onclick condition="!System.HasAddon(script.skin.helper.skinbackup)">RunPlugin(plugin://script.skin.helper.skinbackup)</onclick>
-            <onclick>ClearProperty(startupDone,Home)</onclick>
-        </control>
-        <control type="label" id="15030">
-            <height>40</height>
-        </control>
     </include>
 
     <!-- ColorThemes Day/Night Settings -->
     <include name="ColorThemes_DayNight_Settings">
-        <control type="label" id="15031">
-            <include>SkinSettings_Header</include>
-            <label>31589</label>
-            <textcolor>$INFO[Skin.String(GeneralTextColor)]</textcolor>
-        </control>
-        <control type="textbox" id="15032">
-            <description/>
-            <width>1200</width>
-            <align>left</align>
-            <label>31590</label>
-            <height>auto</height>
-            <font>Reg26</font>
-        </control>
-        <control type="label" id="125003">
-            <height>40</height>
-        </control>
-        <control type="radiobutton" id="15033">
-            <include>SkinSettings_Button</include>
-            <label>31589</label>
-            <onclick condition="System.HasAddon(script.skin.helper.skinbackup)">Skin.ToggleSetting(SkinHelper.EnableDayNightThemes)</onclick>
-            <onclick condition="!System.HasAddon(script.skin.helper.skinbackup)">RunPlugin(plugin://script.skin.helper.skinbackup)</onclick>
-            <selected>Skin.HasSetting(SkinHelper.EnableDayNightThemes)</selected>
-        </control>
-        <control type="button" id="15034">
-            <include>SkinSettings_Button</include>
-            <description>Select Theme for day</description>
-            <label>$LOCALIZE[31591]: $INFO[Skin.String(SkinHelper.ColorTheme.Day.label)]</label>
-            <onclick>RunScript(script.skin.helper.skinbackup,action=daynighttheme,daynight=day)</onclick>
-            <onclick condition="!System.HasAddon(script.skin.helper.skinbackup)">RunPlugin(plugin://script.skin.helper.skinbackup)</onclick>
-            <visible>Skin.HasSetting(SkinHelper.EnableDayNightThemes)</visible>
-        </control>
-        <control type="button" id="15035">
-            <include>SkinSettings_Button</include>
-            <description>Select Theme for night</description>
-            <label>$LOCALIZE[31592]: $INFO[Skin.String(SkinHelper.ColorTheme.Night.label)]</label>
-            <onclick>RunScript(script.skin.helper.skinbackup,action=daynighttheme,daynight=night)</onclick>
-            <onclick condition="!System.HasAddon(script.skin.helper.skinbackup)">RunPlugin(plugin://script.skin.helper.skinbackup)</onclick>
-            <visible>Skin.HasSetting(SkinHelper.EnableDayNightThemes)</visible>
-        </control>
     </include>
 
     <!-- ColorThemes Pallete Settings -->
@@ -2838,42 +2768,6 @@
     <!-- Backup Tab -->
     <!-- Backup Settings -->
     <include name="Backup_Settings">
-        <!-- backup and restore -->
-        <control type="label" id="8001">
-            <include>SkinSettings_Header</include>
-            <label>31271</label>
-            <textcolor>$INFO[Skin.String(GeneralTextColor)]</textcolor>
-        </control>
-        <include content="SkinSettings_ActionButton">
-            <param name="id" value="8005" />
-            <param name="label" value="31801" />
-            <param name="action" value="RunAddon(script.skin.helper.skinbackup)" />
-            <param name="visible" value="System.HasAddon(script.skin.helper.skinbackup)" />
-        </include>
-        <include content="SkinSettings_ActionButton">
-            <param name="id" value="8002" />
-            <param name="label" value="31272" />
-            <param name="action" value="RunScript(script.skin.helper.skinbackup,action=backup)" />
-            <param name="visible" value="System.HasAddon(script.skin.helper.skinbackup)" />
-        </include>
-        <include content="SkinSettings_ActionButton">
-            <param name="id" value="8003" />
-            <param name="label" value="31273" />
-            <param name="action" value="RunScript(script.skin.helper.skinbackup,action=RESTORE)" />
-            <param name="visible" value="System.HasAddon(script.skin.helper.skinbackup)" />
-        </include>
-        <include content="SkinSettings_ActionButton">
-            <param name="id" value="8004" />
-            <param name="label" value="31274" />
-            <param name="action" value="RunScript(script.skin.helper.skinbackup,action=RESET)" />
-            <param name="visible" value="System.HasAddon(script.skin.helper.skinbackup)" />
-        </include>
-        <include content="SkinSettings_ActionButton">
-            <param name="id" value="8006" />
-            <param name="label" value="31801" />
-            <param name="action" value="RunPlugin(plugin://script.skin.helper.skinbackup)" />
-            <param name="visible" value="!System.HasAddon(script.skin.helper.skinbackup)" />
-        </include>
     </include>
 
     <!-- General Tab -->

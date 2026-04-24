@@ -31,6 +31,18 @@ from resources.libs.common import logging
 from resources.libs.common import tools
 
 
+def _zip_parts(filename):
+    return [part for part in str(filename).replace('\\', '/').split('/') if part]
+
+
+def _is_profile_zip_entry(parts):
+    return len(parts) >= 2 and parts[0] == 'userdata' and parts[1] == 'profiles'
+
+
+def _is_profile_zip_guisettings(parts):
+    return _is_profile_zip_entry(parts) and parts[-1] == 'guisettings.xml'
+
+
 def all(_in, _out, ignore=None, title=None):
     progress_dialog = xbmcgui.DialogProgress()
     progress_dialog.create(CONFIG.ADDONTITLE, "Extracting Content")
@@ -84,7 +96,8 @@ def all_with_progress(_in, _out, dp, ignore, title):
         count += 1
         prog = int(count / nFiles * 100)
         size += item.file_size
-        file = str(item.filename).split('/')
+        file = _zip_parts(item.filename)
+        filename = '/'.join(file)
         skip = False
         
         line1 = '{0} [COLOR {1}][B][Errors:{2}][/B][/COLOR]'.format(title,
@@ -100,21 +113,27 @@ def all_with_progress(_in, _out, dp, ignore, title):
                                                                                      zipsize)
         line3 = '[COLOR {0}]{1}[/COLOR]'.format(CONFIG.COLOR1, item.filename)
         
-        if item.filename == 'userdata/sources.xml' and CONFIG.KEEPSOURCES == 'true':
+        if not file:
             skip = True
-        elif item.filename == 'userdata/favourites.xml' and CONFIG.KEEPFAVS == 'true':
+        elif filename == 'userdata/sources.xml' and CONFIG.KEEPSOURCES == 'true':
             skip = True
-        elif item.filename == 'userdata/profiles.xml' and CONFIG.KEEPPROFILES == 'true':
+        elif filename == 'userdata/favourites.xml' and CONFIG.KEEPFAVS == 'true':
             skip = True
-        elif item.filename == 'userdata/guisettings.xml' and CONFIG.KEEPGUISETTINGS == 'true':
+        elif filename == 'userdata/profiles.xml' and CONFIG.KEEPPROFILES == 'true':
             skip = True
-        elif item.filename == 'userdata/playercorefactory.xml' and CONFIG.KEEPPLAYERCORE == 'true':
+        elif _is_profile_zip_entry(file) and CONFIG.KEEPPROFILES == 'true':
             skip = True
-        elif item.filename == 'userdata/advancedsettings.xml' and CONFIG.KEEPADVANCED == 'true':
+        elif filename == 'userdata/guisettings.xml' and CONFIG.KEEPGUISETTINGS == 'true':
             skip = True
-        elif file[0] == 'addons' and file[1] in excludes:
+        elif _is_profile_zip_guisettings(file) and CONFIG.KEEPGUISETTINGS == 'true':
             skip = True
-        elif file[0] == 'userdata' and file[1] == 'addon_data' and file[2] in excludes:
+        elif filename == 'userdata/playercorefactory.xml' and CONFIG.KEEPPLAYERCORE == 'true':
+            skip = True
+        elif filename == 'userdata/advancedsettings.xml' and CONFIG.KEEPADVANCED == 'true':
+            skip = True
+        elif len(file) > 1 and file[0] == 'addons' and file[1] in excludes:
+            skip = True
+        elif len(file) > 2 and file[0] == 'userdata' and file[1] == 'addon_data' and file[2] in excludes:
             skip = True
         elif file[-1] in CONFIG.LOGFILES:
             skip = True

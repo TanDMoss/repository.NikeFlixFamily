@@ -179,7 +179,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.2.1" provider-name="TanDMoss">
+</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.2.5" provider-name="TanDMoss">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" />
@@ -207,7 +207,7 @@
         </news>
         <assets>
             <icon>icon.png</icon>
-            <fanart>fanart.png</fanart>
+            <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
 </addon><addon id="plugin.program.autowidget" name="AutoWidget" version="3.7.1" provider-name="drinfernoo">
