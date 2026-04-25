@@ -19,7 +19,6 @@
 			<onclick condition="Skin.HasSetting(UseGlobalSearch) + System.HasAddon(script.globalsearch)">RunAddon(script.globalsearch)</onclick>
 			<onclick condition="Skin.HasSetting(UseGlobalSearch) + !System.HasAddon(script.globalsearch)">ReplaceWindow(home)</onclick>
 			<onclick condition="Skin.HasSetting(UseGlobalSearch) + !System.HasAddon(script.globalsearch)">RunPlugin(plugin://script.globalsearch)</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="submenuVisibility">num-137</property>
 			<property name="group">mainmenu</property>
 			<property name="hasSubmenu">False</property>
@@ -32,52 +31,69 @@
 			<thumb />
 			<property name="labelID">10000</property>
 			<property name="defaultID">10000</property>
-			<property name="widget">continuewatching</property>
+			<property name="widget">Addon</property>
 			<property name="widgetTarget">videos</property>
-			<property name="widgetType">video</property>
-			<property name="widgetPath">plugin://script.skin.helper.widgets/?action=inprogressshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</property>
-			<property name="widgetName">$LOCALIZE[31535] $VAR[ForCurrentProfileNameLabel]</property>
-			<property name="widget.1">recentshowsandmovies</property>
+			<property name="widgetType">videos</property>
+			<property name="widgetPath">plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=both&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName">Continue Watching</property>
+			<property name="widget.1">Addon</property>
 			<property name="widgetTarget.1">videos</property>
-			<property name="widgetType.1">video</property>
-			<property name="widgetPath.1">plugin://script.skin.helper.widgets/?action=recentshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</property>
-			<property name="widgetName.1">$LOCALIZE[31127]</property>
-			<property name="widget.2">plugin://script.skin.helper.widgets/?action=medialisting</property>
+			<property name="widgetType.1">movies</property>
+			<property name="widgetPath.1">plugin://plugin.video.themoviedb.helper/?info=now_playing&amp;tmdb_type=movie&amp;widget=true&amp;reload=$INFO[Window(Home).Property(TMDbHelper.Widgets.Reload)]&amp;reload=$INFO[Window(Home).Property(TMDbHelper.Widgets.Reload)]</property>
+			<property name="widgetName.1">In Theaters Now</property>
+			<property name="widget.2">Addon</property>
 			<property name="widgetTarget.2">videos</property>
-			<property name="widgetType.2">movies</property>
-			<property name="widgetPath.2">plugin://script.skin.helper.widgets/?action=random&amp;mediatype=media&amp;reload=$INFO[Window(Home).Property(widgetreload)]$INFO[Window(Home).Property(widgetreload2)]</property>
-			<property name="widgetName.2">Random Media</property>
-			<property name="widget.3">Playlist</property>
+			<property name="widgetType.2">videos</property>
+			<property name="widgetPath.2">plugin://plugin.video.themoviedb.helper/?info=random_mostplayed&amp;tmdb_type=tv&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName.2">Binge Worthy TV Shows</property>
+			<property name="widget.3">Addon</property>
 			<property name="widgetTarget.3">videos</property>
-			<property name="widgetType.3">movies</property>
-			<property name="widgetPath.3">special://skin/playlists/halloweenmovies.xsp</property>
-			<property name="widgetName.3">Halloween Movies</property>
-			<property name="widget.4">criticallyacclaimedmovies</property>
+			<property name="widgetType.3">videos</property>
+			<property name="widgetPath.3">plugin://plugin.video.themoviedb.helper/?info=trakt_mostwatched&amp;tmdb_type=movie&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName.3">Watch It Again</property>
+			<property name="widget.4">Addon</property>
 			<property name="widgetTarget.4">videos</property>
-			<property name="widgetType.4">movies</property>
-			<property name="widgetPath.4">special://skin/playlists/criticallyacclaimedmovies.xsp</property>
-			<property name="widgetName.4">$LOCALIZE[31532]</property>
-			<property name="widget.5">similarshowsandmovies</property>
+			<property name="widgetType.4">videos</property>
+			<property name="widgetPath.4">plugin://plugin.video.themoviedb.helper/?list_name=IMDB%3A+Top+Rated+Movies&amp;list_slug=imdb-top-rated-movies&amp;user_slug=justin&amp;plugin_category=IMDB%3A+Top+Rated+Movies&amp;tmdb_id=None&amp;info=trakt_userlist&amp;sort_by=random&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName.4">Top Rated Movies</property>
+			<property name="widget.5">Addon</property>
 			<property name="widgetTarget.5">videos</property>
-			<property name="widgetType.5">video</property>
-			<property name="widgetPath.5">plugin://script.skin.helper.widgets/?action=similarshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</property>
-			<property name="widgetName.5">$ADDON[script.skin.helper.widgets 32022]</property>
-			<property name="widget.6">mylist</property>
+			<property name="widgetType.5">videos</property>
+			<property name="widgetPath.5">plugin://plugin.video.themoviedb.helper/?info=random_popular&amp;tmdb_type=tv&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName.5">Todays Popular TV Shows</property>
+			<property name="widget.6">Addon</property>
 			<property name="widgetTarget.6">videos</property>
-			<property name="widgetType.6">video</property>
-			<property name="widgetPath.6">$INCLUDE[MyListWidget]</property>
-			<property name="widgetName.6">$LOCALIZE[31534]</property>
-			<property name="widget.7">forgenre</property>
+			<property name="widgetType.6">videos</property>
+			<property name="widgetPath.6">plugin://plugin.video.themoviedb.helper/?tmdb_type=both&amp;list_name=Combined+Watchlist&amp;tmdb_id=None&amp;info=trakt_watchlist&amp;sort_by=added&amp;sort_how=desc&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName.6">Your Watchlist</property>
+			<property name="widget.7">Addon</property>
 			<property name="widgetTarget.7">videos</property>
-			<property name="widgetType.7">video</property>
-			<property name="widgetPath.7">plugin://script.skin.helper.widgets/?action=forgenre&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</property>
-			<property name="widgetName.7">$LOCALIZE[515]</property>
+			<property name="widgetType.7">videos</property>
+			<property name="widgetPath.7">plugin://plugin.video.themoviedb.helper/?tmdb_type=both&amp;list_name=Combined+Favourites&amp;tmdb_id=None&amp;info=trakt_favorites&amp;sort_by=random&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</property>
+			<property name="widgetName.7">Rewatch Some Of Your Favourites</property>
 			<property name="widgetstyle.2">highlight</property>
 			<property name="widgetstyle.2.name">Enable Highlight Widget</property>
 			<property name="widgetstyle.2Name">Enable Highlight Widget</property>
-			<property name="widgetSortBy.2">random</property>
-			<property name="widgetSortBy.2.name">Random</property>
-			<property name="widgetSortBy.2Name">Random</property>
+			<property name="widgetLimit.3">$NUMBER[50]</property>
+			<property name="widgetLimit.3.name">50</property>
+			<property name="widgetLimit.3Name">50</property>
+			<property name="widgetLimit.4">$NUMBER[50]</property>
+			<property name="widgetLimit.4.name">50</property>
+			<property name="widgetLimit.4Name">50</property>
+			<property name="widgetForceRefresh">refresh</property>
+			<property name="widgetForceRefresh.6">refresh</property>
+			<property name="widgetSortBy.1.name">None</property>
+			<property name="widgetSortBy.1Name">None</property>
+			<property name="widgetSortBy.2.name">None</property>
+			<property name="widgetSortBy.2Name">None</property>
+			<property name="widgetSortBy.3.name">None</property>
+			<property name="widgetSortBy.3Name">None</property>
+			<property name="widgetSortBy.4.name">None</property>
+			<property name="widgetSortBy.4Name">None</property>
+			<property name="widgetSortBy.5.name">None</property>
+			<property name="widgetSortBy.5Name">None</property>
+			<property name="widgetSortBy.6.name">None</property>
+			<property name="widgetSortBy.6Name">None</property>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsPlayingUnrecognizedContent]">PlayerControl(Stop)</onclick>
 			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">ActivateWindow(home,return)</onclick>
 			<property name="path">ActivateWindow(home,return)</property>
@@ -85,53 +101,9 @@
 			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="submenuVisibility">num-10000</property>
 			<property name="group">mainmenu</property>
 			<property name="hasSubmenu">False</property>
-		</item>
-		<item id="3">
-			<property name="id">$NUMBER[3]</property>
-			<label>$LOCALIZE[320032]</label>
-			<label2>New &amp; Popular</label2>
-			<icon>shortcuts/new.png</icon>
-			<thumb />
-			<property name="labelID">320032</property>
-			<property name="defaultID">320032</property>
-			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsPlayingUnrecognizedContent]">PlayerControl(Stop)</onclick>
-			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">ActivateWindow(1112,return)</onclick>
-			<property name="path">ActivateWindow(1112,return)</property>
-			<property name="list">1112</property>
-			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
-			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
-			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
-			<property name="submenuVisibility">num-320032</property>
-			<property name="group">mainmenu</property>
-			<property name="hasSubmenu">False</property>
-		</item>
-		<item id="4">
-			<property name="id">$NUMBER[4]</property>
-			<label>$LOCALIZE[20343]</label>
-			<label2>TV shows</label2>
-			<icon>shortcuts/tv.png</icon>
-			<thumb />
-			<property name="labelID">tvshows</property>
-			<property name="defaultID">tvshows</property>
-			<property name="background">$INFO[Window(Home).Property(SkinHelper.AllTvShowsBackground)]</property>
-			<property name="backgroundName">$ADDON[script.skin.helper.service 32043]</property>
-			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsPlayingUnrecognizedContent]">PlayerControl(Stop)</onclick>
-			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">ActivateWindow(1110,return)</onclick>
-			<property name="path">ActivateWindow(1110,return)</property>
-			<property name="list">1110</property>
-			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
-			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
-			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
-			<onclick condition="!String.IsEqual(Skin.String(HomeLayout),bingie)">ReplaceWindow(Videos,videodb://tvshows/titles/)</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
-			<property name="submenuVisibility">tvshows</property>
-			<property name="group">mainmenu</property>
-			<property name="hasSubmenu">True</property>
 		</item>
 		<item id="5">
 			<property name="id">$NUMBER[5]</property>
@@ -151,8 +123,29 @@
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
 			<onclick condition="!String.IsEqual(Skin.String(HomeLayout),bingie)">ReplaceWindow(Videos,videodb://movies/titles/)</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="submenuVisibility">movies</property>
+			<property name="group">mainmenu</property>
+			<property name="hasSubmenu">True</property>
+		</item>
+		<item id="4">
+			<property name="id">$NUMBER[4]</property>
+			<label>$LOCALIZE[20343]</label>
+			<label2>TV shows</label2>
+			<icon>shortcuts/tv.png</icon>
+			<thumb />
+			<property name="labelID">tvshows</property>
+			<property name="defaultID">tvshows</property>
+			<property name="background">$INFO[Window(Home).Property(SkinHelper.AllTvShowsBackground)]</property>
+			<property name="backgroundName">$ADDON[script.skin.helper.service 32043]</property>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsPlayingUnrecognizedContent]">PlayerControl(Stop)</onclick>
+			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">ActivateWindow(1110,return)</onclick>
+			<property name="path">ActivateWindow(1110,return)</property>
+			<property name="list">1110</property>
+			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
+			<onclick condition="!String.IsEqual(Skin.String(HomeLayout),bingie)">ReplaceWindow(Videos,videodb://tvshows/titles/)</onclick>
+			<property name="submenuVisibility">tvshows</property>
 			<property name="group">mainmenu</property>
 			<property name="hasSubmenu">True</property>
 		</item>
@@ -171,7 +164,6 @@
 			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="submenuVisibility">num-31025</property>
 			<property name="group">mainmenu</property>
 			<property name="hasSubmenu">False</property>
@@ -191,8 +183,45 @@
 			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
 			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="submenuVisibility">num-31534</property>
+			<property name="group">mainmenu</property>
+			<property name="hasSubmenu">False</property>
+		</item>
+		<item id="3">
+			<property name="id">$NUMBER[3]</property>
+			<label>Sports &amp; Live Events</label>
+			<label2>Live TV</label2>
+			<icon>shortcuts/new.png</icon>
+			<thumb>special://home/addons/resource.images.skinicons.wide/resources/countries.png</thumb>
+			<property name="labelID">sports-liveevents</property>
+			<property name="defaultID">sports-liveevents</property>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsPlayingUnrecognizedContent]">PlayerControl(Stop)</onclick>
+			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">ActivateWindow(1112,return)</onclick>
+			<property name="path">ActivateWindow(1112,return)</property>
+			<property name="list">1112</property>
+			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
+			<property name="submenuVisibility">sports-liveevents</property>
+			<property name="group">mainmenu</property>
+			<property name="hasSubmenu">False</property>
+		</item>
+		<item id="8">
+			<property name="id">$NUMBER[8]</property>
+			<label>PVR Hub</label>
+			<label2>Live TV</label2>
+			<icon>special://home/addons/resource.images.skinicons.wide/resources/player_2.png</icon>
+			<thumb>special://home/addons/resource.images.skinicons.wide/resources/player_2.png</thumb>
+			<property name="labelID">31069</property>
+			<property name="defaultID">31069</property>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsPlayingUnrecognizedContent]">PlayerControl(Stop)</onclick>
+			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">ActivateWindow(1116,return)</onclick>
+			<property name="path">ActivateWindow(1116,return)</property>
+			<property name="list">1116</property>
+			<onclick condition="[String.IsEmpty(Container(4445).NumItems) | Integer.IsEqual(Container(4445).NumItems,0)] | String.IsEqual(Skin.String(HomeLayout),bingie)">SetProperty(flushWidgetProps,1,Home)</onclick>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">ClearProperty(ShowViewSubMenu,Home)</onclick>
+			<onclick condition="String.IsEqual(Skin.String(HomeLayout),bingie) + $EXP[IsKnownMenuEntryPath]">SetFocus($VAR[MenuEntryOverrideFocus])</onclick>
+			<property name="submenuVisibility">num-31069</property>
 			<property name="group">mainmenu</property>
 			<property name="hasSubmenu">False</property>
 		</item>
@@ -212,7 +241,6 @@
 			<onclick>ActivateWindow(Videos,videodb://tvshows/titles/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://tvshows/titles/,return)</property>
 			<property name="list">videodb://tvshows/titles/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -228,7 +256,7 @@
 			<onclick>ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250,return)</onclick>
 			<property name="path">ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250,return)</property>
 			<property name="list">plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -244,7 +272,7 @@
 			<onclick>ActivateWindow(Videos,videodb://recentlyaddedepisodes/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://recentlyaddedepisodes/,return)</property>
 			<property name="list">videodb://recentlyaddedepisodes/</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -260,7 +288,7 @@
 			<onclick>ActivateWindow(Videos,videodb://inprogresstvshows,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://inprogresstvshows,return)</property>
 			<property name="list">videodb://inprogresstvshows</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -277,7 +305,6 @@
 			<onclick>ActivateWindow(Videos,videodb://tvshows/genres/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://tvshows/genres/,return)</property>
 			<property name="list">videodb://tvshows/genres/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -293,7 +320,7 @@
 			<onclick>ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250,return)</onclick>
 			<property name="path">ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250,return)</property>
 			<property name="list">plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -309,7 +336,7 @@
 			<onclick>ActivateWindow(1106,return)</onclick>
 			<property name="path">ActivateWindow(1106,return)</property>
 			<property name="list">1106</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -326,7 +353,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/titles/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/titles/,return)</property>
 			<property name="list">videodb://movies/titles/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -342,7 +368,7 @@
 			<onclick>ActivateWindow(Videos,videodb://recentlyaddedmovies/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://recentlyaddedmovies/,return)</property>
 			<property name="list">videodb://recentlyaddedmovies/</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -358,7 +384,7 @@
 			<onclick>ActivateWindow(Videos,special://skin/extras/widgetplaylists/inprogressmovies.xsp,return)</onclick>
 			<property name="path">ActivateWindow(Videos,special://skin/extras/widgetplaylists/inprogressmovies.xsp,return)</property>
 			<property name="list">special://skin/extras/widgetplaylists/inprogressmovies.xsp</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -374,7 +400,7 @@
 			<onclick>ActivateWindow(Videos,special://skin/extras/widgetplaylists/unwatchedmovies.xsp,return)</onclick>
 			<property name="path">ActivateWindow(Videos,special://skin/extras/widgetplaylists/unwatchedmovies.xsp,return)</property>
 			<property name="list">special://skin/extras/widgetplaylists/unwatchedmovies.xsp</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -391,7 +417,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/genres/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/genres/,return)</property>
 			<property name="list">videodb://movies/genres/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -408,7 +433,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/sets/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/sets/,return)</property>
 			<property name="list">videodb://movies/sets/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -424,7 +448,7 @@
 			<onclick>ActivateWindow(1108,return)</onclick>
 			<property name="path">ActivateWindow(1108,return)</property>
 			<property name="list">1108</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -441,7 +465,7 @@
 			<onclick>ActivateWindow(Settings)</onclick>
 			<property name="path">ActivateWindow(Settings)</property>
 			<property name="list">Settings</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -458,7 +482,7 @@
 			<onclick>ReloadSkin()</onclick>
 			<property name="path">ReloadSkin()</property>
 			<property name="list">ReloadSkin()</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -476,7 +500,6 @@
 			<onclick>Quit()</onclick>
 			<property name="path">Quit()</property>
 			<property name="list">Quit()</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -493,7 +516,7 @@
 			<onclick>Reboot</onclick>
 			<property name="path">Reboot</property>
 			<property name="list">Reboot</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -507,10 +530,10 @@
 			<property name="labelID">320031</property>
 			<property name="defaultID">13016</property>
 			<onclick condition="Window.IsActive(DialogButtonMenu.xml)">Close</onclick>
-			<onclick>ShutDown</onclick>
-			<property name="path">ShutDown</property>
-			<property name="list">ShutDown</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
+			<onclick>Quit()</onclick>
+			<property name="path">Quit()</property>
+			<property name="list">Quit()</property>
+			<visible>String.IsEqual(Container(900).ListItem.Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -528,7 +551,6 @@
 			<onclick>System.LogOff</onclick>
 			<property name="path">System.LogOff</property>
 			<property name="list">System.LogOff</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -565,7 +587,6 @@
 			<onclick>ActivateWindow(Videos,videodb://tvshows/titles/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://tvshows/titles/,return)</property>
 			<property name="list">videodb://tvshows/titles/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -581,7 +602,6 @@
 			<onclick>ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250,return)</onclick>
 			<property name="path">ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250,return)</property>
 			<property name="list">plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -597,7 +617,6 @@
 			<onclick>ActivateWindow(Videos,videodb://recentlyaddedepisodes/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://recentlyaddedepisodes/,return)</property>
 			<property name="list">videodb://recentlyaddedepisodes/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -613,7 +632,6 @@
 			<onclick>ActivateWindow(Videos,videodb://inprogresstvshows,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://inprogresstvshows,return)</property>
 			<property name="list">videodb://inprogresstvshows</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -630,7 +648,6 @@
 			<onclick>ActivateWindow(Videos,videodb://tvshows/genres/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://tvshows/genres/,return)</property>
 			<property name="list">videodb://tvshows/genres/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -646,7 +663,6 @@
 			<onclick>ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250,return)</onclick>
 			<property name="path">ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250,return)</property>
 			<property name="list">plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -662,7 +678,6 @@
 			<onclick>ActivateWindow(1106,return)</onclick>
 			<property name="path">ActivateWindow(1106,return)</property>
 			<property name="list">1106</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -681,7 +696,6 @@
 			<onclick>ActivateWindow(Videos,videodb://tvshows/titles/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://tvshows/titles/,return)</property>
 			<property name="list">videodb://tvshows/titles/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -697,7 +711,7 @@
 			<onclick>ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250,return)</onclick>
 			<property name="path">ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250,return)</property>
 			<property name="list">plugin://script.skin.helper.widgets/?action=recent&amp;mediatype=tvshows&amp;limit=250</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -713,7 +727,7 @@
 			<onclick>ActivateWindow(Videos,videodb://recentlyaddedepisodes/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://recentlyaddedepisodes/,return)</property>
 			<property name="list">videodb://recentlyaddedepisodes/</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -729,7 +743,7 @@
 			<onclick>ActivateWindow(Videos,videodb://inprogresstvshows,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://inprogresstvshows,return)</property>
 			<property name="list">videodb://inprogresstvshows</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -746,7 +760,6 @@
 			<onclick>ActivateWindow(Videos,videodb://tvshows/genres/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://tvshows/genres/,return)</property>
 			<property name="list">videodb://tvshows/genres/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -762,7 +775,7 @@
 			<onclick>ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250,return)</onclick>
 			<property name="path">ActivateWindow(Videos,plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250,return)</property>
 			<property name="list">plugin://script.skin.helper.widgets/?action=nextaired&amp;mediatype=episodes&amp;limit=250</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -778,7 +791,7 @@
 			<onclick>ActivateWindow(1106,return)</onclick>
 			<property name="path">ActivateWindow(1106,return)</property>
 			<property name="list">1106</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),tvshows)</visible>
 			<property name="group">tvshows</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -797,7 +810,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/titles/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/titles/,return)</property>
 			<property name="list">videodb://movies/titles/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -813,7 +825,6 @@
 			<onclick>ActivateWindow(Videos,videodb://recentlyaddedmovies/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://recentlyaddedmovies/,return)</property>
 			<property name="list">videodb://recentlyaddedmovies/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -829,7 +840,6 @@
 			<onclick>ActivateWindow(Videos,special://skin/extras/widgetplaylists/inprogressmovies.xsp,return)</onclick>
 			<property name="path">ActivateWindow(Videos,special://skin/extras/widgetplaylists/inprogressmovies.xsp,return)</property>
 			<property name="list">special://skin/extras/widgetplaylists/inprogressmovies.xsp</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -845,7 +855,6 @@
 			<onclick>ActivateWindow(Videos,special://skin/extras/widgetplaylists/unwatchedmovies.xsp,return)</onclick>
 			<property name="path">ActivateWindow(Videos,special://skin/extras/widgetplaylists/unwatchedmovies.xsp,return)</property>
 			<property name="list">special://skin/extras/widgetplaylists/unwatchedmovies.xsp</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -862,7 +871,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/genres/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/genres/,return)</property>
 			<property name="list">videodb://movies/genres/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -879,7 +887,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/sets/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/sets/,return)</property>
 			<property name="list">videodb://movies/sets/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -895,7 +902,6 @@
 			<onclick>ActivateWindow(1108,return)</onclick>
 			<property name="path">ActivateWindow(1108,return)</property>
 			<property name="list">1108</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -914,7 +920,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/titles/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/titles/,return)</property>
 			<property name="list">videodb://movies/titles/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -930,7 +935,7 @@
 			<onclick>ActivateWindow(Videos,videodb://recentlyaddedmovies/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://recentlyaddedmovies/,return)</property>
 			<property name="list">videodb://recentlyaddedmovies/</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -946,7 +951,7 @@
 			<onclick>ActivateWindow(Videos,special://skin/extras/widgetplaylists/inprogressmovies.xsp,return)</onclick>
 			<property name="path">ActivateWindow(Videos,special://skin/extras/widgetplaylists/inprogressmovies.xsp,return)</property>
 			<property name="list">special://skin/extras/widgetplaylists/inprogressmovies.xsp</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -962,7 +967,7 @@
 			<onclick>ActivateWindow(Videos,special://skin/extras/widgetplaylists/unwatchedmovies.xsp,return)</onclick>
 			<property name="path">ActivateWindow(Videos,special://skin/extras/widgetplaylists/unwatchedmovies.xsp,return)</property>
 			<property name="list">special://skin/extras/widgetplaylists/unwatchedmovies.xsp</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -979,7 +984,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/genres/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/genres/,return)</property>
 			<property name="list">videodb://movies/genres/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -996,7 +1000,6 @@
 			<onclick>ActivateWindow(Videos,videodb://movies/sets/,return)</onclick>
 			<property name="path">ActivateWindow(Videos,videodb://movies/sets/,return)</property>
 			<property name="list">videodb://movies/sets/</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1012,7 +1015,7 @@
 			<onclick>ActivateWindow(1108,return)</onclick>
 			<property name="path">ActivateWindow(1108,return)</property>
 			<property name="list">1108</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),movies)</visible>
 			<property name="group">movies</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1043,7 +1046,6 @@
 			<onclick>ActivateWindow(Settings)</onclick>
 			<property name="path">ActivateWindow(Settings)</property>
 			<property name="list">Settings</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1060,7 +1062,6 @@
 			<onclick>ReloadSkin()</onclick>
 			<property name="path">ReloadSkin()</property>
 			<property name="list">ReloadSkin()</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1078,7 +1079,6 @@
 			<onclick>Quit()</onclick>
 			<property name="path">Quit()</property>
 			<property name="list">Quit()</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1095,7 +1095,6 @@
 			<onclick>Reboot</onclick>
 			<property name="path">Reboot</property>
 			<property name="list">Reboot</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1109,10 +1108,9 @@
 			<property name="labelID">320031</property>
 			<property name="defaultID">13016</property>
 			<onclick condition="Window.IsActive(DialogButtonMenu.xml)">Close</onclick>
-			<onclick>ShutDown</onclick>
-			<property name="path">ShutDown</property>
-			<property name="list">ShutDown</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
+			<onclick>Quit()</onclick>
+			<property name="path">Quit()</property>
+			<property name="list">Quit()</property>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1130,7 +1128,6 @@
 			<onclick>System.LogOff</onclick>
 			<property name="path">System.LogOff</property>
 			<property name="list">System.LogOff</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1149,7 +1146,7 @@
 			<onclick>ActivateWindow(Settings)</onclick>
 			<property name="path">ActivateWindow(Settings)</property>
 			<property name="list">Settings</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1166,7 +1163,7 @@
 			<onclick>ReloadSkin()</onclick>
 			<property name="path">ReloadSkin()</property>
 			<property name="list">ReloadSkin()</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1184,7 +1181,6 @@
 			<onclick>Quit()</onclick>
 			<property name="path">Quit()</property>
 			<property name="list">Quit()</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1201,7 +1197,7 @@
 			<onclick>Reboot</onclick>
 			<property name="path">Reboot</property>
 			<property name="list">Reboot</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1215,10 +1211,10 @@
 			<property name="labelID">320031</property>
 			<property name="defaultID">13016</property>
 			<onclick condition="Window.IsActive(DialogButtonMenu.xml)">Close</onclick>
-			<onclick>ShutDown</onclick>
-			<property name="path">ShutDown</property>
-			<property name="list">ShutDown</property>
-			<visible>[String.IsEqual(System.ProfileName,Master user)] + String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
+			<onclick>Quit()</onclick>
+			<property name="path">Quit()</property>
+			<property name="list">Quit()</property>
+			<visible>String.IsEqual(Window(10000).Property(submenuVisibility),powermenu)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
@@ -1236,29 +1232,28 @@
 			<onclick>System.LogOff</onclick>
 			<property name="path">System.LogOff</property>
 			<property name="list">System.LogOff</property>
-			<visible>String.IsEqual(System.ProfileName,Master user)</visible>
 			<property name="group">powermenu</property>
 			<property name="isSubmenu">True</property>
 		</item>
 	</include>
 	<include name="skinshortcuts-template-Widgets">
-		<include condition="String.IsEqual(System.ProfileName,Master user)">skinshortcuts-template-Widgets-Master user</include>
+		<include>skinshortcuts-template-Widgets-Master user</include>
 	</include>
 	<include name="skinshortcuts-template-Widgets-Master user">
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2510" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="$LOCALIZE[31535] $VAR[ForCurrentProfileNameLabel]" />
+			<param name="widgetName" value="Continue Watching" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2510" />
-			<param name="widgetName" value="$LOCALIZE[31535] $VAR[ForCurrentProfileNameLabel]" />
+			<param name="widgetName" value="Continue Watching" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="plugin://script.skin.helper.widgets/?action=inprogressshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=both&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
@@ -1269,17 +1264,17 @@
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2520" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="$LOCALIZE[31127]" />
+			<param name="widgetName" value="In Theaters Now" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2520" />
-			<param name="widgetName" value="$LOCALIZE[31127]" />
+			<param name="widgetName" value="In Theaters Now" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="plugin://script.skin.helper.widgets/?action=recentshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?info=now_playing&amp;tmdb_type=movie&amp;widget=true&amp;reload=$INFO[Window(Home).Property(TMDbHelper.Widgets.Reload)]&amp;reload=$INFO[Window(Home).Property(TMDbHelper.Widgets.Reload)]" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
@@ -1290,19 +1285,19 @@
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2530" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="Random Media" />
+			<param name="widgetName" value="Binge Worthy TV Shows" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2530" />
-			<param name="widgetName" value="Random Media" />
+			<param name="widgetName" value="Binge Worthy TV Shows" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="plugin://script.skin.helper.widgets/?action=random&amp;mediatype=media&amp;reload=$INFO[Window(Home).Property(widgetreload)]$INFO[Window(Home).Property(widgetreload2)]" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?info=random_mostplayed&amp;tmdb_type=tv&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_highlight" />
-			<param name="widgetSortBy" value="random" />
+			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
 			<param name="widgetLimit" value="$INFO[Skin.String(WidgetsGlobalLimit)]" />
 			<param name="widgetInfoPanel" value="top" />
@@ -1311,59 +1306,59 @@
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2540" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="Halloween Movies" />
+			<param name="widgetName" value="Watch It Again" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2540" />
-			<param name="widgetName" value="Halloween Movies" />
+			<param name="widgetName" value="Watch It Again" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="special://skin/playlists/halloweenmovies.xsp" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?info=trakt_mostwatched&amp;tmdb_type=movie&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
-			<param name="widgetLimit" value="$INFO[Skin.String(WidgetsGlobalLimit)]" />
+			<param name="widgetLimit" value="$NUMBER[50]" />
 			<param name="widgetInfoPanel" value="top" />
 			<param name="visibility" value="[true + String.IsEqual(Skin.String(HomeLayout),bingie)] | [![true + String.IsEqual(Skin.String(HomeLayout),bingie)] + Skin.String(widgetvalue-num-10000,3)]" />
 		</include>
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2550" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="$LOCALIZE[31532]" />
+			<param name="widgetName" value="Top Rated Movies" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2550" />
-			<param name="widgetName" value="$LOCALIZE[31532]" />
+			<param name="widgetName" value="Top Rated Movies" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="special://skin/playlists/criticallyacclaimedmovies.xsp" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?list_name=IMDB%3A+Top+Rated+Movies&amp;list_slug=imdb-top-rated-movies&amp;user_slug=justin&amp;plugin_category=IMDB%3A+Top+Rated+Movies&amp;tmdb_id=None&amp;info=trakt_userlist&amp;sort_by=random&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
-			<param name="widgetLimit" value="$INFO[Skin.String(WidgetsGlobalLimit)]" />
+			<param name="widgetLimit" value="$NUMBER[50]" />
 			<param name="widgetInfoPanel" value="top" />
 			<param name="visibility" value="[true + String.IsEqual(Skin.String(HomeLayout),bingie)] | [![true + String.IsEqual(Skin.String(HomeLayout),bingie)] + Skin.String(widgetvalue-num-10000,4)]" />
 		</include>
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2560" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="$ADDON[script.skin.helper.widgets 32022]" />
+			<param name="widgetName" value="Todays Popular TV Shows" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2560" />
-			<param name="widgetName" value="$ADDON[script.skin.helper.widgets 32022]" />
+			<param name="widgetName" value="Todays Popular TV Shows" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="plugin://script.skin.helper.widgets/?action=similarshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?info=random_popular&amp;tmdb_type=tv&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
@@ -1374,17 +1369,17 @@
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2570" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="$LOCALIZE[31534]" />
+			<param name="widgetName" value="Your Watchlist" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
-			<param name="contentStyle" value="mylist" />
+			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2570" />
-			<param name="widgetName" value="$LOCALIZE[31534]" />
+			<param name="widgetName" value="Your Watchlist" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="$INCLUDE[MyListWidget]" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?tmdb_type=both&amp;list_name=Combined+Watchlist&amp;tmdb_id=None&amp;info=trakt_watchlist&amp;sort_by=added&amp;sort_how=desc&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
@@ -1395,17 +1390,17 @@
 		<include content="widget_header_multi" condition="true + true + String.IsEqual(Skin.String(HomeLayout),bingie)">
 			<param name="widgetid" value="2580" />
 			<param name="submenuid" value="num-10000" />
-			<param name="widgetName" value="$LOCALIZE[515]" />
+			<param name="widgetName" value="Rewatch Some Of Your Favourites" />
 		</include>
 		<include content="widget_base" condition="true">
 			<param name="containerType" value="panel" />
 			<param name="contentStyle" value="normal" />
 			<param name="widgetid" value="2580" />
-			<param name="widgetName" value="$LOCALIZE[515]" />
+			<param name="widgetName" value="Rewatch Some Of Your Favourites" />
 			<param name="submenuid" value="num-10000" />
 			<param name="widgetTags" value="WidgetTagOverlayAuto" />
 			<param name="widgetTarget" value="videos" />
-			<param name="widgetPath" value="plugin://script.skin.helper.widgets/?action=forgenre&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]" />
+			<param name="widgetPath" value="plugin://plugin.video.themoviedb.helper/?tmdb_type=both&amp;list_name=Combined+Favourites&amp;tmdb_id=None&amp;info=trakt_favorites&amp;sort_by=random&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true" />
 			<param name="widgetStyle" value="widget_layout_default" />
 			<param name="widgetSortBy" value="" />
 			<param name="widgetSortOrder" value="" />
@@ -1418,7 +1413,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.isactive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>plugin://script.skin.helper.widgets/?action=inprogressshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</value>
+		<value>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=both&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2510">
 		<value condition="String.Contains(Container(2510).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2510).ListItem.label] $INFO[Container(2510).ListItem.label2]</value>
@@ -1439,7 +1434,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>plugin://script.skin.helper.widgets/?action=recentshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</value>
+		<value>plugin://plugin.video.themoviedb.helper/?info=now_playing&amp;tmdb_type=movie&amp;widget=true&amp;reload=$INFO[Window(Home).Property(TMDbHelper.Widgets.Reload)]&amp;reload=$INFO[Window(Home).Property(TMDbHelper.Widgets.Reload)]</value>
 	</variable>
 	<variable name="widgetinfolabel-2520">
 		<value condition="String.Contains(Container(2520).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2520).ListItem.label] $INFO[Container(2520).ListItem.label2]</value>
@@ -1460,7 +1455,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>plugin://script.skin.helper.widgets/?action=random&amp;mediatype=media&amp;reload=$INFO[Window(Home).Property(widgetreload)]$INFO[Window(Home).Property(widgetreload2)]</value>
+		<value>plugin://plugin.video.themoviedb.helper/?info=random_mostplayed&amp;tmdb_type=tv&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2530">
 		<value condition="String.Contains(Container(2530).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2530).ListItem.label] $INFO[Container(2530).ListItem.label2]</value>
@@ -1481,7 +1476,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>special://skin/playlists/halloweenmovies.xsp</value>
+		<value>plugin://plugin.video.themoviedb.helper/?info=trakt_mostwatched&amp;tmdb_type=movie&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2540">
 		<value condition="String.Contains(Container(2540).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2540).ListItem.label] $INFO[Container(2540).ListItem.label2]</value>
@@ -1502,7 +1497,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>special://skin/playlists/criticallyacclaimedmovies.xsp</value>
+		<value>plugin://plugin.video.themoviedb.helper/?list_name=IMDB%3A+Top+Rated+Movies&amp;list_slug=imdb-top-rated-movies&amp;user_slug=justin&amp;plugin_category=IMDB%3A+Top+Rated+Movies&amp;tmdb_id=None&amp;info=trakt_userlist&amp;sort_by=random&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2550">
 		<value condition="String.Contains(Container(2550).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2550).ListItem.label] $INFO[Container(2550).ListItem.label2]</value>
@@ -1523,7 +1518,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>plugin://script.skin.helper.widgets/?action=similarshowsandmovies&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</value>
+		<value>plugin://plugin.video.themoviedb.helper/?info=random_popular&amp;tmdb_type=tv&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2560">
 		<value condition="String.Contains(Container(2560).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2560).ListItem.label] $INFO[Container(2560).ListItem.label2]</value>
@@ -1544,7 +1539,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value />
+		<value>plugin://plugin.video.themoviedb.helper/?tmdb_type=both&amp;list_name=Combined+Watchlist&amp;tmdb_id=None&amp;info=trakt_watchlist&amp;sort_by=added&amp;sort_how=desc&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2570">
 		<value condition="String.Contains(Container(2570).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2570).ListItem.label] $INFO[Container(2570).ListItem.label2]</value>
@@ -1565,7 +1560,7 @@
 		<value condition="!String.IsEmpty(Window(Home).property(skinhelper-refreshvideowidgetsbusy))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="!String.IsEmpty(Window(Home).property(favwidgetrefresh))">special://skin/extras/emptywidget.xsp</value>
 		<value condition="Window.IsActive(fullscreenvideo)">special://skin/extras/emptywidget.xsp</value>
-		<value>plugin://script.skin.helper.widgets/?action=forgenre&amp;mediatype=media&amp;limit=25&amp;reload=$INFO[Window(Home).Property(widgetreload)]</value>
+		<value>plugin://plugin.video.themoviedb.helper/?tmdb_type=both&amp;list_name=Combined+Favourites&amp;tmdb_id=None&amp;info=trakt_favorites&amp;sort_by=random&amp;reload=%24INFO%5BWindow%28Home%29.Property%28TMDbHelper.Widgets.Reload%29%5D&amp;widget=true</value>
 	</variable>
 	<variable name="widgetinfolabel-2580">
 		<value condition="String.Contains(Container(2580).ListItem.Property(DBTYPE), systeminfo)">$INFO[Container(2580).ListItem.label] $INFO[Container(2580).ListItem.label2]</value>
@@ -1583,13 +1578,13 @@
 		<value condition="!String.IsEmpty(Container(2580).ListItem.StartTime)">$INFO[Container(2580).ListItem.ChannelName,, • ]$INFO[Container(2580).ListItem.StartTime,, - ]$INFO[Container(2580).ListItem.EndTime,, • ]$INFO[Container(2580).ListItem.Genre]</value>
 	</variable>
 	<variable name="widgetlabel-2">
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),7)">$LOCALIZE[515]</value>
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),6)">$LOCALIZE[31534]</value>
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),5)">$ADDON[script.skin.helper.widgets 32022]</value>
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),4)">$LOCALIZE[31532]</value>
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),3)">Halloween Movies</value>
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),2)">Random Media</value>
-		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),1)">$LOCALIZE[31127]</value>
-		<value>$LOCALIZE[31535] $VAR[ForCurrentProfileNameLabel]</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),7)">Rewatch Some Of Your Favourites</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),6)">Your Watchlist</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),5)">Todays Popular TV Shows</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),4)">Top Rated Movies</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),3)">Watch It Again</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),2)">Binge Worthy TV Shows</value>
+		<value condition="String.IsEqual(Skin.String(widgetvalue-num-10000),1)">In Theaters Now</value>
+		<value>Continue Watching</value>
 	</variable>
 </includes>

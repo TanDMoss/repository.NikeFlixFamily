@@ -41,6 +41,14 @@
 		<action>ShutDown</action>
 	</shortcut>
 	<shortcut>
+		<defaultID />
+		<label>Trakt Setup</label>
+		<label2>Video Add-On</label2>
+		<icon>special://home/addons/resource.images.skinicons.wide/resources/update-video.png</icon>
+		<thumb>special://home/addons/resource.images.skinicons.wide/resources/update-video.png</thumb>
+		<action>ActivateWindow(1192,return)</action>
+	</shortcut>
+	<shortcut>
 		<defaultID>20126</defaultID>
 		<label>20126</label>
 		<label2>Kodi Command</label2>

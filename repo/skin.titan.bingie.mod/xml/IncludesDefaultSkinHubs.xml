@@ -80,32 +80,37 @@
 
         <!-- NEW HUB -->
         <!-- new hub - widget 1 -->
-        <onload>Skin.SetString(bingiehub-new-510.label, [CAPITALIZE]$LOCALIZE[31127][/CAPITALIZE])</onload>
+        <onload>Skin.SetString(bingiehub-new-510.label, NBA / Basketball)</onload>
         <onload>Skin.SetString(bingiehub-new-510.target, videos)</onload>
-        <onload>Skin.SetString(bingiehub-new-510.path, plugin://script.skin.helper.widgets/?action=recentshowsandmovies&amp;mediatype=media&amp;reload=$INFO[Window(Home).Property(widgetreload)])</onload>
+        <onload>Skin.SetString(bingiehub-new-510.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=basketball&amp;page=1)</onload>
         <!-- new hub - widget 2 -->
-        <onload>Skin.SetString(bingiehub-new-520.label, [CAPITALIZE]$LOCALIZE[31563][/CAPITALIZE])</onload>
+        <onload>Skin.SetString(bingiehub-new-520.label, NHL / Hockey)</onload>
         <onload>Skin.SetString(bingiehub-new-520.target, videos)</onload>
-        <onload>Skin.SetString(bingiehub-new-520.path, plugin://script.skin.helper.widgets/?action=popular&amp;mediatype=media&amp;reload=$INFO[Window(Home).Property(widgetreload)])</onload>
-        <!-- reset -->
-        <onload>Skin.Reset(bingiehub-new-530.label)</onload>
-        <onload>Skin.Reset(bingiehub-new-530.target)</onload>
-        <onload>Skin.Reset(bingiehub-new-530.path)</onload>
-        <onload>Skin.Reset(bingiehub-new-540.label)</onload>
-        <onload>Skin.Reset(bingiehub-new-540.target)</onload>
-        <onload>Skin.Reset(bingiehub-new-540.path)</onload>
-        <onload>Skin.Reset(bingiehub-new-550.label)</onload>
-        <onload>Skin.Reset(bingiehub-new-550.target)</onload>
-        <onload>Skin.Reset(bingiehub-new-550.path)</onload>
-        <onload>Skin.Reset(bingiehub-new-560.label)</onload>
-        <onload>Skin.Reset(bingiehub-new-560.target)</onload>
-        <onload>Skin.Reset(bingiehub-new-560.path)</onload>
-        <onload>Skin.Reset(bingiehub-new-570.label)</onload>
-        <onload>Skin.Reset(bingiehub-new-570.target)</onload>
-        <onload>Skin.Reset(bingiehub-new-570.path)</onload>
-        <onload>Skin.Reset(bingiehub-new-580.label)</onload>
-        <onload>Skin.Reset(bingiehub-new-580.target)</onload>
-        <onload>Skin.Reset(bingiehub-new-580.path)</onload>
+        <onload>Skin.SetString(bingiehub-new-520.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=hockey&amp;page=1)</onload>
+        <!-- new hub - widget 3 -->
+        <onload>Skin.SetString(bingiehub-new-530.label, NFL)</onload>
+        <onload>Skin.SetString(bingiehub-new-530.target, videos)</onload>
+        <onload>Skin.SetString(bingiehub-new-530.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=nfl&amp;page=1)</onload>
+        <!-- new hub - widget 4 -->
+        <onload>Skin.SetString(bingiehub-new-540.label, CFL)</onload>
+        <onload>Skin.SetString(bingiehub-new-540.target, videos)</onload>
+        <onload>Skin.SetString(bingiehub-new-540.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=cfl&amp;page=1)</onload>
+        <!-- new hub - widget 5 -->
+        <onload>Skin.SetString(bingiehub-new-550.label, Formula 1 / F1)</onload>
+        <onload>Skin.SetString(bingiehub-new-550.target, videos)</onload>
+        <onload>Skin.SetString(bingiehub-new-550.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=formula_one&amp;page=1)</onload>
+        <!-- new hub - widget 6 -->
+        <onload>Skin.SetString(bingiehub-new-560.label, NASCAR)</onload>
+        <onload>Skin.SetString(bingiehub-new-560.target, videos)</onload>
+        <onload>Skin.SetString(bingiehub-new-560.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=nascar&amp;page=1)</onload>
+        <!-- new hub - widget 7 -->
+        <onload>Skin.SetString(bingiehub-new-570.label, WWE / AEW)</onload>
+        <onload>Skin.SetString(bingiehub-new-570.target, videos)</onload>
+        <onload>Skin.SetString(bingiehub-new-570.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=wrestling&amp;page=1)</onload>
+        <!-- new hub - widget 8 -->
+        <onload>Skin.SetString(bingiehub-new-580.label, Soccer)</onload>
+        <onload>Skin.SetString(bingiehub-new-580.target, videos)</onload>
+        <onload>Skin.SetString(bingiehub-new-580.path, plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=soccer_all&amp;page=1)</onload>
 		
 		<!-- SOMETHING HUB -->
         <!-- something hub - widget 1 -->

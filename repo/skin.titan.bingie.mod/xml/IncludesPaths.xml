@@ -252,8 +252,8 @@
     </variable>
 	
 	<variable name="Path_Similar">
-		<value condition="String.IsEqual(ListItem.DBType,movie) + Integer.IsGreater(ListItem.DBID,0) + !String.IsEmpty(ListItem.DBID)">plugin://script.skin.helper.widgets/?action=similar&mediatype=movies&imdbid=$INFO[ListItem.IMDBNumber]$VAR[Path_Param_Database]</value>
-		<value condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)] + Integer.IsGreater(ListItem.DBID,0) + !String.IsEmpty(ListItem.DBID)">plugin://script.skin.helper.widgets/?action=similar&mediatype=tvshows&imdbid=$INFO[ListItem.IMDBNumber]$VAR[Path_Param_Database]</value>
+		<value condition="String.IsEqual(ListItem.DBType,movie) + Integer.IsGreater(ListItem.DBID,0) + !String.IsEmpty(ListItem.DBID)">plugin://script.skin.helper.widgets/?action=similar&amp;mediatype=movies&amp;imdbid=$INFO[ListItem.IMDBNumber]$VAR[Path_Param_Database]</value>
+		<value condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)] + Integer.IsGreater(ListItem.DBID,0) + !String.IsEmpty(ListItem.DBID)">plugin://script.skin.helper.widgets/?action=similar&amp;mediatype=tvshows&amp;imdbid=$INFO[ListItem.IMDBNumber]$VAR[Path_Param_Database]</value>
         <value>plugin://plugin.video.themoviedb.helper?info=similar&amp;nextpage=false$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]$VAR[Path_Param_Database]$VAR[Path_Param_Digital_Release]</value>
     </variable>
 	

@@ -19,24 +19,6 @@
 		<action>ActivateWindow(home,return)</action>
 	</shortcut>
 
-	<!-- New/Popular Hub -->
-	<shortcut>
-		<label>320032</label>
-		<label2>320032</label2>
-		<icon>shortcuts/new.png</icon>
-		<thumb />
-		<action>ActivateWindow(1112,return)</action>
-	</shortcut>
-	
-	<!-- TV hub -->
-	<shortcut>
-		<label>20343</label>
-		<label2>20343</label2>
-		<icon>shortcuts/tv.png</icon>
-        <thumb />
-		<action>ActivateWindow(1110,return)</action>
-	</shortcut>
-
 	<!-- Movies hub -->
 	<shortcut>
 		<label>342</label>
@@ -44,6 +26,15 @@
 		<icon>shortcuts/clapperboard.png</icon>
 		<thumb />
 		<action>ActivateWindow(1111,return)</action>
+	</shortcut>
+
+	<!-- TV hub -->
+	<shortcut>
+		<label>20343</label>
+		<label2>20343</label2>
+		<icon>shortcuts/tv.png</icon>
+        <thumb />
+		<action>ActivateWindow(1110,return)</action>
 	</shortcut>
 	
 	<!-- Category hub -->
@@ -63,5 +54,23 @@
         <thumb />
         <action>ActivateWindow(1114,return)</action>
     </shortcut>
+
+	<!-- Live Sports Hub -->
+	<shortcut>
+		<label>320032</label>
+		<label2>320032</label2>
+		<icon>shortcuts/new.png</icon>
+		<thumb />
+		<action>ActivateWindow(1112,return)</action>
+	</shortcut>
+
+	<!-- PVR Hub -->
+	<shortcut>
+		<label>31069</label>
+		<label2>31069</label2>
+		<icon>shortcuts/antenna.png</icon>
+		<thumb />
+		<action>ActivateWindow(1116,return)</action>
+	</shortcut>
 
 </shortcuts>

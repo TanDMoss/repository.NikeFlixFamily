@@ -3147,7 +3147,7 @@
 <!-- UK icon to replace MPAA flag on Spotlight-->
     <include name="Spotlight_MPAA_Flag_Object1">
         <param name="right" default="-160" />
-        <!-- <!-- <param name="top" default="690" />                            -->
+        <!-- <param name="top" default="690" />                            -->
         <param name="visibility" default="true" />
         <definition>
             <control type="group">

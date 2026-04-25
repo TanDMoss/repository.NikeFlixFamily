@@ -13,8 +13,8 @@ ART = os.path.join(PATH, 'resources', 'media')
 #########################################################
 #        User Edit Variables                            #
 #########################################################
-ADDONTITLE = 'nikeflixwizard'
-BUILDERNAME = 'nikeflixwizard'
+ADDONTITLE = 'nikeflixfamilywizard'
+BUILDERNAME = 'nikeflixfamilywizard'
 EXCLUDES = [ADDON_ID, '']
 # Text File with build info in it.
 BUILDFILE = 'https://raw.githubusercontent.com/TanDMoss/repository.NikeFlixFamily/refs/heads/main/repo/plugin.program.nikeflixfamilywizard/resources/text/builds.txt'
@@ -63,7 +63,7 @@ SPACER = '='
 COLOR1 = 'limegreen'
 COLOR2 = 'white'
 # Primary menu items   / {0} is the menu item and is required
-THEME1 = u'[COLOR {color1}][I]([COLOR {color1}][B]nikeflixwizard[/B][/COLOR][COLOR {color2}]Wizard[COLOR {color1}])[/I][/COLOR] [COLOR {color2}]{{}}[/COLOR]'.format(color1=COLOR1, color2=COLOR2)
+THEME1 = u'[COLOR {color1}][I]([COLOR {color1}][B]nikeflixfamilywizard[/B][/COLOR][COLOR {color2}]Wizard[COLOR {color1}])[/I][/COLOR] [COLOR {color2}]{{}}[/COLOR]'.format(color1=COLOR1, color2=COLOR2)
 # Build Names          / {0} is the menu item and is required
 THEME2 = u'[COLOR {color1}]{{}}[/COLOR]'.format(color1=COLOR1)
 # Alternate items      / {0} is the menu item and is required
@@ -77,7 +77,7 @@ THEME5 = u'[COLOR {color1}]Current Theme:[/COLOR] [COLOR {color2}]{{}}[/COLOR]'.
 # Enable 'Contact' menu item 'Yes' hide or 'No' dont hide
 HIDECONTACT = 'No'
 # You can add \n to do line breaks
-CONTACT = 'Thank you for choosing nikeflixwizard.\n\nContact us at nikeflixwizard'
+CONTACT = 'Thank you for choosing nikeflixfamilywizard.\n\nContact us at nikeflixfamilywizard'
 # Images used for the contact window.  http:// for default icon and fanart
 CONTACTICON = os.path.join(ART, 'qricon.png')
 CONTACTFANART = 'http://'
@@ -96,7 +96,7 @@ AUTOUPDATE = 'Yes'
 # Enable Auto Install 'Yes' or 'No'
 AUTOINSTALL = 'No'
 # Addon ID for the repository
-REPOID = 'repository.NikeFlix'
+REPOID = 'repository.NikeFlixFamily'
 # Url to Addons.xml file in your repo folder(this is so we can get the latest version)
 REPOADDONXML = 'http:// ENTER DOMAIN URL/zips/addons.xml'
 # Url to folder zip is located in
@@ -114,7 +114,7 @@ NOTIFICATION = 'http:// ENTER DOMAIN URL FOR NOTIFY FILE/notify.txt'
 HEADERTYPE = 'Text'
 # Font size of header
 FONTHEADER = 'Font14'
-HEADERMESSAGE = '[COLOR limegreen][B]nikeflixwizard[/B][/COLOR]Wizard'
+HEADERMESSAGE = '[COLOR limegreen][B]nikeflixfamilywizard[/B][/COLOR]Wizard'
 # url to image if using Image 424x180
 HEADERIMAGE = 'http://'
 # Font for Notification Window

@@ -58,7 +58,7 @@
                 <shadowcolor>black</shadowcolor>
                 <font>Reg24</font>
                 <align>justify</align>
-                <label>CURLISTITEM --->: $INFO[Window(Home).Property(curlistitem)]</label>
+                <label>CURLISTITEM  -->: $INFO[Window(Home).Property(curlistitem)]</label>
             </control>          
             <control type="label">
                 <width>100%</width>

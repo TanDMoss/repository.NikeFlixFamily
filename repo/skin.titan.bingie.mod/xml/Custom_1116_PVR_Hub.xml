@@ -23,7 +23,7 @@
             <height>600</height>
             <include content="BingieSpotlightCornerImage">
                 <param name="visibility" value="!Player.HasVideo" />
-                <param name="image" value="$VAR[bingiePVRThumb]" />
+                <param name="image" value="special://skin/extras/media/backgrounds/pvr_hub.jpg" />
             </include>
 
             <!-- Details -->

@@ -342,6 +342,170 @@
 	<include name="mylist_left">
 		<left>131</left>
 	</include>
+    <!-- Bingie Items Live Sports Hub -->
+    <include name="bingie_items_live_sports">
+        <!-- Widget 1 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1510" />
+            <param name="widgetName" value="NBA / Basketball" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1510" />
+            <param name="widgetName" value="NBA / Basketball" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=basketball&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 2 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1520" />
+            <param name="widgetName" value="NHL / Hockey" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1520" />
+            <param name="widgetName" value="NHL / Hockey" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=hockey&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 3 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1530" />
+            <param name="widgetName" value="NFL" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1530" />
+            <param name="widgetName" value="NFL" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=nfl&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 4 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1540" />
+            <param name="widgetName" value="CFL" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1540" />
+            <param name="widgetName" value="CFL" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=cfl&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 5 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1550" />
+            <param name="widgetName" value="Soccer" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1550" />
+            <param name="widgetName" value="Soccer" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=soccer_all&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 6 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1560" />
+            <param name="widgetName" value="Formula 1 / F1" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1560" />
+            <param name="widgetName" value="Formula 1 / F1" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=formula_one&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 7 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1570" />
+            <param name="widgetName" value="NASCAR" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1570" />
+            <param name="widgetName" value="NASCAR" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=nascar&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 8 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1580" />
+            <param name="widgetName" value="WWE / AEW" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1580" />
+            <param name="widgetName" value="WWE / AEW" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=wrestling&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+    </include>
+
     <!-- Bingie Items PVR Hub -->
     <include name="bingie_items_pvr">
         <!-- Widget 1 -->
@@ -355,7 +519,7 @@
             <param name="multiRows" value="false" />
             <param name="containerType" value="fixedlist" />
             <param name="contentStyle" value="normal" />
-            <param name="widgetStyle" value="widget_layout_bingie_square" />
+            <param name="widgetStyle" value="widget_layout_poster" />
             <param name="widgetInfoPanel" value="" />
             <param name="visibility" value="true" />
             <param name="widgetTarget" value="" />
@@ -367,15 +531,15 @@
         <!-- Widget 2 -->
         <include content="widget_header_multi">
             <param name="widgetid" value="1520" />
-            <param name="widgetName" value="Channels" />
+            <param name="widgetName" value="PVR Channels" />
         </include>
         <include content="widget_base_normal">
             <param name="widgetid" value="1520" />
-            <param name="widgetName" value="Channels" />
+            <param name="widgetName" value="PVR Channels" />
             <param name="multiRows" value="false" />
             <param name="containerType" value="fixedlist" />
             <param name="contentStyle" value="normal" />
-            <param name="widgetStyle" value="widget_layout_bingie_square" />
+            <param name="widgetStyle" value="widget_layout_poster" />
             <param name="widgetInfoPanel" value="" />
             <param name="visibility" value="true" />
             <param name="widgetTarget" value="" />
@@ -387,11 +551,11 @@
         <!-- Widget 3 -->
         <include content="widget_header_multi">
             <param name="widgetid" value="1530" />
-            <param name="widgetName" value="Recordings" />
+            <param name="widgetName" value="PVR Recordings" />
         </include>
         <include content="widget_base_normal">
             <param name="widgetid" value="1530" />
-            <param name="widgetName" value="Recordings" />
+            <param name="widgetName" value="PVR Recordings" />
             <param name="multiRows" value="false" />
             <param name="containerType" value="fixedlist" />
             <param name="contentStyle" value="normal" />
@@ -407,19 +571,99 @@
         <!-- Widget 4 -->
         <include content="widget_header_multi">
             <param name="widgetid" value="1540" />
-            <param name="widgetName" value="Live &amp; Radio" />
+            <param name="widgetName" value="ESPN Channels" />
         </include>
         <include content="widget_base_normal">
             <param name="widgetid" value="1540" />
-            <param name="widgetName" value="Live &amp; Radio" />
+            <param name="widgetName" value="ESPN Channels" />
             <param name="multiRows" value="false" />
             <param name="containerType" value="fixedlist" />
-            <param name="contentStyle" value="pvr" />
+            <param name="contentStyle" value="normal" />
             <param name="widgetStyle" value="widget_layout_landscape" />
             <param name="widgetInfoPanel" value="" />
             <param name="visibility" value="true" />
-            <param name="widgetTarget" value="" />
-            <param name="widgetPath" value="" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=espn_channels&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 5 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1550" />
+            <param name="widgetName" value="TNT / TBS / truTV" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1550" />
+            <param name="widgetName" value="TNT / TBS / truTV" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=tnt_channels&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 6 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1560" />
+            <param name="widgetName" value="News &amp; Local" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1560" />
+            <param name="widgetName" value="News &amp; Local" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide&amp;section=news" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 7 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1570" />
+            <param name="widgetName" value="TSN / Sportsnet" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1570" />
+            <param name="widgetName" value="TSN / Sportsnet" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide_group&amp;group_key=canadian_sports&amp;page=1" />
+            <param name="widgetSortBy" value="" />
+            <param name="widgetSortOrder" value="" />
+            <param name="widgetLimit" value="" />
+        </include>
+        <!-- Widget 8 -->
+        <include content="widget_header_multi">
+            <param name="widgetid" value="1580" />
+            <param name="widgetName" value="Reality / TV Guide" />
+        </include>
+        <include content="widget_base_normal">
+            <param name="widgetid" value="1580" />
+            <param name="widgetName" value="Reality / TV Guide" />
+            <param name="multiRows" value="false" />
+            <param name="containerType" value="fixedlist" />
+            <param name="contentStyle" value="normal" />
+            <param name="widgetStyle" value="widget_layout_landscape" />
+            <param name="widgetInfoPanel" value="" />
+            <param name="visibility" value="true" />
+            <param name="widgetTarget" value="videos" />
+            <param name="widgetPath" value="plugin://plugin.video.giptv/?mode=live_guide&amp;section=tv" />
             <param name="widgetSortBy" value="" />
             <param name="widgetSortOrder" value="" />
             <param name="widgetLimit" value="" />

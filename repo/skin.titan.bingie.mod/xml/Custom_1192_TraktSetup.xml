@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- BINGIE -->
+<window type="window" id="1192">
+    <defaultcontrol always="true">9100</defaultcontrol>
+    <onload condition="System.HasAlarm(preview_delay)">CancelAlarm(preview_delay,silent)</onload>
+    <controls>
+        <include>GlobalBackground</include>
+        <include>NowPlayingModern</include>
+        <include>Header</include>
+
+        <control type="group">
+            <include>animation_window_open_close</include>
+
+            <control type="image">
+                <posx>250</posx>
+                <posy>170</posy>
+                <width>1420</width>
+                <height>760</height>
+                <texture border="15">diffuse/bgpanel.png</texture>
+                <colordiffuse>$INFO[Skin.String(GeneralPanelsColor)]</colordiffuse>
+            </control>
+
+            <control type="image">
+                <posx>250</posx>
+                <posy>170</posy>
+                <width>1420</width>
+                <height>760</height>
+                <texture border="15">diffuse/bgpanel.png</texture>
+                <bordersize>10</bordersize>
+                <colordiffuse>$INFO[Skin.String(GeneralPanelsColor)]</colordiffuse>
+            </control>
+
+            <control type="label">
+                <description>Heading</description>
+                <posx>290</posx>
+                <posy>198</posy>
+                <width>1340</width>
+                <height>70</height>
+                <label>Trakt Setup</label>
+                <include>DialogHeader_Alt</include>
+                <align>center</align>
+                <scroll>false</scroll>
+            </control>
+
+            <control type="image">
+                <posx>315</posx>
+                <posy>300</posy>
+                <width>790</width>
+                <height>500</height>
+                <texture border="5">dialogs/default/inner.png</texture>
+            </control>
+
+            <control type="list" id="9100">
+                <posx>325</posx>
+                <posy>312</posy>
+                <width>770</width>
+                <height>476</height>
+                <onup>9100</onup>
+                <ondown>9100</ondown>
+                <onleft>9100</onleft>
+                <onright>9200</onright>
+                <pagecontrol>9200</pagecontrol>
+                <scrolltime tween="cubic" easing="out">400</scrolltime>
+                <itemlayout height="68" width="770">
+                    <control type="image">
+                        <posx>7</posx>
+                        <posy>4</posy>
+                        <width>756</width>
+                        <height>60</height>
+                        <texture border="10">dialogs/default/separator.png</texture>
+                    </control>
+                    <control type="image">
+                        <posx>24</posx>
+                        <posy>13</posy>
+                        <width>42</width>
+                        <height>42</height>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <control type="label">
+                        <posx>86</posx>
+                        <posy>4</posy>
+                        <width>650</width>
+                        <height>60</height>
+                        <label>$INFO[ListItem.Label]</label>
+                        <align>left</align>
+                        <aligny>center</aligny>
+                        <include>DialogListNF</include>
+                        <scroll>false</scroll>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="68" width="770" condition="Control.HasFocus(9100)">
+                    <control type="image">
+                        <posx>7</posx>
+                        <posy>4</posy>
+                        <width>756</width>
+                        <height>60</height>
+                        <texture border="10">diffuse/panel.png</texture>
+                        <colordiffuse>$INFO[Skin.String(ButtonFocusColor)]</colordiffuse>
+                    </control>
+                    <control type="image">
+                        <posx>24</posx>
+                        <posy>13</posy>
+                        <width>42</width>
+                        <height>42</height>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <control type="label">
+                        <posx>86</posx>
+                        <posy>4</posy>
+                        <width>650</width>
+                        <height>60</height>
+                        <label>$INFO[ListItem.Label]</label>
+                        <align>left</align>
+                        <aligny>center</aligny>
+                        <include>DialogListNF</include>
+                        <textcolor>$INFO[Skin.String(ButtonTextColor)]</textcolor>
+                        <scroll>false</scroll>
+                    </control>
+                </focusedlayout>
+                <content>
+                    <item id="1">
+                        <label>Trakt Add-on</label>
+                        <label2>Authorize the main Trakt scrobbler add-on.</label2>
+                        <icon>special://home/addons/script.trakt/icon.png</icon>
+                        <onclick>RunScript(script.trakt, action=auth_info)</onclick>
+                        <visible>System.HasAddon(script.trakt)</visible>
+                    </item>
+                    <item id="2">
+                        <label>Umbrella</label>
+                        <label2>Authorize Trakt inside Umbrella.</label2>
+                        <icon>special://home/addons/plugin.video.umbrella/icon.png</icon>
+                        <onclick>RunPlugin(plugin://plugin.video.umbrella/?action=traktAuth)</onclick>
+                        <visible>System.HasAddon(plugin.video.umbrella)</visible>
+                    </item>
+                    <item id="3">
+                        <label>Fen Light</label>
+                        <label2>Authorize Trakt inside Fen Light.</label2>
+                        <icon>special://home/addons/plugin.video.fenlight/icon.png</icon>
+                        <onclick>RunPlugin(plugin://plugin.video.fenlight/?mode=trakt.trakt_authenticate)</onclick>
+                        <visible>System.HasAddon(plugin.video.fenlight)</visible>
+                    </item>
+                    <item id="4">
+                        <label>Seren</label>
+                        <label2>Authorize Trakt inside Seren.</label2>
+                        <icon>special://home/addons/plugin.video.seren/icon.png</icon>
+                        <onclick>RunPlugin(plugin://plugin.video.seren/?action=authTrakt)</onclick>
+                        <visible>System.HasAddon(plugin.video.seren)</visible>
+                    </item>
+                    <item id="6">
+                        <label>TMDb Helper</label>
+                        <label2>Authorize Trakt inside TMDb Helper.</label2>
+                        <icon>special://home/addons/plugin.video.themoviedb.helper/icon.png</icon>
+                        <onclick>RunScript(plugin.video.themoviedb.helper,authenticate_trakt)</onclick>
+                        <visible>System.HasAddon(plugin.video.themoviedb.helper)</visible>
+                    </item>
+                </content>
+            </control>
+
+            <control type="scrollbar" id="9200">
+                <texturesliderbackground border="5" colordiffuse="$INFO[Skin.String(ScrollbarBackgroundColor)]">scrollbar/texturesliderbar_small.png</texturesliderbackground>
+                <texturesliderbar colordiffuse="$INFO[Skin.String(ScrollbarUnfocusedColor)]" border="5">scrollbar/texturesliderbar_small.png</texturesliderbar>
+                <texturesliderbarfocus colordiffuse="$INFO[Skin.String(ScrollbarFocusedColor)]" border="5">scrollbar/texturesliderbar_small.png</texturesliderbarfocus>
+                <textureslidernib colordiffuse="$INFO[Skin.String(ScrollbarUnfocusedColor)]">scrollbar/texturesliderbar_nib.png</textureslidernib>
+                <textureslidernibfocus colordiffuse="$INFO[Skin.String(ScrollbarFocusedColor)]">scrollbar/texturesliderbar_nib.png</textureslidernibfocus>
+                <posx>1084</posx>
+                <posy>315</posy>
+                <height>470</height>
+                <width>10</width>
+                <onleft>9100</onleft>
+                <onright>9100</onright>
+                <showonepage>false</showonepage>
+                <orientation>vertical</orientation>
+                <animation effect="fade" start="75" end="0" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(9200)">Conditional</animation>
+            </control>
+
+            <control type="image">
+                <posx>1165</posx>
+                <posy>300</posy>
+                <width>400</width>
+                <height>300</height>
+                <texture>$INFO[Container(9100).ListItem.Icon]</texture>
+                <aspectratio>keep</aspectratio>
+            </control>
+
+            <control type="textbox">
+                <posx>1165</posx>
+                <posy>630</posy>
+                <width>400</width>
+                <height>130</height>
+                <font>Reg22</font>
+                <label>$INFO[Container(9100).ListItem.Label2]</label>
+                <textcolor>$INFO[Skin.String(GeneralTextColor)]</textcolor>
+                <shadowcolor>black</shadowcolor>
+                <align>center</align>
+                <aligny>top</aligny>
+            </control>
+
+            <control type="group" id="9300">
+                <posx>290</posx>
+                <posy>825</posy>
+                <control type="button" id="9301">
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <description>Close</description>
+                    <label>$LOCALIZE[222]</label>
+                    <include>DialogButtonOther</include>
+                    <onclick>PreviousMenu</onclick>
+                    <onup>9100</onup>
+                    <ondown>9100</ondown>
+                    <onleft>9100</onleft>
+                    <onright>9100</onright>
+                </control>
+            </control>
+        </control>
+
+        <include condition="!Skin.HasSetting(EnableFooterBar)">Footer</include>
+        <include>BingieLogo</include>
+        <include condition="Skin.HasSetting(DebugGrid) | Skin.HasSetting(DebugInfo)">DebugInfo</include>
+    </controls>
+</window>

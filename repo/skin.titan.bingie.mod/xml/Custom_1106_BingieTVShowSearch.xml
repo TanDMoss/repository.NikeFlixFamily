@@ -128,7 +128,7 @@
 			<include>Search_Suggestions_TVShows</include>
         </include>
 
-        <!--- ########## Right Layout ########## -->
+        <!--  ########## Right Layout ########## -->
         <control type="grouplist" id="9900">
             <left>648</left>
             <top>32</top>

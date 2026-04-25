@@ -245,7 +245,7 @@ def trakt_it(do, who):
                 except:
                     pass
             else:
-                logging.log('[Trakt Data] {0}({1}) is not installed'.format(TRAKTID[log]['name'], TRAKTID[log]['plugin']), level=xbmc.LOGERROR)
+                logging.log('[Trakt Data] {0}({1}) is not installed'.format(TRAKTID[log]['name'], TRAKTID[log]['plugin']), level=xbmc.LOGINFO)
         CONFIG.set_setting('traktnextsave', tools.get_date(days=3, formatted=True))
     else:
         if TRAKTID[who]:

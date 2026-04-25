@@ -115,7 +115,7 @@
             <content condition="!String.IsEmpty(Skin.String(CustomSearchTerm)) + System.HasAddon(plugin.program.autocompletion)">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Skin.String(CustomSearchTerm)]</content>
         </include>
 
-        <!--- ########## Right Layout ########## -->
+        <!--  ########## Right Layout ########## -->
         <control type="grouplist" id="9900">
             <left>648</left>
             <top>32</top>

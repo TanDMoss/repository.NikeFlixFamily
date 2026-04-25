@@ -20,6 +20,7 @@
 import xbmc
 import xbmcgui
 
+import os
 import sys
 try:  # Python 3
     import zipfile
@@ -41,6 +42,22 @@ def _is_profile_zip_entry(parts):
 
 def _is_profile_zip_guisettings(parts):
     return _is_profile_zip_entry(parts) and parts[-1] == 'guisettings.xml'
+
+
+def _target_exists_for_zip_entry(filename, out_root):
+    parts = _zip_parts(filename)
+    if not parts:
+        return False
+
+    base = os.path.abspath(out_root)
+    target = os.path.abspath(os.path.join(base, *parts))
+    try:
+        if os.path.commonpath([base, target]) != base:
+            return False
+    except ValueError:
+        return False
+
+    return os.path.exists(target)
 
 
 def all(_in, _out, ignore=None, title=None):
@@ -119,13 +136,13 @@ def all_with_progress(_in, _out, dp, ignore, title):
             skip = True
         elif filename == 'userdata/favourites.xml' and CONFIG.KEEPFAVS == 'true':
             skip = True
-        elif filename == 'userdata/profiles.xml' and CONFIG.KEEPPROFILES == 'true':
+        elif filename == 'userdata/profiles.xml' and CONFIG.KEEPPROFILES == 'true' and _target_exists_for_zip_entry(filename, _out):
             skip = True
-        elif _is_profile_zip_entry(file) and CONFIG.KEEPPROFILES == 'true':
+        elif _is_profile_zip_entry(file) and CONFIG.KEEPPROFILES == 'true' and _target_exists_for_zip_entry(filename, _out):
             skip = True
-        elif filename == 'userdata/guisettings.xml' and CONFIG.KEEPGUISETTINGS == 'true':
+        elif filename == 'userdata/guisettings.xml' and CONFIG.KEEPGUISETTINGS == 'true' and _target_exists_for_zip_entry(filename, _out):
             skip = True
-        elif _is_profile_zip_guisettings(file) and CONFIG.KEEPGUISETTINGS == 'true':
+        elif _is_profile_zip_guisettings(file) and CONFIG.KEEPGUISETTINGS == 'true' and _target_exists_for_zip_entry(filename, _out):
             skip = True
         elif filename == 'userdata/playercorefactory.xml' and CONFIG.KEEPPLAYERCORE == 'true':
             skip = True

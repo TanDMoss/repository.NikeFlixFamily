@@ -770,7 +770,7 @@ def login_it(do, who):
                 except:
                     pass
             else:
-                logging.log('[Login Info] {0}({1}) is not installed'.format(LOGINID[log]['name'], LOGINID[log]['plugin']), level=xbmc.LOGERROR)
+                logging.log('[Login Info] {0}({1}) is not installed'.format(LOGINID[log]['name'], LOGINID[log]['plugin']), level=xbmc.LOGINFO)
         CONFIG.set_setting('loginnextsave', tools.get_date(days=3, formatted=True))
     else:
         if LOGINID[who]:

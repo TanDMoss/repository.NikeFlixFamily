@@ -1,43 +1,35 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <shortcuts>
 	<shortcut>
-		<defaultID>22020</defaultID>
-		<label>22020</label>
+		<defaultID>pvr-guide</defaultID>
+		<label>PVR Guide</label>
 		<label2>Live TV</label2>
-		<icon />
-		<thumb />
+		<icon>shortcuts/antenna.png</icon>
+		<thumb>shortcuts/antenna.png</thumb>
 		<action>ActivateWindow(TVGuide)</action>
 	</shortcut>
 	<shortcut>
-		<defaultID>19019</defaultID>
-		<label>19019</label>
+		<defaultID>pvr-channels</defaultID>
+		<label>PVR Channels</label>
 		<label2>Live TV</label2>
-		<icon />
-		<thumb />
+		<icon>DefaultTVShows.png</icon>
+		<thumb>DefaultTVShows.png</thumb>
 		<action>ActivateWindow(TVChannels)</action>
 	</shortcut>
 	<shortcut>
-		<defaultID>19163</defaultID>
-		<label>19163</label>
+		<defaultID>pvr-recordings</defaultID>
+		<label>PVR Recordings</label>
 		<label2>Live TV</label2>
-		<icon />
-		<thumb />
-		<action>ActivateWindow(TVRecordings)</action>
+		<icon>DefaultAddonPVRClient.png</icon>
+		<thumb>DefaultAddonPVRClient.png</thumb>
+		<action>ActivateWindow(TVRecordings,return)</action>
 	</shortcut>
 	<shortcut>
-		<defaultID>19040</defaultID>
-		<label>19040</label>
+		<defaultID>pvr-search</defaultID>
+		<label>PVR Search</label>
 		<label2>Live TV</label2>
-		<icon />
-		<thumb />
-		<action>ActivateWindow(TVTimers)</action>
-	</shortcut>
-	<shortcut>
-		<defaultID>137</defaultID>
-		<label>137</label>
-		<label2>Live TV</label2>
-		<icon />
-		<thumb />
+		<icon>shortcuts/search.png</icon>
+		<thumb>shortcuts/search.png</thumb>
 		<action>ActivateWindow(TVSearch)</action>
 	</shortcut>
 </shortcuts>

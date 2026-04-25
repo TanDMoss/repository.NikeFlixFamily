@@ -118,7 +118,7 @@
 								<texture background="true" colordiffuse="gold">$INFO[ListItem.ActualIcon,ratings/star_rating_simple/rating,.png]</texture>
 								<aspectratio>keep</aspectratio>
 							
-								<!--old code--->
+								<!--old code-->
 								
                                 <!--font>Light30</font>
                                 <aligny>center</aligny>
@@ -216,7 +216,7 @@
 								<texture background="true" colordiffuse="gold">$INFO[ListItem.ActualIcon,ratings/star_rating_simple/rating,.png]</texture>
 								<aspectratio>keep</aspectratio>
 							
-								<!--old code--->
+								<!--old code-->
 								
                                 <!--font>Light30</font>
                                 <aligny>center</aligny>
@@ -304,7 +304,7 @@
 								<texture background="true" colordiffuse="gold">$INFO[ListItem.ActualIcon,ratings/star_rating_simple/rating,.png]</texture>
 								<aspectratio>keep</aspectratio>
 							
-								<!--old code--->
+								<!--old code-->
 								
                                 <!--font>Light30</font>
                                 <aligny>center</aligny>

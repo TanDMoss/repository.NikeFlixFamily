@@ -988,15 +988,15 @@
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Random songs background)">$INFO[Window(Home).Property(SkinHelper.AllMusicSongsBackground)]</value>
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Global media fanart background)">$INFO[Window(Home).Property(SkinHelper.GlobalFanartBackground)]</value>
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Global videos background)">$INFO[Window(Home).Property(SkinHelper.AllVideosBackground)]</value>
-		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Global Movies & TvShows background)">$INFO[Window(Home).Property(SkinHelper.AllVideosBackground2)]</value>
+		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Global Movies &amp; TvShows background)">$INFO[Window(Home).Property(SkinHelper.AllVideosBackground2)]</value>
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Recent videos background)">$INFO[Window(Home).Property(SkinHelper.RecentVideosBackground)]</value>
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), In-progress videos background)">$INFO[Window(Home).Property(SkinHelper.InProgressVideosBackground)]</value>
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Popular Movies (themoviedb.helper))">$INFO[Window(Home).Property(SkinHelper.PopularMovies)]</value>
 		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Popular Tvshows (themoviedb.helper))">$INFO[Window(Home).Property(SkinHelper.PopularShows)]</value>
         <value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Wall: Random movies background)">$INFO[Window(Home).Property(SkinHelper.AllMoviesBackground.Wall)]</value>
         <value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Poster Wall: Random movies background)">$INFO[Window(Home).Property(SkinHelper.AllMoviesBackground.Poster.Wall)]</value>
-		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Wall: Random movies background (Black & White))">$INFO[Window(Home).Property(SkinHelper.AllMoviesBackground.Wall.BW)]</value>
-        <value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Poster Wall: Random movies background (Black & White))">$INFO[Window(Home).Property(SkinHelper.AllMoviesBackground.Poster.Wall.BW)]</value>
+		<value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Wall: Random movies background (Black &amp; White))">$INFO[Window(Home).Property(SkinHelper.AllMoviesBackground.Wall.BW)]</value>
+        <value condition="String.IsEqual(Skin.String(CustomBackgroundSetting.name), Poster Wall: Random movies background (Black &amp; White))">$INFO[Window(Home).Property(SkinHelper.AllMoviesBackground.Poster.Wall.BW)]</value>
     </variable>
     <variable name="MusicBackground">
         <value>$INFO[Window(Home).Property(SkinHelper.AllMusicSongsBackground.Wall)]</value>

@@ -106,7 +106,7 @@
                     <icon>common/shutdown1.png</icon>
                     <visible>System.CanPowerDown + Window.IsActive(loginscreen)</visible>
                     <onclick condition="Window.IsActive(shutdownmenu)">Dialog.Close(all)</onclick>
-                    <onclick>PowerDown</onclick>
+                    <onclick>Quit()</onclick>
                 </item>
                 <item id="999">
                     <label>$LOCALIZE[13013]</label>

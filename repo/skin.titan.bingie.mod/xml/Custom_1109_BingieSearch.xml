@@ -125,7 +125,7 @@
 			<include condition="Skin.HasSetting(EnableBingieSearchTMDBHelper)">Search_Suggestions_Content_2</include>
         </include>
 
-        <!--- ########## Right Layout ########## -->
+        <!--  ########## Right Layout ########## -->
         <control type="grouplist" id="9900">
             <left>648</left>
             <top>32</top>
