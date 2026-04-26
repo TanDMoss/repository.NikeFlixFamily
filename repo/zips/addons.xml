@@ -210,7 +210,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.giptv" name="GIPTV" version="2.9.4" provider-name="G00380316">
+</addon><addon id="plugin.video.giptv" name="GIPTV" version="2.9.6" provider-name="G00380316">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0" />
 		<import addon="script.module.requests" version="2.22.0" />

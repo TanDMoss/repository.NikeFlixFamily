@@ -14,6 +14,7 @@ from resources.lib.proxy.proxy_instance import stop_proxy
 ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo("id")
 STARTUP_DELAY_SECONDS = 8
+PVR_REFRESH_DELAY_SECONDS = 60
 
 
 def get_profile_path(subpath=""):
@@ -136,7 +137,16 @@ if __name__ == "__main__":
             run_update_tasks_once()
 
             if ensure_api_ready():
-                ensure_pvr_playlist_ready()
+                giptv.log(
+                    f"Deferring PVR bridge refresh for {PVR_REFRESH_DELAY_SECONDS} seconds",
+                    xbmc.LOGINFO,
+                )
+                if monitor.waitForAbort(PVR_REFRESH_DELAY_SECONDS):
+                    giptv.log("Service aborted before PVR bridge refresh", xbmc.LOGINFO)
+                else:
+                    ensure_pvr_playlist_ready()
+                    giptv.log("PVR bridge refresh check complete", xbmc.LOGINFO)
+
                 giptv.log("Service initialized with deferred minimal work", xbmc.LOGINFO)
                 # Do not preload EPG here.
                 # Do not ensure/build search index here.

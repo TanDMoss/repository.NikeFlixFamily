@@ -12,7 +12,7 @@ from resources.utils.config import ensure_api_ready
 
 
 PVR_PLAYLIST_SPECIAL = "special://profile/addon_data/pvr.iptvsimple/giptv-live.m3u"
-PVR_PLAYLIST_MAX_AGE_SECONDS = 12 * 60 * 60
+PVR_PLAYLIST_MAX_AGE_SECONDS = 7 * 24 * 60 * 60
 
 
 def _playlist_path():
