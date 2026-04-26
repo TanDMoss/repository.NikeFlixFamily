@@ -148,8 +148,6 @@ class Generator:
         final_zip = os.path.join(zip_folder, "{0}-{1}.zip".format(addon_id, version))
         if not os.path.exists(final_zip):
             zip = zipfile.ZipFile(final_zip, "w", compression=zipfile.ZIP_DEFLATED)
-            root_len = len(os.path.dirname(os.path.abspath(addon_folder)))
-
             for root, dirs, files in os.walk(addon_folder):
                 # remove any unneeded artifacts
                 for i in IGNORE:
@@ -165,7 +163,12 @@ class Generator:
                             except:
                                 pass
 
-                archive_root = os.path.abspath(root)[root_len:]
+                rel_root = os.path.relpath(root, addon_folder)
+                archive_root = (
+                    addon_id
+                    if rel_root == "."
+                    else os.path.join(addon_id, rel_root)
+                )
 
                 for f in files:
                     fullpath = os.path.join(root, f)
@@ -255,7 +258,14 @@ class Generator:
                     updated = True
                     changed = True
 
-                if updated:
+                package_zip = os.path.join(
+                    self.zips_path,
+                    id,
+                    "{0}-{1}.zip".format(id, version),
+                )
+                package_missing = not os.path.exists(package_zip)
+
+                if updated or package_missing:
                     # Create the zip files
                     self._create_zip(addon, id, version)
                     self._copy_meta_files(addon, os.path.join(self.zips_path, id))
