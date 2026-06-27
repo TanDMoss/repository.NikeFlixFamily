@@ -732,6 +732,16 @@ QUALITY_TOKEN_RE = re.compile(
     r"\b(?:live|fhd|hd|sd|uhd|4k|8k|1080p|720p|2160p|h\.?264|h\.?265|hevc|x264|x265)\b",
     re.IGNORECASE,
 )
+CURRENT_EVENT_FIELDS = [
+    "current_program_title",
+    "current_program_description",
+    "now_title",
+    "now_description",
+    "epg_title",
+    "epg_description",
+    "program_title",
+    "program_description",
+]
 
 
 def normalize_text(value):
@@ -853,6 +863,56 @@ def _priority_rank(group, stream):
     return len(group.get("priority_terms", [])) + 1
 
 
+def _current_event_text(stream):
+    return normalize_text(" ".join(str(stream.get(field) or "") for field in CURRENT_EVENT_FIELDS))
+
+
+def _has_current_program(stream):
+    if stream.get("has_current_program"):
+        return True
+    return bool(_current_event_text(stream))
+
+
+def _current_event_matches(group, stream):
+    event_text = _current_event_text(stream)
+    if not event_text:
+        return False
+
+    terms = (
+        list(group.get("terms", []))
+        + list(group.get("priority_terms", []))
+        + list(group.get("official_terms", []))
+    )
+    return any(_term_matches(event_text, term) for term in terms)
+
+
+def _current_event_rank(group, stream):
+    if group.get("section") not in (SPORTS_SECTION, SOCCER_SECTION):
+        return 0
+    if _current_event_matches(group, stream):
+        return 0
+    if _has_current_program(stream):
+        return 1
+    return 2
+
+
+def _quality_rank(stream):
+    text = " ".join(
+        str(stream.get(field) or "")
+        for field in ["name", "title", "stream_display_name", "category_name"]
+    ).lower()
+
+    if re.search(r"\b(?:8k|4k|2160p|uhd)\b", text):
+        return 0
+    if re.search(r"\b(?:fhd|1080p)\b", text):
+        return 1
+    if re.search(r"\b(?:hd|720p)\b", text):
+        return 2
+    if re.search(r"\bsd\b", text):
+        return 4
+    return 3
+
+
 def _official_rank(group, stream):
     text = stream_search_text(stream)
     display = normalize_text(_display_name(stream))
@@ -919,15 +979,34 @@ def match_streams(streams, group_key):
     def sort_key(item):
         display = normalize_text(_display_name(item))
         official_shape, official_rank = _official_rank(group, item)
+        event_rank = _current_event_rank(group, item)
+        quality_rank = _quality_rank(item)
+        if group.get("section") in (SPORTS_SECTION, SOCCER_SECTION):
+            priority_rank = _priority_rank(group, item)
+            region_rank = _region_rank(item)
+            if official_shape < 3:
+                return (
+                    event_rank,
+                    0,
+                    official_shape,
+                    official_rank,
+                    region_rank,
+                    quality_rank,
+                    display,
+                )
+            if group.get("region_before_priority"):
+                return (event_rank, 1, region_rank, priority_rank, quality_rank, display)
+            return (event_rank, 1, priority_rank, region_rank, quality_rank, display)
+
         if official_shape < 3:
-            return (0, official_shape, official_rank, _region_rank(item), display)
+            return (0, official_shape, official_rank, _region_rank(item), quality_rank, display)
 
         priority_rank = _priority_rank(group, item)
         region_rank = _region_rank(item)
         if group.get("section") not in (SPORTS_SECTION, SOCCER_SECTION, NEWS_SECTION):
-            return (1, priority_rank, 0, display)
+            return (1, priority_rank, 0, quality_rank, display)
         if group.get("region_before_priority"):
-            return (1, region_rank, priority_rank, display)
-        return (1, priority_rank, region_rank, display)
+            return (1, region_rank, priority_rank, quality_rank, display)
+        return (1, priority_rank, region_rank, quality_rank, display)
 
     return sorted(matched, key=sort_key)

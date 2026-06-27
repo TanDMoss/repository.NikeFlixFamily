@@ -515,6 +515,46 @@ def _resolve_xmltv_channel_id_cached(stream):
     return value
 
 
+def _enrich_live_guide_streams_with_cached_now(streams):
+    try:
+        xmltv_index = get_direct_epg_index()
+    except Exception as e:
+        giptv.log(f"[LIVE GUIDE] cached EPG lookup skipped: {e}", xbmc.LOGWARNING)
+        return streams or []
+
+    if not xmltv_index:
+        return streams or []
+
+    epg_offset_minutes = settings.get_epg_offset(ADDON)
+    enriched = []
+    for stream in streams or []:
+        if not isinstance(stream, dict):
+            continue
+        row = dict(stream)
+        try:
+            channel_id = _resolve_xmltv_channel_id_cached(row)
+            data = (
+                get_now_next(xmltv_index, channel_id, epg_offset_minutes)
+                if channel_id
+                else None
+            )
+            if data and data.get("now"):
+                title, desc, start_ts, end_ts = data["now"]
+                row["has_current_program"] = True
+                row["current_program_title"] = title
+                row["current_program_description"] = desc
+                row["current_program_start"] = start_ts
+                row["current_program_end"] = end_ts
+        except Exception as e:
+            giptv.log(
+                "[LIVE GUIDE] failed to enrich stream with cached EPG: {}".format(e),
+                xbmc.LOGWARNING,
+            )
+        enriched.append(row)
+
+    return enriched
+
+
 def _label_with_marker(label, watched=False, progress=None):
     base = label or ""
     try:
@@ -1180,7 +1220,10 @@ def list_live_guide_group(group_key, page=1):
         return
 
     page = max(1, _safe_int(page, 1))
-    streams = live_guide.match_streams(_fetch_live_guide_streams(), group_key)
+    streams = live_guide.match_streams(
+        _enrich_live_guide_streams_with_cached_now(_fetch_live_guide_streams()),
+        group_key,
+    )
     page_streams, has_next, page = _paginate_items(streams, page)
     items = []
 

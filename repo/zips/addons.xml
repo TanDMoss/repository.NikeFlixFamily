@@ -179,7 +179,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.2.6" provider-name="TanDMoss">
+</addon><addon id="plugin.program.NikeFlixFamilyWizard" name="NikeFlix Family Wizard" version="3.2.7" provider-name="TanDMoss">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.requests" />
@@ -210,7 +210,7 @@
             <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
-</addon><addon id="plugin.video.giptv" name="GIPTV" version="2.9.6" provider-name="G00380316">
+</addon><addon id="plugin.video.giptv" name="GIPTV" version="2.9.7" provider-name="G00380316">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0" />
 		<import addon="script.module.requests" version="2.22.0" />
@@ -1021,7 +1021,7 @@
 			    <icon>icon.png</icon>
 			</assets>
         </extension>
-    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.2.6" provider-name="TanDMoss">
+    </addon><addon id="repository.NikeFlixFamily" name="NikeFlix Family repository" version="3.2.7" provider-name="TanDMoss">
     <extension point="xbmc.addon.repository" name="NikeFlix Family repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/tandmoss/repository.NikeFlixFamily/master/repo/zips/addons.xml</info>

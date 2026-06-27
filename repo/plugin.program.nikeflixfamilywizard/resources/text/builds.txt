@@ -1,9 +1,9 @@
 id="plugin.program.NikeFlixFamilyWizard"
-version="3.2.6"
+version="3.2.7"
 zip=""
 
 name="Nike Flix Family Wizard"
-version="3.2.6"
+version="3.2.7"
 url="https://dl.dropboxusercontent.com/scl/fi/bf1dbxfw4tm8zamxwjyg2/nikeflixfamilywizard.zip?rlkey=p82en0ztawitxo9pbigjpbyok&st=kjj50mge&dl=0"
 minor="http://"
 gui="url.to.guisettings"
