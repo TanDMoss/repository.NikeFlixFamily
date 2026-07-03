@@ -1,0 +1,135 @@
+# builders/template.py
+
+**Path:** `resources/lib/skinshortcuts/builders/template.py`
+**Purpose:** Build Kodi include XML from templates.xml and menu data.
+
+***
+
+## Overview
+
+Processes templates defined in templates.xml, iterating over menu items and generating controls, properties, and variables with substitutions. The most complex part of the build system.
+
+***
+
+## TemplateBuilder Class
+
+### `__init__`(schema, menus, property_schema=None)
+
+| Parameter | Description |
+|-----------|-------------|
+| `schema` | TemplateSchema from templates.xml |
+| `menus` | list[Menu] to build from |
+| `property_schema` | Optional PropertySchema for fallbacks |
+
+### build() → ET.Element
+
+Build all template includes and variables.
+
+- Templates with same include name are merged
+- Variables with same name are merged (children appended)
+- Empty includes get `<description>` to avoid Kodi warnings
+- `templateonly="true"` templates never output
+- `templateonly="auto"` templates skipped if not assigned to any menu item
+
+### write(path, indent=True)
+
+Write template includes to file.
+
+***
+
+## Substitution Patterns
+
+| Pattern | Description |
+|---------|-------------|
+| `$PROPERTY[name]` | Property/var value from context or item |
+| `$PARENT[name]` | Parent item property (items iteration only) |
+| `$EXP[name]` | Expression from templates.xml (recursive) |
+| `$INCLUDE[name]` | Converted to Kodi `<include>` element |
+| `$MATH[expr]` | Arithmetic expression (via expressions.py) |
+| `$IF[cond THEN val]` | Conditional expression (via expressions.py) |
+
+Processing order: `$EXP` → `$PARENT` → `$PROPERTY` → `$MATH` → `$IF`
+
+***
+
+## Context Building
+
+Property context built in order (later overrides earlier):
+
+1. Menu defaults + item properties
+2. Built-ins: `index`, `name`, `menu`, `idprefix`, `id`, `suffix`
+3. Item attributes: `label`, `label2`, `icon`, `visible`, `path`
+4. Fallback values from PropertySchema
+5. Template properties
+6. Template vars (first matching condition wins)
+7. Preset references
+8. Preset group references (presetGroup - first matching condition selects a preset or inline values)
+9. Property group references
+
+***
+
+## Skinshortcuts Elements
+
+Special elements processed within `<controls>`:
+
+| Element | Output |
+|---------|--------|
+| `<skinshortcuts>visibility</skinshortcuts>` | `<visible>` condition matching current item (per-item in menu mode). In raw mode (`build="true"`), generates OR'd visibility across matching items (per-group when properties are defined, all items when no properties) |
+| `<skinshortcuts>onclick</skinshortcuts>` | `<onclick>` elements from item actions (before/conditional/unconditional/after) |
+| `<skinshortcuts include="name" />` | Unwrapped include contents |
+| `<skinshortcuts include="name" wrap="true" />` | Kodi `<include>` element |
+| `<skinshortcuts include="name" condition="prop" />` | Conditional include |
+| `<skinshortcuts insert="name" />` | Items template insert point |
+
+***
+
+## Items Iteration
+
+Handles `<template items="name">` elements that iterate over submenu items.
+
+- Looks up submenu as `{parent_item.name}.{source}` (e.g., `movies.widgets`)
+- `$PROPERTY[...]` references submenu item properties
+- `$PARENT[...]` references parent menu item properties
+- Skips disabled items
+- Applies filter condition to each submenu item
+- Supports vars, presets, propertyGroups within items block
+
+***
+
+## Key Internal Methods
+
+| Method | Purpose |
+|--------|---------|
+| `_build_context` | Build property context for menu item |
+| `_apply_fallbacks` | Apply PropertySchema fallbacks with suffix support |
+| `_resolve_property` | Resolve property value (from_source or literal) |
+| `_resolve_var` | Resolve var (first matching condition) |
+| `_apply_property_group` | Apply property group with suffix transforms |
+| `_apply_preset` | Apply preset values as properties |
+| `_apply_preset_group` | Apply presetGroup (first matching condition selects a preset or inline values) |
+| `_get_preset_values` | Get first matching values row from a preset |
+| `_process_controls` | Process controls XML with substitutions |
+| `_remove_empty_elements` | Remove leaf elements with no text/attributes |
+| `_substitute_text` | Substitute all dynamic expressions in text |
+| `_build_variable` | Build Kodi `<variable>` element |
+| `_build_variable_group` | Build variables from variableGroup reference |
+| `_expand_iterate_values` | Expand `<value iterate=... as=...>` into N `<value>` siblings before substitution |
+| `_resolve_iterate_suffixes` | Return suffix list for an iterate expression (numeric or family scan) |
+| `_apply_iterate_to_text` | Rewrite loop-local and auto-suffix `$PROPERTY[]` refs for one iteration |
+| `_handle_skinshortcuts_include` | Process include expansions |
+| `_handle_skinshortcuts_items` | Process items iteration |
+| `_handle_skinshortcuts_onclick` | Process onclick expansions |
+| `_collect_raw_matching_items` | Collect menu items matching a raw template's filters |
+| `_substitute_raw_controls` | Substitute $PROPERTY/$EXP/$MATH/$IF in raw controls (preserves visibility markers) |
+| `_resolve_raw_visibility` | Replace visibility markers with OR'd conditions for an item group |
+| `_eval_condition` | Evaluate condition against item |
+
+***
+
+## Suffix Transforms
+
+When suffix is specified (e.g., `.2` for widget slot 2):
+
+- `from="widgetPath"` → `from="widgetPath.2"`
+- `condition="widgetType=movies"` → `condition="widgetType.2=movies"`
+- Built-ins are excluded from suffixing, via two lists: `NO_SUFFIX_PROPERTIES` (`name`, `default`, `menu`, `index`, `id`, `idprefix`) for from/condition attribute transforms (loaders/base.py), and the `reserved` tuple (`index`, `name`, `menu`, `id`, `idprefix`, `suffix`) for template condition suffixing (`_apply_suffix_to_condition`)

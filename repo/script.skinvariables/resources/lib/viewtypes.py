@@ -7,11 +7,10 @@ import xbmcgui
 import xbmcvfs
 import xbmcaddon
 from json import loads, dumps
-from jurialmunkey.parser import try_int, merge_dicts
+from jurialmunkey.parser import try_int
 from jurialmunkey.futils import check_hash, make_hash, write_skinfile, write_file, load_filecontent
-from resources.lib.jsonrpc import get_jsonrpc
-from resources.lib.kodiutils import isactive_winprop
-from resources.lib.xmlhelper import make_xml_includes, get_skinfolders
+from jurialmunkey.jsnrpc import get_jsonrpc
+from jurialmunkey.ftools import cached_property
 
 
 ADDON = xbmcaddon.Addon()
@@ -23,6 +22,8 @@ def join_conditions(org='', new='', operator=' | '):
 
 
 def _get_localized(text):
+    if not text:
+        return ''
     if text.startswith('$LOCALIZE'):
         text = text.strip('$LOCALIZE[]')
     if try_int(text):
@@ -30,18 +31,224 @@ def _get_localized(text):
     return text
 
 
+class ViewTypesItem():
+    def __init__(self, viewtypes, view_id, icons=None):
+        self.viewtypes = viewtypes
+        self.view_id = view_id
+        self.icons = icons
+
+    @cached_property
+    def name(self):
+        return _get_localized(self.viewtypes.get(self.view_id))
+
+    @cached_property
+    def icon(self):
+        if not self.icons:
+            return ''
+        return self.icons.get(self.view_id)
+
+    @cached_property
+    def item(self):
+        item = xbmcgui.ListItem(label=self.name)
+        item.setArt({'thumb': self.icon, 'icon': self.icon})
+        return item
+
+
+class ViewTypesGroup():
+    def __init__(self, key, items, icon=None):
+        self.key = key
+        self.items = items
+        self.icon = icon or ''
+
+    @cached_property
+    def name(self):
+        return _get_localized(self.key)
+
+    @cached_property
+    def item(self):
+        item = xbmcgui.ListItem(label=self.name)
+        item.setArt({'thumb': self.icon, 'icon': self.icon})
+        return item
+
+
+class ViewTypesPluginGroup():
+    def __init__(self, items, groups=None, header=None):
+        self.items = items
+        self.groups = groups
+        self.header = header or ''
+
+    def get_valid_viewtypes(self, group):
+        return tuple((
+            i for i in self.items
+            if i.view_id in group['viewtypes']
+        ))
+
+    @cached_property
+    def configured_groups(self):
+        configured_groups = tuple((
+            ViewTypesGroup(
+                key=key,
+                items=self.get_valid_viewtypes(group),
+                icon=group.get('icon')
+            )
+            for key, group in self.groups.items()
+        ))
+        return tuple((i for i in configured_groups if i.items))  # Filter out empty groups for current plugin/content
+
+    @cached_property
+    def choice(self):
+        from resources.lib.kodiutils import isactive_winprop
+        with isactive_winprop('SkinViewtypes.DialogIsActive', reverse=True):
+            choice = self.select()
+        return choice
+
+    def select(self):
+        x = xbmcgui.Dialog().select(
+            self.header,
+            [i.item for i in self.configured_groups],
+            useDetails=True,
+        )
+        if x == -1:
+            return
+        return self.configured_groups[x]
+
+
+class ViewTypesPluginView():
+    def __init__(self, viewtypes_obj, contentid, pluginname):
+        self.viewtypes_obj = viewtypes_obj  # ViewTypes class instance
+        self.contentid = contentid
+        self.pluginname = pluginname
+
+    @cached_property
+    def current_viewid(self):
+        try:
+            return self.viewtypes_obj.addon_meta[self.pluginname][self.contentid]
+        except (KeyError, TypeError):
+            return
+
+    @cached_property
+    def preselect(self):
+        if not self.current_viewid:
+            return
+        if self.current_viewid not in self.viewtype_ids:
+            return
+        return self.viewtype_ids.index(self.current_viewid)
+
+    @cached_property
+    def content(self):
+        return self.viewtypes_obj.rules.get(self.contentid)
+
+    @cached_property
+    def content_viewtypes(self):
+        return self.content.get('viewtypes') or []
+
+    @cached_property
+    def viewtype_ids(self):
+        return [
+            i for i in self.viewtypes_obj.viewtypes.keys()  # Resort according to base definition order of viewtypes
+            if i in self.content_viewtypes  # Only include viewtype IDs that are actually defined
+        ]
+
+    @cached_property
+    def items(self):
+        items = tuple((
+            self.get_viewtypes_item(view_id)
+            for view_id in self.viewtype_ids
+        ))
+        if not self.viewtypes_obj.groups:
+            return items
+        choice = ViewTypesPluginGroup(items, self.viewtypes_obj.groups, header=self.header).choice
+        return choice.items if choice else None
+
+    def get_viewtypes_item(self, view_id):
+        return ViewTypesItem(self.viewtypes_obj.viewtypes, view_id, self.viewtypes_obj.icons)
+
+    @cached_property
+    def header(self):
+        return '{} {} ({})'.format(ADDON.getLocalizedString(32004), self.pluginname, self.contentid)
+
+    @cached_property
+    def choice(self):
+        from resources.lib.kodiutils import isactive_winprop
+        with isactive_winprop('SkinViewtypes.DialogIsActive'):
+            return self.select()
+
+    def select(self):
+        if not self.items:
+            return
+        kwgs = dict(useDetails=bool(self.viewtypes_obj.icons), preselect=self.preselect)
+        kwgs = {k: v for k, v in kwgs.items() if v is not None}
+        x = xbmcgui.Dialog().select(self.header, [i.item for i in self.items], **kwgs)
+        if x != -1:
+            return self.items[x]
+        if not self.viewtypes_obj.groups:
+            return
+        return ViewTypesPluginView(self.viewtypes_obj, self.contentid, self.pluginname).select()
+
+    @cached_property
+    def view_id(self):
+        if not self.contentid:
+            return
+        if not self.pluginname:
+            return
+        if not self.content:
+            return
+        if not self.choice:
+            return
+        return self.choice.view_id
+
+
 class ViewTypes(object):
     def __init__(self):
-        self.content = load_filecontent('special://skin/shortcuts/skinviewtypes.json')
-        self.meta = loads(self.content) or {}
         if not xbmcvfs.exists(ADDON_DATA):
             xbmcvfs.mkdir(ADDON_DATA)
-        self.addon_datafile = ADDON_DATA + xbmc.getSkinDir() + '-viewtypes.json'
-        self.addon_content = load_filecontent(self.addon_datafile)
-        self.addon_meta = loads(self.addon_content) or {} if self.addon_content else {}
-        self.prefix = self.meta.get('prefix', 'Exp_View') + '_'
-        self.skinfolders = get_skinfolders()
-        self.icons = self.meta.get('icons') or {}
+
+    @cached_property
+    def content(self):
+        return load_filecontent('special://skin/shortcuts/skinviewtypes.json')
+
+    @cached_property
+    def meta(self):
+        return loads(self.content) or {}
+
+    @cached_property
+    def rules(self):
+        return self.meta.get('rules') or {}
+
+    @cached_property
+    def icons(self):
+        return self.meta.get('icons') or {}
+
+    @cached_property
+    def viewtypes(self):
+        return self.meta.get('viewtypes') or {}
+
+    @cached_property
+    def groups(self):
+        return self.meta.get('groups') or {}
+
+    @cached_property
+    def addon_datafile(self):
+        return f'{ADDON_DATA}{xbmc.getSkinDir()}-viewtypes.json'
+
+    @cached_property
+    def addon_content(self):
+        return load_filecontent(self.addon_datafile)
+
+    @cached_property
+    def addon_meta(self):
+        if not self.addon_content:
+            return {}
+        return loads(self.addon_content) or {}
+
+    @cached_property
+    def prefix(self):
+        return self.meta.get('prefix', 'Exp_View') + '_'
+
+    @cached_property
+    def skinfolders(self):
+        from resources.lib.xmlhelper import get_skinfolders
+        return get_skinfolders()
 
     def make_defaultjson(self, overwrite=False):
         p_dialog = xbmcgui.DialogProgressBG()
@@ -79,11 +286,15 @@ class ViewTypes(object):
         p_dialog.update(25, message=ADDON.getLocalizedString(32006))
         for base_k, base_v in self.addon_meta.items():
             for contentid, viewid in base_v.items():
+                try:
+                    viewtypes_viewid = viewtypes[viewid]
+                except KeyError:
+                    continue
                 if base_k == 'library':
-                    viewtypes[viewid].setdefault(contentid, {}).setdefault('library', True)
+                    viewtypes_viewid.setdefault(contentid, {}).setdefault('library', True)
                     continue
                 if base_k == 'plugins':
-                    viewtypes[viewid].setdefault(contentid, {}).setdefault('plugins', True)
+                    viewtypes_viewid.setdefault(contentid, {}).setdefault('plugins', True)
                     continue
                 for i in viewtypes:
                     listtype = 'whitelist' if i == viewid else 'blacklist'
@@ -141,30 +352,13 @@ class ViewTypes(object):
         p_dialog.close()
         return xmltree
 
-    def get_viewitem(self, viewid):
-        name = _get_localized(self.meta.get('viewtypes', {}).get(viewid))
-        icon = self.meta.get('icons', {}).get(viewid)
-        item = xbmcgui.ListItem(label=name)
-        item.setArt({'thumb': icon, 'icon': icon})
-        return item
-
-    def add_pluginview(self, contentid=None, pluginname=None, viewid=None):
-        if not contentid or not pluginname or not self.meta.get('rules', {}).get(contentid):
+    def add_pluginview(self, contentid=None, pluginname=None):
+        view_id = ViewTypesPluginView(self, contentid, pluginname).view_id
+        if not view_id:
             return
-        if not viewid:
-            items, ids = [], []
-            for i in self.meta.get('rules', {}).get(contentid, {}).get('viewtypes', []):
-                ids.append(i)
-                items.append(self.get_viewitem(i) if self.icons else _get_localized(self.meta.get('viewtypes', {}).get(i)))
-            header = '{} {} ({})'.format(ADDON.getLocalizedString(32004), pluginname, contentid)
-        with isactive_winprop('SkinViewtypes.DialogIsActive'):
-            choice = xbmcgui.Dialog().select(header, items, useDetails=True if self.icons else False)
-            viewid = ids[choice] if choice != -1 else None
-        if not viewid:
-            return  # No viewtype chosen
         self.addon_meta.setdefault(pluginname, {})
-        self.addon_meta[pluginname][contentid] = viewid
-        return viewid
+        self.addon_meta[pluginname][contentid] = view_id
+        return view_id
 
     def make_xmlfile(self, skinfolder=None, hashvalue=None):
         xmltree = self.make_xmltree()
@@ -172,6 +366,7 @@ class ViewTypes(object):
         # # Get folder to save to
         folders = [skinfolder] if skinfolder else self.skinfolders
         if folders:
+            from resources.lib.xmlhelper import make_xml_includes
             write_skinfile(
                 folders=folders, filename='script-skinviewtypes-includes.xml',
                 content=make_xml_includes(xmltree),
@@ -314,14 +509,22 @@ class ViewTypes(object):
         if not self.addon_meta:
             self.addon_meta = self.make_defaultjson(overwrite=True)
         elif makexml:
+            from jurialmunkey.parser import merge_dicts
             self.addon_meta = merge_dicts(self.make_defaultjson(), self.addon_meta)
 
         if configure:  # Configure kwparam so open gui
             makexml = self.dialog_configure(contentid=contentid.lower(), pluginname=pluginname.lower(), viewid=viewid)
         elif contentid:  # If contentid defined but no configure kwparam then just select a view
             pluginname = pluginname or 'library'
-            makexml = self.add_pluginview(contentid=contentid.lower(), pluginname=pluginname.lower(), viewid=viewid)
+            makexml = self.add_pluginview(contentid=contentid.lower(), pluginname=pluginname.lower())
 
-        if makexml or not self.xmlfile_exists(skinfolder):
-            self.make_xmlfile(skinfolder=skinfolder, hashvalue=hashvalue)
-            xbmc.executebuiltin('ReloadSkin()') if not no_reload else None
+        if not makexml and self.xmlfile_exists(skinfolder):
+            return
+
+        self.make_xmlfile(skinfolder=skinfolder, hashvalue=hashvalue)
+
+        if no_reload:
+            return
+
+        xbmc.Monitor().waitForAbort(0.4)
+        xbmc.executebuiltin('ReloadSkin()')

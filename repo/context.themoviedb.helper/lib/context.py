@@ -1,99 +1,167 @@
 import sys
 import xbmc
-from lib.plugin import viewitems, try_encode, try_decode
+from functools import cached_property
 
 
-BASIC_MOVIE = {
-    'tmdb_type': 'movie',
-    'tmdb_id': lambda: sys.listitem.getUniqueID('tmdb'),
-    'imdb_id': lambda: sys.listitem.getUniqueID('imdb'),
-    'query': lambda: sys.listitem.getVideoInfoTag().getTitle() or sys.listitem.getLabel(),
-    'year': lambda: sys.listitem.getVideoInfoTag().getYear()
-}
+class ContextMenu:
+    path_base = 'plugin.video.themoviedb.helper'
+    path_kwgs = {}
+
+    def __init__(self, info):
+        self.path_info = info
+
+    @cached_property
+    def path_args(self):
+        path_args = [
+            self.path_base,
+            self.path_info
+        ] + [
+            f'{k}={v}'
+            for k, v in self.path_kwgs.items()
+            if v not in (None, '')
+        ]
+        return tuple(path_args)
+
+    @cached_property
+    def path(self):
+        path = ','.join(self.path_args)
+        return f'RunScript({path})'
+
+    def executebuiltin(self):
+        xbmc.executebuiltin(self.path)
 
 
-BASIC_TVSHOW = {
-    'tmdb_type': 'tv',
-    'tmdb_id': lambda: sys.listitem.getUniqueID('tmdb'),
-    'imdb_id': lambda: sys.listitem.getUniqueID('imdb'),
-    'query': lambda: sys.listitem.getVideoInfoTag().getTitle() or sys.listitem.getLabel(),
-    'year': lambda: sys.listitem.getVideoInfoTag().getYear()
-}
+class ContextMenuBasic(ContextMenu):
+    tmdb_type = None
+    season = None
+    episode = None
+    episode_year = None
 
+    @cached_property
+    def tmdb_id(self):
+        return sys.listitem.getUniqueID('tmdb')
 
-BASIC_EPISODE = {
-    'tmdb_type': 'tv',
-    'query': lambda: sys.listitem.getVideoInfoTag().getTVShowTitle(),
-    'season': lambda: sys.listitem.getVideoInfoTag().getSeason(),
-    'episode': lambda: sys.listitem.getVideoInfoTag().getEpisode(),
-    'episode_year': lambda: sys.listitem.getVideoInfoTag().getYear()
-}
+    @cached_property
+    def imdb_id(self):
+        return sys.listitem.getUniqueID('imdb')
 
+    @cached_property
+    def query(self):
+        return sys.listitem.getVideoInfoTag().getTitle() or sys.listitem.getLabel()
 
-ROUTE = {
-    'play_using': {
-        'movie': {
-            'play': 'movie',
-            'tmdb_id': lambda: sys.listitem.getUniqueID('tmdb'),
-            'imdb_id': lambda: sys.listitem.getUniqueID('imdb'),
-            'query': lambda: sys.listitem.getVideoInfoTag().getTitle() or sys.listitem.getLabel(),
-            'year': lambda: sys.listitem.getVideoInfoTag().getYear(),
-            'ignore_default': 'true'
-        },
-        'episode': {
-            'play': 'tv',
-            'query': lambda: sys.listitem.getVideoInfoTag().getTVShowTitle(),
-            'season': lambda: sys.listitem.getVideoInfoTag().getSeason(),
-            'episode': lambda: sys.listitem.getVideoInfoTag().getEpisode(),
-            'episode_year': lambda: sys.listitem.getVideoInfoTag().getYear(),
-            'ignore_default': 'true'
+    @cached_property
+    def year(self):
+        return sys.listitem.getVideoInfoTag().getYear()
+
+    @cached_property
+    def path_kwgs(self):
+        return {
+            'tmdb_type': self.tmdb_type,
+            'tmdb_id': self.tmdb_id,
+            'imdb_id': self.imdb_id,
+            'query': self.query,
+            'year': self.year,
+            'season': self.season,
+            'episode': self.episode,
+            'episode_year': self.episode_year,
         }
+
+
+class ContextMenuBasicMovie(ContextMenuBasic):
+    tmdb_type = 'movie'
+
+
+class ContextMenuBasicTvshow(ContextMenuBasic):
+    tmdb_type = 'tv'
+
+
+class ContextMenuBasicSeason(ContextMenuBasic):
+    tmdb_type = 'tv'
+    year = None
+    imdb_id = None
+
+    @cached_property
+    def tmdb_id(self):
+        return sys.listitem.getUniqueID('tvshow.tmdb')
+
+    @cached_property
+    def query(self):
+        return sys.listitem.getVideoInfoTag().getTVShowTitle()
+
+    @cached_property
+    def season(self):
+        return sys.listitem.getVideoInfoTag().getSeason()
+
+    @cached_property
+    def episode_year(self):
+        return sys.listitem.getVideoInfoTag().getYear()
+
+
+class ContextMenuBasicEpisode(ContextMenuBasicSeason):
+    @cached_property
+    def episode(self):
+        return sys.listitem.getVideoInfoTag().getEpisode()
+
+
+class ContextMenuPlayUsing:
+    @cached_property
+    def path_kwgs(self):
+        return {
+            'play': self.tmdb_type,
+            'tmdb_id': self.tmdb_id,
+            'imdb_id': self.imdb_id,
+            'query': self.query,
+            'year': self.year,
+            'season': self.season,
+            'episode': self.episode,
+            'episode_year': self.episode_year,
+            'ignore_default': 'true',
+        }
+
+
+class ContextMenuPlayUsingMovie(ContextMenuPlayUsing, ContextMenuBasicMovie):
+    pass
+
+
+class ContextMenuPlayUsingEpisode(ContextMenuPlayUsing, ContextMenuBasicEpisode):
+    pass
+
+
+ROUTES = {
+    'play_using': {
+        'base_class': 'ContextMenuPlayUsing',
+        'permission': ('movie', 'episode')
     },
     'sync_trakt': {
-        'movie': BASIC_MOVIE,
-        'tvshow': BASIC_TVSHOW,
-        'episode': BASIC_EPISODE
+        'base_class': 'ContextMenuBasic',
+        'permission': ('movie', 'tvshow', 'episode')
     },
     'related_lists': {
-        'movie': BASIC_MOVIE,
-        'tvshow': BASIC_TVSHOW,
-        'episode': BASIC_EPISODE
+        'base_class': 'ContextMenuBasic',
+        'permission': ('movie', 'tvshow', 'episode')
     },
     'refresh_details': {
-        'movie': BASIC_MOVIE,
-        'tvshow': BASIC_TVSHOW,
-        'episode': BASIC_EPISODE
+        'base_class': 'ContextMenuBasic',
+        'permission': ('movie', 'tvshow', 'episode')
     },
-    'manage_artwork': {
-        'movie': BASIC_MOVIE,
-        'tvshow': BASIC_TVSHOW,
-        'episode': BASIC_EPISODE
+    'modify_artwork': {
+        'base_class': 'ContextMenuBasic',
+        'permission': ('movie', 'tvshow', 'season', 'episode')
     },
-    'add_to_library': {
-        'movie': BASIC_MOVIE,
-        'tvshow': BASIC_TVSHOW,
-        'episode': BASIC_EPISODE
-    }
 }
-
-
-def run_script(*args, **kwargs):
-    path = 'plugin.video.themoviedb.helper'
-    for i in args:
-        if not i:
-            continue
-        path = u'{},{}'.format(path, i)
-    for k, v in viewitems(kwargs):
-        if not v:
-            continue
-        path = u'{},{}={}'.format(path, k, try_decode(v))
-    path = u'RunScript({})'.format(path)
-    xbmc.executebuiltin(try_encode(try_decode(path)))
 
 
 def run_context(info):
-    dbtype = sys.listitem.getVideoInfoTag().getMediaType()
-    params = {k: v() if callable(v) else v for k, v in viewitems(ROUTE.get(info, {}).get(dbtype, {}))}
-    if not params:
+
+    try:
+        mediatype = sys.listitem.getVideoInfoTag().getMediaType()
+        if mediatype not in ROUTES[info]['permission']:
+            raise ValueError(f'Route does not permit {mediatype} mediatype key')
+        class_object = getattr(sys.modules[__name__], f"{ROUTES[info]['base_class']}{mediatype.capitalize()}")
+    except KeyError:
+        class_object = ContextMenu
+    except ValueError:
         return
-    run_script(info, **params)
+
+    instance = class_object(info)
+    instance.executebuiltin()

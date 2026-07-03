@@ -236,8 +236,8 @@ class MainModule:
             for prop in ["NextDate", "NextDay", "NextTitle", "NextNumber", "NextEpisodeNumber", "NextSeasonNumber"]:
                 self.win.clearProperty("NextAired%s.%s" % (prefix, prop))
         if details.get("last_episode"):
-            self.win.setProperty("NextAired%s.LatestDate" % prefix, details["last_episode"]["airdate"])
-            self.win.setProperty("NextAired%s.LatestDay" % prefix, details["last_episode"]["airdate.long"])
+            #self.win.setProperty("NextAired%s.LatestDate" % prefix, details["last_episode"]["airdate"])
+            #self.win.setProperty("NextAired%s.LatestDay" % prefix, details["last_episode"]["airdate.long"])
             self.win.setProperty("NextAired%s.LatestTitle" % prefix, details["last_episode"]["title"])
             nextnumber = "%sx%s" % (details["last_episode"]["season"], details["last_episode"]["episode"])
             self.win.setProperty("NextAired%s.LatestNumber" % prefix, nextnumber)
@@ -249,7 +249,7 @@ class MainModule:
                          "LatestNumber", "LatestEpisodeNumber", "LatestSeasonNumber"]:
                 self.win.clearProperty("NextAired%s.%s" % (prefix, prop))
         self.win.setProperty("NextAired%s.Airday" % prefix, details["airday"])
-        self.win.setProperty("NextAired%s.ShortTime" % prefix, details["airtime"])
+        #self.win.setProperty("NextAired%s.ShortTime" % prefix, details["airtime"])
         self.win.setProperty("NextAired%s.Art(poster)" % prefix, details["art"].get("poster"))
         self.win.setProperty("NextAired%s.Art(banner)" % prefix, details["art"].get("banner"))
         self.win.setProperty("NextAired%s.Art(fanart)" % prefix, details["art"].get("fanart"))

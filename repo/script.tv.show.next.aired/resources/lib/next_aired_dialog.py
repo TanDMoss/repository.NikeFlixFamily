@@ -5,7 +5,7 @@ import xbmcgui
 import xbmcaddon
 import time
 from .utils import ADDON_ID, log_msg, KODI_VERSION, log_exception
-
+from infotagger.listitem import ListItemInfoTag
 
 class NextAiredDialog(xbmcgui.WindowXML):
 
@@ -154,9 +154,11 @@ class NextAiredDialog(xbmcgui.WindowXML):
             "aired": item["firstaired"],
             "season": item['season'],
             "episode": item['episode'],
-            "mediatype": "episode"
+            "mediatype": "episode",
+            "cast": item['cast']
         }
-        liz.setInfo(type="Video", infoLabels=infolabels)
+        ListItemInfoTag(liz, 'video').set_info(infolabels)
+
         art = {}
         for key, value in item["art"].items():
             if not isinstance(value, list):

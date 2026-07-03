@@ -4,7 +4,7 @@
 # License: GPL v.3 https://www.gnu.org/copyleft/gpl.html
 from xbmcgui import ListItem, Dialog
 from infotagger.listitem import ListItemInfoTag
-from jurialmunkey.litems import Container
+from jurialmunkey.litems import ContainerDirectory, INFOLABEL_MAP
 from jurialmunkey.window import set_to_windowprop, WindowProperty
 from resources.lib.kodiutils import kodi_log, get_localized
 from resources.lib.filters import get_filters, is_excluded
@@ -45,60 +45,6 @@ STANDARD_OPERATORS = (
     ('gt', 32041))
 
 
-def update_global_property_versions():
-    """ Add additional properties from newer versions of JSON RPC """
-
-    from jurialmunkey.jsnrpc import get_jsonrpc
-
-    response = get_jsonrpc("JSONRPC.Version")
-    version = (
-        response['result']['version']['major'],
-        response['result']['version']['minor'],
-        response['result']['version']['patch'],
-    )
-
-    if version >= (13, 3, 0):
-        DIRECTORY_PROPERTIES_MUSIC.append('songvideourl')  # Added in 13.3.0 of JSON RPC
-
-
-INFOLABEL_MAP = {
-    "title": "title",
-    "artist": "artist",
-    "albumartist": "albumartist",
-    "genre": "genre",
-    "year": "year",
-    "rating": "rating",
-    "album": "album",
-    "track": "tracknumber",
-    "duration": "duration",
-    "runtime": "duration",
-    "playcount": "playcount",
-    "director": "director",
-    "trailer": "trailer",
-    "tagline": "tagline",
-    "plot": "plot",
-    "plotoutline": "plotoutline",
-    "originaltitle": "originaltitle",
-    "lastplayed": "lastplayed",
-    "writer": "writer",
-    "studio": "studio",
-    "mpaa": "mpaa",
-    "country": "country",
-    "premiered": "premiered",
-    "set": "set",
-    "top250": "top250",
-    "votes": "votes",
-    "firstaired": "aired",
-    "season": "season",
-    "episode": "episode",
-    "showtitle": "tvshowtitle",
-    "sorttitle": "sorttitle",
-    "episodeguide": "episodeguide",
-    "dateadded": "date",
-    "id": "dbid",
-    "songvideourl": "songvideourl",
-}
-
 INFOPROPERTY_MAP = {
     "disctitle": "disctitle",
     "releasedate": "releasedate",
@@ -118,6 +64,22 @@ INFOPROPERTY_MAP = {
     "setid": "set.dbid",
     "songvideourl": "songvideourl",
 }
+
+
+def update_global_property_versions():
+    """ Add additional properties from newer versions of JSON RPC """
+
+    from jurialmunkey.jsnrpc import get_jsonrpc
+
+    response = get_jsonrpc("JSONRPC.Version")
+    version = (
+        response['result']['version']['major'],
+        response['result']['version']['minor'],
+        response['result']['version']['patch'],
+    )
+
+    if version >= (13, 3, 0):
+        DIRECTORY_PROPERTIES_MUSIC.append('songvideourl')  # Added in 13.3.0 of JSON RPC
 
 
 class MetaItemJSONRPC():
@@ -298,7 +260,7 @@ class ListItemJSONRPC():
         return self._listitem
 
 
-class ListGetFilterFiles(Container):
+class ListGetFilterFiles(ContainerDirectory):
     def get_directory(self, filepath=None, **kwargs):
         from resources.lib.shortcuts.futils import get_files_in_folder
 
@@ -525,7 +487,7 @@ class MetaFilterDir():
             dump(self.meta, file, indent=4)
 
 
-class ListSetFilterDir(Container):
+class ListSetFilterDir(ContainerDirectory):
     def get_directory(self, library='video', filename=None, filepath=None, **kwargs):
         meta_filter_dir = MetaFilterDir(library=library, filepath=filepath)
 
@@ -644,10 +606,11 @@ class ListSetFilterDir(Container):
         get_new() if not filepath else do_edit()
 
 
-class ListGetFilterDir(Container):
+class ListGetFilterDir(ContainerDirectory):
     def get_directory(
             self, paths=None, library=None, no_label_dupes=False, dbtype=None,
-            sort_by=None, sort_how=None, randomise=False, fallback=False, names=None,
+            sort_by=None, sort_how=None, randomise=False, randomise_prop=None, randomise_time=None, fallback=False, names=None,
+            infolabel=None, infoproperty=None,
             window_prop=None, window_id=None,
             **kwargs
     ):
@@ -667,7 +630,7 @@ class ListGetFilterDir(Container):
         directory_properties += {
             'video': DIRECTORY_PROPERTIES_VIDEO,
             'music': DIRECTORY_PROPERTIES_MUSIC}.get(library) or []
-
+        window_prop = window_prop or 'Statistics'
         statistics = {}
 
         def _make_item(i, path_name=None):
@@ -722,9 +685,42 @@ class ListGetFilterDir(Container):
                 seed_names = None
             return (seed_paths, seed_names)
 
+        def _get_stored_random_path():
+            # Dont randomise if only one path to choose
+            total_x = len(paths)
+            if total_x == 1:
+                return 0
+
+            # Dont check randomise prop if none selected
+            if not randomise_prop:
+                return
+
+            prefix = 'SkinVariables.RandomisationTimer'
+
+            # Default to ten minute refresh time if nont selected
+            time_limit = int(randomise_time or 600)
+
+            # Check expiry of previous stored value
+            from jurialmunkey.window import get_property
+            from jurialmunkey.tmdate import get_timestamp, set_timestamp
+            expiry = get_property(f'{randomise_prop}.expiry', prefix=prefix)
+
+            # Get a new random seed value if expired (and make sure we dont get previous value again)
+            if not get_timestamp(expiry, set_int=True):
+                import random
+                previous_x = get_property(f'{randomise_prop}', prefix=prefix)
+                previous_x = int(previous_x) if previous_x else -1
+                x = random.choice([x for x in range(len(paths)) if x != previous_x])
+                get_property(f'{randomise_prop}.expiry', set_property=f'{set_timestamp(time_limit, set_int=True)}', prefix=prefix)
+                get_property(f'{randomise_prop}', set_property=f'{x}', prefix=prefix)
+                return x
+
+            return int(get_property(f'{randomise_prop}', prefix=prefix))
+
         def _get_random_path():
             import random
-            x = random.choice(range(len(paths)))
+            x = _get_stored_random_path()
+            x = random.choice(range(len(paths))) if x is None else x
             return _get_indexed_path(x)
 
         def _get_paths_names_tuple():
@@ -756,25 +752,53 @@ class ListGetFilterDir(Container):
 
             return items
 
-        items = _get_items_from_paths()
+        def _set_properties(properties):
+            if not properties:
+                return
+            for k, v in properties.items():
+                set_to_windowprop(v, k, window_prop, window_id)
 
+        def _del_infolabels(string):
+            import xbmc
+            window_id_affix = f',{window_id}' if window_id else ''
+            for x in range(0, 10):
+                for il in string.split():
+                    xbmc.executebuiltin(f'ClearProperty({window_prop}.{x}.{il}{window_id_affix})')
+
+        def _set_infolabels(items):
+            import itertools
+
+            if not items:
+                return
+
+            if infolabel:
+                _del_infolabels(infolabel)
+                _set_properties({
+                    f'{x}.{il}': i.infolabels.get(il)
+                    for il in infolabel.split()
+                    for x, i in enumerate(itertools.islice(items, 10))
+                })
+
+            if infoproperty:
+                _del_infolabels(infoproperty)
+                _set_properties({
+                    f'{x}.{il}': i.infoproperties.get(il)
+                    for il in infoproperty.split()
+                    for x, i in enumerate(itertools.islice(items, 10))
+                })
+
+        items = _get_items_from_paths()
         items = sorted(items, key=_get_sorting, reverse=sort_how == 'desc') if sort_by else items
-        items = [(i.path, i.listitem, i.is_folder, ) for i in items if i]
+        directory_items = [(i.path, i.listitem, i.is_folder, ) for i in items if i]
 
         plugin_category = ''
         container_content = f'{max(mediatypes, key=lambda key: mediatypes[key])}s' if mediatypes else ''
-        self.add_items(items, container_content=container_content, plugin_category=plugin_category)
-
-        if not statistics:
-            return
-
-        window_prop = window_prop or 'Statistics'
-
-        for k, v in statistics.items():
-            set_to_windowprop(v, k, window_prop, window_id)
+        self.add_items(directory_items, container_content=container_content, plugin_category=plugin_category)
+        _set_properties(statistics)
+        _set_infolabels(items)
 
 
-class ListGetContainerLabels(Container):
+class ListGetContainerLabels(ContainerDirectory):
     def get_directory(
             self, containers, infolabel, numitems=None, thumb=None, label2=None, separator=' / ',
             filter_value=None, filter_operator=None, exclude_value=None, exclude_operator=None,
