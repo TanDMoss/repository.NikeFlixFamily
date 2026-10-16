@@ -1,0 +1,3 @@
+# NikeFlix Family
+
+Follow `AGENTS.md` and `docs/nikeflix/INDEX.md`. This checkout is the Family edition at `A:\Development\Version Control\Github\repository.NikeFlixFamily` (`https://github.com/TanDMoss/repository.NikeFlixFamily`). The regular fresh-start edition is separately owned at `A:\Development\Version Control\Github\repository.NikeFlix`. Live Kodi is `C:\Users\tan\AppData\Roaming\Kodi`; the canonical conversation space is `A:\Productivity\Notes\Obsidian\Vaults\Tech Vault\Tech Vault\Chosen-Agents\NikeFlix`. Use verified Claude-native skills and preserve each profile's account and watch data.

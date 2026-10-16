@@ -1,0 +1,7 @@
+# Family Profile Contract
+
+Family has five intended profiles: the master profile plus four user profiles. `userdata/profiles.xml` is the current authority for IDs, labels, and directories. Similar appearance does not imply identical account state. Shared candidates include skin layout, shortcuts, UI defaults, and approved add-on preferences. Protected per-person state includes Trakt credentials/tokens, account identifiers, watched/progress data, debrid and API credentials, device authorization, profile identity, and databases.
+
+Before syncing settings, stop Kodi, back up source and all destination profiles, enumerate every `addon_data/<addon-id>/settings.xml`, and classify keys as shared or profile-owned. Merge shared values by key and keep each destination's protected values. Do not clone entire `userdata`, `addon_data`, or databases across profiles without an explicit review of every private field. Compare protected values against backups without logging their contents. Validate XML and settings parity, then test actual profile switching, Trakt widgets, TMDb Helper, playback, and logs.
+
+A Trakt `401` prompt indicates an authentication or feature-call problem to diagnose. Do not erase or copy another profile's token to hide it. Keep TMDb Helper enabled while fixing its integration unless Tanner changes that constraint. If profile switching remains slow or crashes, measure timing and capture the fresh Kodi log before claiming a fix.
